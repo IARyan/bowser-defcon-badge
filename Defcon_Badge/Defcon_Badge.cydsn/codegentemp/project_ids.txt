@@ -1,0 +1,6 @@
+C:\Users\ryan\Documents\PSoC Creator\Defcon_Badge\Defcon_Badge.cydsn\Defcon_Badge.cyprj|3363e963-0888-4e27-b384-71f424c5c09e
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|3673f890-a764-45de-8c45-6a564c562c33
+C:\Users\ryan\Documents\PSoC Creator\4.1\Downloads ( 4.1).cylib\Downloads ( 4.1).cyprj|ed9cf515-0e6d-4f75-ae1c-80eef4c43d99
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|13f90c84-6458-479a-8a0f-39da1c0fb204
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|1f60ffa0-6766-421b-943d-1ce092ee9e46
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|268a9554-d7bc-4eee-8e5f-1ca7a17eb864

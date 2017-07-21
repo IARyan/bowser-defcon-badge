@@ -1,0 +1,2775 @@
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"binary.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.blink_zero,"ax",%progbits
+  20              		.align	1
+  21              		.global	blink_zero
+  22              		.code	16
+  23              		.thumb_func
+  24              		.type	blink_zero, %function
+  25              	blink_zero:
+  26              	.LFB32:
+  27              		.file 1 "binary.c"
+   1:binary.c      **** /* ========================================
+   2:binary.c      ****  *
+   3:binary.c      ****  * Copyright Nullify, 2016
+   4:binary.c      ****  * All Rights Reserved
+   5:binary.c      ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:binary.c      ****  *
+   7:binary.c      ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:binary.c      ****  * WHICH IS THE PROPERTY OF NULLIY.
+   9:binary.c      ****  *
+  10:binary.c      ****  * ========================================
+  11:binary.c      **** */
+  12:binary.c      **** #include <project.h>
+  13:binary.c      **** #include <string.h>
+  14:binary.c      **** #include "lightlib.h"
+  15:binary.c      **** #include "binary.h"
+  16:binary.c      **** #include "state.h"
+  17:binary.c      **** 
+  18:binary.c      **** void blink_zero(void) {
+  28              		.loc 1 18 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 10B5     		push	{r4, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 4, -8
+  35              		.cfi_offset 14, -4
+  19:binary.c      ****     /* Verify state */
+  20:binary.c      ****     if(!verify_state(BINARY)) {
+  36              		.loc 1 20 0
+  37 0002 0220     		movs	r0, #2
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 2
+
+
+  38 0004 FFF7FEFF 		bl	verify_state
+  39              	.LVL0:
+  40 0008 0028     		cmp	r0, #0
+  41 000a 0DD0     		beq	.L1
+  42              	.LBB4:
+  43              	.LBB5:
+  21:binary.c      ****         return;
+  22:binary.c      ****     }
+  23:binary.c      ****     turn_on(LEFT_LED);
+  44              		.loc 1 23 0
+  45 000c 0120     		movs	r0, #1
+  46 000e FFF7FEFF 		bl	turn_on
+  47              	.LVL1:
+  24:binary.c      ****     CyDelay(BLINK_DELAY_ON);
+  48              		.loc 1 24 0
+  49 0012 FA20     		movs	r0, #250
+  50 0014 4000     		lsls	r0, r0, #1
+  51 0016 FFF7FEFF 		bl	CyDelay
+  52              	.LVL2:
+  25:binary.c      ****     turn_off(LEFT_LED);
+  53              		.loc 1 25 0
+  54 001a 0120     		movs	r0, #1
+  55 001c FFF7FEFF 		bl	turn_off
+  56              	.LVL3:
+  26:binary.c      ****     CyDelay(BLINK_DELAY_OFF);
+  57              		.loc 1 26 0
+  58 0020 FA20     		movs	r0, #250
+  59 0022 4000     		lsls	r0, r0, #1
+  60 0024 FFF7FEFF 		bl	CyDelay
+  61              	.LVL4:
+  62              	.L1:
+  63              	.LBE5:
+  64              	.LBE4:
+  27:binary.c      **** }
+  65              		.loc 1 27 0
+  66              		@ sp needed
+  67 0028 10BD     		pop	{r4, pc}
+  68              		.cfi_endproc
+  69              	.LFE32:
+  70              		.size	blink_zero, .-blink_zero
+  71              		.section	.text.blink_one,"ax",%progbits
+  72              		.align	1
+  73              		.global	blink_one
+  74              		.code	16
+  75              		.thumb_func
+  76              		.type	blink_one, %function
+  77              	blink_one:
+  78              	.LFB33:
+  28:binary.c      **** 
+  29:binary.c      **** void blink_one(void) {
+  79              		.loc 1 29 0
+  80              		.cfi_startproc
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83 0000 10B5     		push	{r4, lr}
+  84              		.cfi_def_cfa_offset 8
+  85              		.cfi_offset 4, -8
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 3
+
+
+  86              		.cfi_offset 14, -4
+  30:binary.c      ****     /* Verify state */
+  31:binary.c      ****     if(!verify_state(BINARY)) {
+  87              		.loc 1 31 0
+  88 0002 0220     		movs	r0, #2
+  89 0004 FFF7FEFF 		bl	verify_state
+  90              	.LVL5:
+  91 0008 0028     		cmp	r0, #0
+  92 000a 0DD0     		beq	.L7
+  93              	.LBB8:
+  94              	.LBB9:
+  32:binary.c      ****         return;
+  33:binary.c      ****     }
+  34:binary.c      ****     turn_on(RIGHT_LED);
+  95              		.loc 1 34 0
+  96 000c 0220     		movs	r0, #2
+  97 000e FFF7FEFF 		bl	turn_on
+  98              	.LVL6:
+  35:binary.c      ****     CyDelay(BLINK_DELAY_ON);
+  99              		.loc 1 35 0
+ 100 0012 FA20     		movs	r0, #250
+ 101 0014 4000     		lsls	r0, r0, #1
+ 102 0016 FFF7FEFF 		bl	CyDelay
+ 103              	.LVL7:
+  36:binary.c      ****     turn_off(RIGHT_LED);
+ 104              		.loc 1 36 0
+ 105 001a 0220     		movs	r0, #2
+ 106 001c FFF7FEFF 		bl	turn_off
+ 107              	.LVL8:
+  37:binary.c      ****     CyDelay(BLINK_DELAY_OFF);
+ 108              		.loc 1 37 0
+ 109 0020 FA20     		movs	r0, #250
+ 110 0022 4000     		lsls	r0, r0, #1
+ 111 0024 FFF7FEFF 		bl	CyDelay
+ 112              	.LVL9:
+ 113              	.L7:
+ 114              	.LBE9:
+ 115              	.LBE8:
+  38:binary.c      **** }
+ 116              		.loc 1 38 0
+ 117              		@ sp needed
+ 118 0028 10BD     		pop	{r4, pc}
+ 119              		.cfi_endproc
+ 120              	.LFE33:
+ 121              		.size	blink_one, .-blink_one
+ 122              		.section	.text.binary_encode,"ax",%progbits
+ 123              		.align	1
+ 124              		.global	binary_encode
+ 125              		.code	16
+ 126              		.thumb_func
+ 127              		.type	binary_encode, %function
+ 128              	binary_encode:
+ 129              	.LFB34:
+  39:binary.c      **** 
+  40:binary.c      **** void binary_encode(char c){
+ 130              		.loc 1 40 0
+ 131              		.cfi_startproc
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 4
+
+
+ 132              		@ args = 0, pretend = 0, frame = 0
+ 133              		@ frame_needed = 0, uses_anonymous_args = 0
+ 134              	.LVL10:
+ 135 0000 10B5     		push	{r4, lr}
+ 136              		.cfi_def_cfa_offset 8
+ 137              		.cfi_offset 4, -8
+ 138              		.cfi_offset 14, -4
+ 139              		.loc 1 40 0
+ 140 0002 0400     		movs	r4, r0
+  41:binary.c      ****     /* Verify state */
+  42:binary.c      ****     if(!verify_state(BINARY)) {
+ 141              		.loc 1 42 0
+ 142 0004 0220     		movs	r0, #2
+ 143              	.LVL11:
+ 144 0006 FFF7FEFF 		bl	verify_state
+ 145              	.LVL12:
+ 146 000a 0028     		cmp	r0, #0
+ 147 000c 00D1     		bne	.LCB91
+ 148 000e BCE1     		b	.L12	@long jump
+ 149              	.LCB91:
+ 150              	.LVL13:
+ 151              	.LBB12:
+ 152              	.LBB13:
+  43:binary.c      ****        return;
+  44:binary.c      ****     }
+  45:binary.c      ****     switch(c) {
+ 153              		.loc 1 45 0
+ 154 0010 2000     		movs	r0, r4
+ 155 0012 3038     		subs	r0, r0, #48
+ 156 0014 4A28     		cmp	r0, #74
+ 157 0016 00D9     		bls	.LCB98
+ 158 0018 B7E1     		b	.L12	@long jump
+ 159              	.LCB98:
+ 160 001a FFF7FEFF 		bl	__gnu_thumb1_case_uhi
+ 161              	.L15:
+ 162 001e 2D01     		.2byte	(.L14-.L15)/2
+ 163 0020 3801     		.2byte	(.L16-.L15)/2
+ 164 0022 4301     		.2byte	(.L17-.L15)/2
+ 165 0024 5001     		.2byte	(.L18-.L15)/2
+ 166 0026 5D01     		.2byte	(.L19-.L15)/2
+ 167 0028 6A01     		.2byte	(.L20-.L15)/2
+ 168 002a 7701     		.2byte	(.L21-.L15)/2
+ 169 002c 8601     		.2byte	(.L22-.L15)/2
+ 170 002e 9501     		.2byte	(.L23-.L15)/2
+ 171 0030 A601     		.2byte	(.L24-.L15)/2
+ 172 0032 B601     		.2byte	(.L12-.L15)/2
+ 173 0034 B601     		.2byte	(.L12-.L15)/2
+ 174 0036 B601     		.2byte	(.L12-.L15)/2
+ 175 0038 B601     		.2byte	(.L12-.L15)/2
+ 176 003a B601     		.2byte	(.L12-.L15)/2
+ 177 003c B601     		.2byte	(.L12-.L15)/2
+ 178 003e B601     		.2byte	(.L12-.L15)/2
+ 179 0040 4B00     		.2byte	(.L25-.L15)/2
+ 180 0042 5400     		.2byte	(.L26-.L15)/2
+ 181 0044 5D00     		.2byte	(.L27-.L15)/2
+ 182 0046 6600     		.2byte	(.L28-.L15)/2
+ 183 0048 6F00     		.2byte	(.L29-.L15)/2
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 5
+
+
+ 184 004a 7800     		.2byte	(.L30-.L15)/2
+ 185 004c 8100     		.2byte	(.L31-.L15)/2
+ 186 004e 8A00     		.2byte	(.L32-.L15)/2
+ 187 0050 9300     		.2byte	(.L33-.L15)/2
+ 188 0052 9C00     		.2byte	(.L34-.L15)/2
+ 189 0054 A500     		.2byte	(.L35-.L15)/2
+ 190 0056 B000     		.2byte	(.L36-.L15)/2
+ 191 0058 BB00     		.2byte	(.L37-.L15)/2
+ 192 005a C600     		.2byte	(.L38-.L15)/2
+ 193 005c D100     		.2byte	(.L39-.L15)/2
+ 194 005e DC00     		.2byte	(.L40-.L15)/2
+ 195 0060 E300     		.2byte	(.L41-.L15)/2
+ 196 0062 EA00     		.2byte	(.L42-.L15)/2
+ 197 0064 F100     		.2byte	(.L43-.L15)/2
+ 198 0066 F800     		.2byte	(.L44-.L15)/2
+ 199 0068 FF00     		.2byte	(.L45-.L15)/2
+ 200 006a 0601     		.2byte	(.L46-.L15)/2
+ 201 006c 0D01     		.2byte	(.L47-.L15)/2
+ 202 006e 1401     		.2byte	(.L48-.L15)/2
+ 203 0070 1B01     		.2byte	(.L49-.L15)/2
+ 204 0072 2201     		.2byte	(.L50-.L15)/2
+ 205 0074 B601     		.2byte	(.L12-.L15)/2
+ 206 0076 B601     		.2byte	(.L12-.L15)/2
+ 207 0078 B601     		.2byte	(.L12-.L15)/2
+ 208 007a B601     		.2byte	(.L12-.L15)/2
+ 209 007c B601     		.2byte	(.L12-.L15)/2
+ 210 007e B601     		.2byte	(.L12-.L15)/2
+ 211 0080 4B00     		.2byte	(.L25-.L15)/2
+ 212 0082 5400     		.2byte	(.L26-.L15)/2
+ 213 0084 5D00     		.2byte	(.L27-.L15)/2
+ 214 0086 6600     		.2byte	(.L28-.L15)/2
+ 215 0088 6F00     		.2byte	(.L29-.L15)/2
+ 216 008a 7800     		.2byte	(.L30-.L15)/2
+ 217 008c 8100     		.2byte	(.L31-.L15)/2
+ 218 008e 8A00     		.2byte	(.L32-.L15)/2
+ 219 0090 9300     		.2byte	(.L33-.L15)/2
+ 220 0092 9C00     		.2byte	(.L34-.L15)/2
+ 221 0094 A500     		.2byte	(.L35-.L15)/2
+ 222 0096 B000     		.2byte	(.L36-.L15)/2
+ 223 0098 BB00     		.2byte	(.L37-.L15)/2
+ 224 009a C600     		.2byte	(.L38-.L15)/2
+ 225 009c D100     		.2byte	(.L39-.L15)/2
+ 226 009e DC00     		.2byte	(.L40-.L15)/2
+ 227 00a0 E300     		.2byte	(.L41-.L15)/2
+ 228 00a2 EA00     		.2byte	(.L42-.L15)/2
+ 229 00a4 F100     		.2byte	(.L43-.L15)/2
+ 230 00a6 F800     		.2byte	(.L44-.L15)/2
+ 231 00a8 FF00     		.2byte	(.L45-.L15)/2
+ 232 00aa 0601     		.2byte	(.L46-.L15)/2
+ 233 00ac 0D01     		.2byte	(.L47-.L15)/2
+ 234 00ae 1401     		.2byte	(.L48-.L15)/2
+ 235 00b0 1B01     		.2byte	(.L49-.L15)/2
+ 236 00b2 2201     		.2byte	(.L50-.L15)/2
+ 237              		.p2align 1
+ 238              	.L25:
+  46:binary.c      ****       case 'A':
+  47:binary.c      ****       case 'a':
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 6
+
+
+  48:binary.c      ****         blink_zero();
+ 239              		.loc 1 48 0
+ 240 00b4 FFF7FEFF 		bl	blink_zero
+ 241              	.LVL14:
+  49:binary.c      ****         blink_one();
+ 242              		.loc 1 49 0
+ 243 00b8 FFF7FEFF 		bl	blink_one
+ 244              	.LVL15:
+  50:binary.c      ****         blink_zero();
+ 245              		.loc 1 50 0
+ 246 00bc FFF7FEFF 		bl	blink_zero
+ 247              	.LVL16:
+  51:binary.c      ****         blink_zero();
+ 248              		.loc 1 51 0
+ 249 00c0 FFF7FEFF 		bl	blink_zero
+ 250              	.LVL17:
+ 251 00c4 EBE0     		b	.L72
+ 252              	.L26:
+  52:binary.c      ****         blink_zero();
+  53:binary.c      ****         blink_zero();
+  54:binary.c      ****         blink_zero();
+  55:binary.c      ****         blink_one();
+  56:binary.c      ****         break;
+  57:binary.c      ****       case 'B':
+  58:binary.c      ****       case 'b':
+  59:binary.c      ****         blink_zero();
+ 253              		.loc 1 59 0
+ 254 00c6 FFF7FEFF 		bl	blink_zero
+ 255              	.LVL18:
+  60:binary.c      ****         blink_one();
+ 256              		.loc 1 60 0
+ 257 00ca FFF7FEFF 		bl	blink_one
+ 258              	.LVL19:
+  61:binary.c      ****         blink_zero();
+ 259              		.loc 1 61 0
+ 260 00ce FFF7FEFF 		bl	blink_zero
+ 261              	.LVL20:
+  62:binary.c      ****         blink_zero();
+ 262              		.loc 1 62 0
+ 263 00d2 FFF7FEFF 		bl	blink_zero
+ 264              	.LVL21:
+ 265 00d6 EDE0     		b	.L81
+ 266              	.L27:
+  63:binary.c      ****         blink_zero();
+  64:binary.c      ****         blink_zero();
+  65:binary.c      ****         blink_one();
+  66:binary.c      ****         blink_zero();
+  67:binary.c      ****         break;
+  68:binary.c      ****       case 'C':
+  69:binary.c      ****       case 'c':
+  70:binary.c      ****         blink_zero();
+ 267              		.loc 1 70 0
+ 268 00d8 FFF7FEFF 		bl	blink_zero
+ 269              	.LVL22:
+  71:binary.c      ****         blink_one();
+ 270              		.loc 1 71 0
+ 271 00dc FFF7FEFF 		bl	blink_one
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 7
+
+
+ 272              	.LVL23:
+  72:binary.c      ****         blink_zero();
+ 273              		.loc 1 72 0
+ 274 00e0 FFF7FEFF 		bl	blink_zero
+ 275              	.LVL24:
+  73:binary.c      ****         blink_zero();
+ 276              		.loc 1 73 0
+ 277 00e4 FFF7FEFF 		bl	blink_zero
+ 278              	.LVL25:
+ 279 00e8 F1E0     		b	.L84
+ 280              	.L28:
+  74:binary.c      ****         blink_zero();
+  75:binary.c      ****         blink_zero();
+  76:binary.c      ****         blink_one();
+  77:binary.c      ****         blink_one();
+  78:binary.c      ****         break;
+  79:binary.c      ****       case 'D':
+  80:binary.c      ****       case 'd':
+  81:binary.c      ****         blink_zero();
+ 281              		.loc 1 81 0
+ 282 00ea FFF7FEFF 		bl	blink_zero
+ 283              	.LVL26:
+  82:binary.c      ****         blink_one();
+ 284              		.loc 1 82 0
+ 285 00ee FFF7FEFF 		bl	blink_one
+ 286              	.LVL27:
+  83:binary.c      ****         blink_zero();
+ 287              		.loc 1 83 0
+ 288 00f2 FFF7FEFF 		bl	blink_zero
+ 289              	.LVL28:
+  84:binary.c      ****         blink_zero();
+ 290              		.loc 1 84 0
+ 291 00f6 FFF7FEFF 		bl	blink_zero
+ 292              	.LVL29:
+ 293 00fa F5E0     		b	.L66
+ 294              	.L29:
+  85:binary.c      ****         blink_zero();
+  86:binary.c      ****         blink_one();
+  87:binary.c      ****         blink_zero();
+  88:binary.c      ****         blink_zero();
+  89:binary.c      ****         break;
+  90:binary.c      ****        case 'E':
+  91:binary.c      ****        case 'e':
+  92:binary.c      ****         blink_zero();
+ 295              		.loc 1 92 0
+ 296 00fc FFF7FEFF 		bl	blink_zero
+ 297              	.LVL30:
+  93:binary.c      ****         blink_one();
+ 298              		.loc 1 93 0
+ 299 0100 FFF7FEFF 		bl	blink_one
+ 300              	.LVL31:
+  94:binary.c      ****         blink_zero();
+ 301              		.loc 1 94 0
+ 302 0104 FFF7FEFF 		bl	blink_zero
+ 303              	.LVL32:
+  95:binary.c      ****         blink_zero();
+ 304              		.loc 1 95 0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 8
+
+
+ 305 0108 FFF7FEFF 		bl	blink_zero
+ 306              	.LVL33:
+ 307 010c F9E0     		b	.L75
+ 308              	.L30:
+  96:binary.c      ****         blink_zero();
+  97:binary.c      ****         blink_one();
+  98:binary.c      ****         blink_zero();
+  99:binary.c      ****         blink_one();
+ 100:binary.c      ****         break;
+ 101:binary.c      ****        case 'F':
+ 102:binary.c      ****        case 'f':
+ 103:binary.c      ****         blink_zero();
+ 309              		.loc 1 103 0
+ 310 010e FFF7FEFF 		bl	blink_zero
+ 311              	.LVL34:
+ 104:binary.c      ****         blink_one();
+ 312              		.loc 1 104 0
+ 313 0112 FFF7FEFF 		bl	blink_one
+ 314              	.LVL35:
+ 105:binary.c      ****         blink_zero();
+ 315              		.loc 1 105 0
+ 316 0116 FFF7FEFF 		bl	blink_zero
+ 317              	.LVL36:
+ 106:binary.c      ****         blink_zero();
+ 318              		.loc 1 106 0
+ 319 011a FFF7FEFF 		bl	blink_zero
+ 320              	.LVL37:
+ 321 011e FDE0     		b	.L69
+ 322              	.L31:
+ 107:binary.c      ****         blink_zero();
+ 108:binary.c      ****         blink_one();
+ 109:binary.c      ****         blink_one();
+ 110:binary.c      ****         blink_zero();
+ 111:binary.c      ****         break;
+ 112:binary.c      ****        case 'G':
+ 113:binary.c      ****        case 'g':
+ 114:binary.c      ****         blink_zero();
+ 323              		.loc 1 114 0
+ 324 0120 FFF7FEFF 		bl	blink_zero
+ 325              	.LVL38:
+ 115:binary.c      ****         blink_one();
+ 326              		.loc 1 115 0
+ 327 0124 FFF7FEFF 		bl	blink_one
+ 328              	.LVL39:
+ 116:binary.c      ****         blink_zero();
+ 329              		.loc 1 116 0
+ 330 0128 FFF7FEFF 		bl	blink_zero
+ 331              	.LVL40:
+ 117:binary.c      ****         blink_zero();
+ 332              		.loc 1 117 0
+ 333 012c FFF7FEFF 		bl	blink_zero
+ 334              	.LVL41:
+ 335 0130 03E1     		b	.L78
+ 336              	.L32:
+ 118:binary.c      ****         blink_zero();
+ 119:binary.c      ****         blink_one();
+ 120:binary.c      ****         blink_one();
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 9
+
+
+ 121:binary.c      ****         blink_one();
+ 122:binary.c      ****         break;
+ 123:binary.c      ****        case 'H':
+ 124:binary.c      ****        case 'h':
+ 125:binary.c      ****         blink_zero();
+ 337              		.loc 1 125 0
+ 338 0132 FFF7FEFF 		bl	blink_zero
+ 339              	.LVL42:
+ 126:binary.c      ****         blink_one();
+ 340              		.loc 1 126 0
+ 341 0136 FFF7FEFF 		bl	blink_one
+ 342              	.LVL43:
+ 127:binary.c      ****         blink_zero();
+ 343              		.loc 1 127 0
+ 344 013a FFF7FEFF 		bl	blink_zero
+ 345              	.LVL44:
+ 128:binary.c      ****         blink_zero();
+ 346              		.loc 1 128 0
+ 347 013e FFF7FEFF 		bl	blink_zero
+ 348              	.LVL45:
+ 349 0142 09E1     		b	.L63
+ 350              	.L33:
+ 129:binary.c      ****         blink_one();
+ 130:binary.c      ****         blink_zero();
+ 131:binary.c      ****         blink_zero();
+ 132:binary.c      ****         blink_zero();
+ 133:binary.c      ****         break;
+ 134:binary.c      ****        case 'I':
+ 135:binary.c      ****        case 'i':
+ 136:binary.c      ****         blink_zero();
+ 351              		.loc 1 136 0
+ 352 0144 FFF7FEFF 		bl	blink_zero
+ 353              	.LVL46:
+ 137:binary.c      ****         blink_one();
+ 354              		.loc 1 137 0
+ 355 0148 FFF7FEFF 		bl	blink_one
+ 356              	.LVL47:
+ 138:binary.c      ****         blink_zero();
+ 357              		.loc 1 138 0
+ 358 014c FFF7FEFF 		bl	blink_zero
+ 359              	.LVL48:
+ 139:binary.c      ****         blink_zero();
+ 360              		.loc 1 139 0
+ 361 0150 FFF7FEFF 		bl	blink_zero
+ 362              	.LVL49:
+ 363 0154 11E1     		b	.L62
+ 364              	.L34:
+ 140:binary.c      ****         blink_one();
+ 141:binary.c      ****         blink_zero();
+ 142:binary.c      ****         blink_zero();
+ 143:binary.c      ****         blink_one();
+ 144:binary.c      ****         break;
+ 145:binary.c      ****        case 'J':
+ 146:binary.c      ****        case 'j':
+ 147:binary.c      ****         blink_zero();
+ 365              		.loc 1 147 0
+ 366 0156 FFF7FEFF 		bl	blink_zero
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 10
+
+
+ 367              	.LVL50:
+ 148:binary.c      ****         blink_one();
+ 368              		.loc 1 148 0
+ 369 015a FFF7FEFF 		bl	blink_one
+ 370              	.LVL51:
+ 149:binary.c      ****         blink_zero();
+ 371              		.loc 1 149 0
+ 372 015e FFF7FEFF 		bl	blink_zero
+ 373              	.LVL52:
+ 150:binary.c      ****         blink_zero();
+ 374              		.loc 1 150 0
+ 375 0162 FFF7FEFF 		bl	blink_zero
+ 376              	.LVL53:
+ 377 0166 84E0     		b	.L87
+ 378              	.L35:
+ 151:binary.c      ****         blink_one();
+ 152:binary.c      ****         blink_zero();
+ 153:binary.c      ****         blink_one();
+ 154:binary.c      ****         blink_zero();
+ 155:binary.c      ****         break;
+ 156:binary.c      ****        case 'K':
+ 157:binary.c      ****        case 'k':
+ 158:binary.c      ****         blink_zero();
+ 379              		.loc 1 158 0
+ 380 0168 FFF7FEFF 		bl	blink_zero
+ 381              	.LVL54:
+ 159:binary.c      ****         blink_one();
+ 382              		.loc 1 159 0
+ 383 016c FFF7FEFF 		bl	blink_one
+ 384              	.LVL55:
+ 160:binary.c      ****         blink_zero();
+ 385              		.loc 1 160 0
+ 386 0170 FFF7FEFF 		bl	blink_zero
+ 387              	.LVL56:
+ 161:binary.c      ****         blink_zero();
+ 388              		.loc 1 161 0
+ 389 0174 FFF7FEFF 		bl	blink_zero
+ 390              	.LVL57:
+ 162:binary.c      ****         blink_one();
+ 391              		.loc 1 162 0
+ 392 0178 FFF7FEFF 		bl	blink_one
+ 393              	.LVL58:
+ 394 017c A9E0     		b	.L86
+ 395              	.L36:
+ 163:binary.c      ****         blink_zero();
+ 164:binary.c      ****         blink_one();
+ 165:binary.c      ****         blink_one();
+ 166:binary.c      ****         break;
+ 167:binary.c      ****        case 'L':
+ 168:binary.c      ****        case 'l':
+ 169:binary.c      ****         blink_zero();
+ 396              		.loc 1 169 0
+ 397 017e FFF7FEFF 		bl	blink_zero
+ 398              	.LVL59:
+ 170:binary.c      ****         blink_one();
+ 399              		.loc 1 170 0
+ 400 0182 FFF7FEFF 		bl	blink_one
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 11
+
+
+ 401              	.LVL60:
+ 171:binary.c      ****         blink_zero();
+ 402              		.loc 1 171 0
+ 403 0186 FFF7FEFF 		bl	blink_zero
+ 404              	.LVL61:
+ 172:binary.c      ****         blink_zero();
+ 405              		.loc 1 172 0
+ 406 018a FFF7FEFF 		bl	blink_zero
+ 407              	.LVL62:
+ 173:binary.c      ****         blink_one();
+ 408              		.loc 1 173 0
+ 409 018e FFF7FEFF 		bl	blink_one
+ 410              	.LVL63:
+ 411 0192 ABE0     		b	.L67
+ 412              	.L37:
+ 174:binary.c      ****         blink_one();
+ 175:binary.c      ****         blink_zero();
+ 176:binary.c      ****         blink_zero();
+ 177:binary.c      ****         break;
+ 178:binary.c      ****        case 'M':
+ 179:binary.c      ****        case 'm':
+ 180:binary.c      ****         blink_zero();
+ 413              		.loc 1 180 0
+ 414 0194 FFF7FEFF 		bl	blink_zero
+ 415              	.LVL64:
+ 181:binary.c      ****         blink_one();
+ 416              		.loc 1 181 0
+ 417 0198 FFF7FEFF 		bl	blink_one
+ 418              	.LVL65:
+ 182:binary.c      ****         blink_zero();
+ 419              		.loc 1 182 0
+ 420 019c FFF7FEFF 		bl	blink_zero
+ 421              	.LVL66:
+ 183:binary.c      ****         blink_zero();
+ 422              		.loc 1 183 0
+ 423 01a0 FFF7FEFF 		bl	blink_zero
+ 424              	.LVL67:
+ 184:binary.c      ****         blink_one();
+ 425              		.loc 1 184 0
+ 426 01a4 FFF7FEFF 		bl	blink_one
+ 427              	.LVL68:
+ 428 01a8 ADE0     		b	.L76
+ 429              	.L38:
+ 185:binary.c      ****         blink_one();
+ 186:binary.c      ****         blink_zero();
+ 187:binary.c      ****         blink_one();
+ 188:binary.c      ****         break;
+ 189:binary.c      ****        case 'N':
+ 190:binary.c      ****        case 'n':
+ 191:binary.c      ****         blink_zero();
+ 430              		.loc 1 191 0
+ 431 01aa FFF7FEFF 		bl	blink_zero
+ 432              	.LVL69:
+ 192:binary.c      ****         blink_one();
+ 433              		.loc 1 192 0
+ 434 01ae FFF7FEFF 		bl	blink_one
+ 435              	.LVL70:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 12
+
+
+ 193:binary.c      ****         blink_zero();
+ 436              		.loc 1 193 0
+ 437 01b2 FFF7FEFF 		bl	blink_zero
+ 438              	.LVL71:
+ 194:binary.c      ****         blink_zero();
+ 439              		.loc 1 194 0
+ 440 01b6 FFF7FEFF 		bl	blink_zero
+ 441              	.LVL72:
+ 195:binary.c      ****         blink_one();
+ 442              		.loc 1 195 0
+ 443 01ba FFF7FEFF 		bl	blink_one
+ 444              	.LVL73:
+ 445 01be AFE0     		b	.L70
+ 446              	.L39:
+ 196:binary.c      ****         blink_one();
+ 197:binary.c      ****         blink_one();
+ 198:binary.c      ****         blink_zero();
+ 199:binary.c      ****         break;
+ 200:binary.c      ****        case 'O':
+ 201:binary.c      ****        case 'o':
+ 202:binary.c      ****         blink_zero();
+ 447              		.loc 1 202 0
+ 448 01c0 FFF7FEFF 		bl	blink_zero
+ 449              	.LVL74:
+ 203:binary.c      ****         blink_one();
+ 450              		.loc 1 203 0
+ 451 01c4 FFF7FEFF 		bl	blink_one
+ 452              	.LVL75:
+ 204:binary.c      ****         blink_zero();
+ 453              		.loc 1 204 0
+ 454 01c8 FFF7FEFF 		bl	blink_zero
+ 455              	.LVL76:
+ 205:binary.c      ****         blink_zero();
+ 456              		.loc 1 205 0
+ 457 01cc FFF7FEFF 		bl	blink_zero
+ 458              	.LVL77:
+ 206:binary.c      ****         blink_one();
+ 459              		.loc 1 206 0
+ 460 01d0 FFF7FEFF 		bl	blink_one
+ 461              	.LVL78:
+ 462 01d4 B3E0     		b	.L79
+ 463              	.L40:
+ 207:binary.c      ****         blink_one();
+ 208:binary.c      ****         blink_one();
+ 209:binary.c      ****         blink_one();
+ 210:binary.c      ****         break;
+ 211:binary.c      ****        case 'P':
+ 212:binary.c      ****        case 'p':
+ 213:binary.c      ****         blink_zero();
+ 464              		.loc 1 213 0
+ 465 01d6 FFF7FEFF 		bl	blink_zero
+ 466              	.LVL79:
+ 214:binary.c      ****         blink_one();
+ 467              		.loc 1 214 0
+ 468 01da FFF7FEFF 		bl	blink_one
+ 469              	.LVL80:
+ 215:binary.c      ****         blink_zero();
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 13
+
+
+ 470              		.loc 1 215 0
+ 471 01de FFF7FEFF 		bl	blink_zero
+ 472              	.LVL81:
+ 473 01e2 4FE0     		b	.L64
+ 474              	.L41:
+ 216:binary.c      ****         blink_one();
+ 217:binary.c      ****         blink_zero();
+ 218:binary.c      ****         blink_zero();
+ 219:binary.c      ****         blink_zero();
+ 220:binary.c      ****         blink_zero();
+ 221:binary.c      ****         break;
+ 222:binary.c      ****        case 'Q':
+ 223:binary.c      ****        case 'q':
+ 224:binary.c      ****         blink_zero();
+ 475              		.loc 1 224 0
+ 476 01e4 FFF7FEFF 		bl	blink_zero
+ 477              	.LVL82:
+ 225:binary.c      ****         blink_one();
+ 478              		.loc 1 225 0
+ 479 01e8 FFF7FEFF 		bl	blink_one
+ 480              	.LVL83:
+ 226:binary.c      ****         blink_zero();
+ 481              		.loc 1 226 0
+ 482 01ec FFF7FEFF 		bl	blink_zero
+ 483              	.LVL84:
+ 484 01f0 53E0     		b	.L73
+ 485              	.L42:
+ 227:binary.c      ****         blink_one();
+ 228:binary.c      ****         blink_zero();
+ 229:binary.c      ****         blink_zero();
+ 230:binary.c      ****         blink_zero();
+ 231:binary.c      ****         blink_one();
+ 232:binary.c      ****         break;
+ 233:binary.c      ****        case 'R':
+ 234:binary.c      ****        case 'r':
+ 235:binary.c      ****         blink_zero();
+ 486              		.loc 1 235 0
+ 487 01f2 FFF7FEFF 		bl	blink_zero
+ 488              	.LVL85:
+ 236:binary.c      ****         blink_one();
+ 489              		.loc 1 236 0
+ 490 01f6 FFF7FEFF 		bl	blink_one
+ 491              	.LVL86:
+ 237:binary.c      ****         blink_zero();
+ 492              		.loc 1 237 0
+ 493 01fa FFF7FEFF 		bl	blink_zero
+ 494              	.LVL87:
+ 495 01fe 57E0     		b	.L83
+ 496              	.L43:
+ 238:binary.c      ****         blink_one();
+ 239:binary.c      ****         blink_zero();
+ 240:binary.c      ****         blink_zero();
+ 241:binary.c      ****         blink_one();
+ 242:binary.c      ****         blink_zero();
+ 243:binary.c      ****         break;
+ 244:binary.c      ****        case 'S':
+ 245:binary.c      ****        case 's':
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 14
+
+
+ 246:binary.c      ****         blink_zero();
+ 497              		.loc 1 246 0
+ 498 0200 FFF7FEFF 		bl	blink_zero
+ 499              	.LVL88:
+ 247:binary.c      ****         blink_one();
+ 500              		.loc 1 247 0
+ 501 0204 FFF7FEFF 		bl	blink_one
+ 502              	.LVL89:
+ 248:binary.c      ****         blink_zero();
+ 503              		.loc 1 248 0
+ 504 0208 FFF7FEFF 		bl	blink_zero
+ 505              	.LVL90:
+ 506 020c 5DE0     		b	.L85
+ 507              	.L44:
+ 249:binary.c      ****         blink_one();
+ 250:binary.c      ****         blink_zero();
+ 251:binary.c      ****         blink_zero();
+ 252:binary.c      ****         blink_one();
+ 253:binary.c      ****         blink_one();
+ 254:binary.c      ****         break;
+ 255:binary.c      ****        case 'T':
+ 256:binary.c      ****        case 't':
+ 257:binary.c      ****         blink_zero();
+ 508              		.loc 1 257 0
+ 509 020e FFF7FEFF 		bl	blink_zero
+ 510              	.LVL91:
+ 258:binary.c      ****         blink_one();
+ 511              		.loc 1 258 0
+ 512 0212 FFF7FEFF 		bl	blink_one
+ 513              	.LVL92:
+ 259:binary.c      ****         blink_zero();
+ 514              		.loc 1 259 0
+ 515 0216 FFF7FEFF 		bl	blink_zero
+ 516              	.LVL93:
+ 517 021a 63E0     		b	.L65
+ 518              	.L45:
+ 260:binary.c      ****         blink_one();
+ 261:binary.c      ****         blink_zero();
+ 262:binary.c      ****         blink_one();
+ 263:binary.c      ****         blink_zero();
+ 264:binary.c      ****         blink_zero();
+ 265:binary.c      ****         break;
+ 266:binary.c      ****        case 'U':
+ 267:binary.c      ****        case 'u':
+ 268:binary.c      ****         blink_zero();
+ 519              		.loc 1 268 0
+ 520 021c FFF7FEFF 		bl	blink_zero
+ 521              	.LVL94:
+ 269:binary.c      ****         blink_one();
+ 522              		.loc 1 269 0
+ 523 0220 FFF7FEFF 		bl	blink_one
+ 524              	.LVL95:
+ 270:binary.c      ****         blink_zero();
+ 525              		.loc 1 270 0
+ 526 0224 FFF7FEFF 		bl	blink_zero
+ 527              	.LVL96:
+ 528 0228 69E0     		b	.L74
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 15
+
+
+ 529              	.L46:
+ 271:binary.c      ****         blink_one();
+ 272:binary.c      ****         blink_zero();
+ 273:binary.c      ****         blink_one();
+ 274:binary.c      ****         blink_zero();
+ 275:binary.c      ****         blink_one();
+ 276:binary.c      ****         break;
+ 277:binary.c      ****        case 'V':
+ 278:binary.c      ****        case 'v':
+ 279:binary.c      ****         blink_zero();
+ 530              		.loc 1 279 0
+ 531 022a FFF7FEFF 		bl	blink_zero
+ 532              	.LVL97:
+ 280:binary.c      ****         blink_one();
+ 533              		.loc 1 280 0
+ 534 022e FFF7FEFF 		bl	blink_one
+ 535              	.LVL98:
+ 281:binary.c      ****         blink_zero();
+ 536              		.loc 1 281 0
+ 537 0232 FFF7FEFF 		bl	blink_zero
+ 538              	.LVL99:
+ 539 0236 6FE0     		b	.L71
+ 540              	.L47:
+ 282:binary.c      ****         blink_one();
+ 283:binary.c      ****         blink_zero();
+ 284:binary.c      ****         blink_one();
+ 285:binary.c      ****         blink_one();
+ 286:binary.c      ****         blink_zero();
+ 287:binary.c      ****         break;
+ 288:binary.c      ****        case 'W':
+ 289:binary.c      ****        case 'w':
+ 290:binary.c      ****         blink_zero();
+ 541              		.loc 1 290 0
+ 542 0238 FFF7FEFF 		bl	blink_zero
+ 543              	.LVL100:
+ 291:binary.c      ****         blink_one();
+ 544              		.loc 1 291 0
+ 545 023c FFF7FEFF 		bl	blink_one
+ 546              	.LVL101:
+ 292:binary.c      ****         blink_zero();
+ 547              		.loc 1 292 0
+ 548 0240 FFF7FEFF 		bl	blink_zero
+ 549              	.LVL102:
+ 550 0244 77E0     		b	.L80
+ 551              	.L48:
+ 293:binary.c      ****         blink_one();
+ 294:binary.c      ****         blink_zero();
+ 295:binary.c      ****         blink_one();
+ 296:binary.c      ****         blink_one();
+ 297:binary.c      ****         blink_one();
+ 298:binary.c      ****         break;
+ 299:binary.c      ****        case 'X':
+ 300:binary.c      ****        case 'x':
+ 301:binary.c      ****         blink_zero();
+ 552              		.loc 1 301 0
+ 553 0246 FFF7FEFF 		bl	blink_zero
+ 554              	.LVL103:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 16
+
+
+ 302:binary.c      ****         blink_one();
+ 555              		.loc 1 302 0
+ 556 024a FFF7FEFF 		bl	blink_one
+ 557              	.LVL104:
+ 303:binary.c      ****         blink_zero();
+ 558              		.loc 1 303 0
+ 559 024e FFF7FEFF 		bl	blink_zero
+ 560              	.LVL105:
+ 561 0252 7FE0     		b	.L61
+ 562              	.L49:
+ 304:binary.c      ****         blink_one();
+ 305:binary.c      ****         blink_one();
+ 306:binary.c      ****         blink_zero();
+ 307:binary.c      ****         blink_zero();
+ 308:binary.c      ****         blink_zero();
+ 309:binary.c      ****         break;
+ 310:binary.c      ****        case 'Y':
+ 311:binary.c      ****        case 'y':
+ 312:binary.c      ****         blink_zero();
+ 563              		.loc 1 312 0
+ 564 0254 FFF7FEFF 		bl	blink_zero
+ 565              	.LVL106:
+ 313:binary.c      ****         blink_one();
+ 566              		.loc 1 313 0
+ 567 0258 FFF7FEFF 		bl	blink_one
+ 568              	.LVL107:
+ 314:binary.c      ****         blink_zero();
+ 569              		.loc 1 314 0
+ 570 025c FFF7FEFF 		bl	blink_zero
+ 571              	.LVL108:
+ 572 0260 89E0     		b	.L60
+ 573              	.L50:
+ 315:binary.c      ****         blink_one();
+ 316:binary.c      ****         blink_one();
+ 317:binary.c      ****         blink_zero();
+ 318:binary.c      ****         blink_zero();
+ 319:binary.c      ****         blink_one();
+ 320:binary.c      ****         break;
+ 321:binary.c      ****        case 'Z':
+ 322:binary.c      ****        case 'z':
+ 323:binary.c      ****         blink_zero();
+ 574              		.loc 1 323 0
+ 575 0262 FFF7FEFF 		bl	blink_zero
+ 576              	.LVL109:
+ 324:binary.c      ****         blink_one();
+ 577              		.loc 1 324 0
+ 578 0266 FFF7FEFF 		bl	blink_one
+ 579              	.LVL110:
+ 325:binary.c      ****         blink_zero();
+ 580              		.loc 1 325 0
+ 581 026a FFF7FEFF 		bl	blink_zero
+ 582              	.LVL111:
+ 326:binary.c      ****         blink_one();
+ 583              		.loc 1 326 0
+ 584 026e FFF7FEFF 		bl	blink_one
+ 585              	.LVL112:
+ 586              	.L87:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 17
+
+
+ 327:binary.c      ****         blink_one();
+ 587              		.loc 1 327 0
+ 588 0272 FFF7FEFF 		bl	blink_one
+ 589              	.LVL113:
+ 590 0276 1FE0     		b	.L82
+ 591              	.L14:
+ 328:binary.c      ****         blink_zero();
+ 329:binary.c      ****         blink_one();
+ 330:binary.c      ****         blink_zero();
+ 331:binary.c      ****         break;
+ 332:binary.c      ****        case '0':
+ 333:binary.c      ****         blink_zero();
+ 592              		.loc 1 333 0
+ 593 0278 FFF7FEFF 		bl	blink_zero
+ 594              	.LVL114:
+ 334:binary.c      ****         blink_zero();
+ 595              		.loc 1 334 0
+ 596 027c FFF7FEFF 		bl	blink_zero
+ 597              	.LVL115:
+ 335:binary.c      ****         blink_one();
+ 598              		.loc 1 335 0
+ 599 0280 FFF7FEFF 		bl	blink_one
+ 600              	.LVL116:
+ 601              	.L64:
+ 336:binary.c      ****         blink_one();
+ 602              		.loc 1 336 0
+ 603 0284 FFF7FEFF 		bl	blink_one
+ 604              	.LVL117:
+ 337:binary.c      ****         blink_zero();
+ 605              		.loc 1 337 0
+ 606 0288 FFF7FEFF 		bl	blink_zero
+ 607              	.LVL118:
+ 608 028c 66E0     		b	.L59
+ 609              	.L16:
+ 338:binary.c      ****         blink_zero();
+ 339:binary.c      ****         blink_zero();
+ 340:binary.c      ****         blink_zero();
+ 341:binary.c      ****         break;
+ 342:binary.c      ****        case '1':
+ 343:binary.c      ****         blink_zero();
+ 610              		.loc 1 343 0
+ 611 028e FFF7FEFF 		bl	blink_zero
+ 612              	.LVL119:
+ 344:binary.c      ****         blink_zero();
+ 613              		.loc 1 344 0
+ 614 0292 FFF7FEFF 		bl	blink_zero
+ 615              	.LVL120:
+ 345:binary.c      ****         blink_one();
+ 616              		.loc 1 345 0
+ 617 0296 FFF7FEFF 		bl	blink_one
+ 618              	.LVL121:
+ 619              	.L73:
+ 346:binary.c      ****         blink_one();
+ 620              		.loc 1 346 0
+ 621 029a FFF7FEFF 		bl	blink_one
+ 622              	.LVL122:
+ 623              	.L72:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 18
+
+
+ 347:binary.c      ****         blink_zero();
+ 624              		.loc 1 347 0
+ 625 029e FFF7FEFF 		bl	blink_zero
+ 626              	.LVL123:
+ 627 02a2 6CE0     		b	.L55
+ 628              	.L17:
+ 348:binary.c      ****         blink_zero();
+ 349:binary.c      ****         blink_zero();
+ 350:binary.c      ****         blink_one();
+ 351:binary.c      ****         break;
+ 352:binary.c      ****        case '2':
+ 353:binary.c      ****         blink_zero();
+ 629              		.loc 1 353 0
+ 630 02a4 FFF7FEFF 		bl	blink_zero
+ 631              	.LVL124:
+ 354:binary.c      ****         blink_zero();
+ 632              		.loc 1 354 0
+ 633 02a8 FFF7FEFF 		bl	blink_zero
+ 634              	.LVL125:
+ 355:binary.c      ****         blink_one();
+ 635              		.loc 1 355 0
+ 636 02ac FFF7FEFF 		bl	blink_one
+ 637              	.LVL126:
+ 638              	.L83:
+ 356:binary.c      ****         blink_one();
+ 639              		.loc 1 356 0
+ 640 02b0 FFF7FEFF 		bl	blink_one
+ 641              	.LVL127:
+ 642              	.L81:
+ 357:binary.c      ****         blink_zero();
+ 643              		.loc 1 357 0
+ 644 02b4 FFF7FEFF 		bl	blink_zero
+ 645              	.LVL128:
+ 646              	.L82:
+ 358:binary.c      ****         blink_zero();
+ 647              		.loc 1 358 0
+ 648 02b8 FFF7FEFF 		bl	blink_zero
+ 649              	.LVL129:
+ 650 02bc 32E0     		b	.L68
+ 651              	.L18:
+ 359:binary.c      ****         blink_one();
+ 360:binary.c      ****         blink_zero();
+ 361:binary.c      ****         break;
+ 362:binary.c      ****        case '3':
+ 363:binary.c      ****         blink_zero();
+ 652              		.loc 1 363 0
+ 653 02be FFF7FEFF 		bl	blink_zero
+ 654              	.LVL130:
+ 364:binary.c      ****         blink_zero();
+ 655              		.loc 1 364 0
+ 656 02c2 FFF7FEFF 		bl	blink_zero
+ 657              	.LVL131:
+ 365:binary.c      ****         blink_one();
+ 658              		.loc 1 365 0
+ 659 02c6 FFF7FEFF 		bl	blink_one
+ 660              	.LVL132:
+ 661              	.L85:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 19
+
+
+ 366:binary.c      ****         blink_one();
+ 662              		.loc 1 366 0
+ 663 02ca FFF7FEFF 		bl	blink_one
+ 664              	.LVL133:
+ 665              	.L84:
+ 367:binary.c      ****         blink_zero();
+ 666              		.loc 1 367 0
+ 667 02ce FFF7FEFF 		bl	blink_zero
+ 668              	.LVL134:
+ 669              	.L86:
+ 368:binary.c      ****         blink_zero();
+ 670              		.loc 1 368 0
+ 671 02d2 FFF7FEFF 		bl	blink_zero
+ 672              	.LVL135:
+ 673 02d6 34E0     		b	.L77
+ 674              	.L19:
+ 369:binary.c      ****         blink_one();
+ 370:binary.c      ****         blink_one();
+ 371:binary.c      ****         break;
+ 372:binary.c      ****        case '4':
+ 373:binary.c      ****         blink_zero();
+ 675              		.loc 1 373 0
+ 676 02d8 FFF7FEFF 		bl	blink_zero
+ 677              	.LVL136:
+ 374:binary.c      ****         blink_zero();
+ 678              		.loc 1 374 0
+ 679 02dc FFF7FEFF 		bl	blink_zero
+ 680              	.LVL137:
+ 375:binary.c      ****         blink_one();
+ 681              		.loc 1 375 0
+ 682 02e0 FFF7FEFF 		bl	blink_one
+ 683              	.LVL138:
+ 684              	.L65:
+ 376:binary.c      ****         blink_one();
+ 685              		.loc 1 376 0
+ 686 02e4 FFF7FEFF 		bl	blink_one
+ 687              	.LVL139:
+ 688              	.L66:
+ 377:binary.c      ****         blink_zero();
+ 689              		.loc 1 377 0
+ 690 02e8 FFF7FEFF 		bl	blink_zero
+ 691              	.LVL140:
+ 692              	.L67:
+ 378:binary.c      ****         blink_one();
+ 693              		.loc 1 378 0
+ 694 02ec FFF7FEFF 		bl	blink_one
+ 695              	.LVL141:
+ 696 02f0 36E0     		b	.L58
+ 697              	.L20:
+ 379:binary.c      ****         blink_zero();
+ 380:binary.c      ****         blink_zero();
+ 381:binary.c      ****         break;
+ 382:binary.c      ****        case '5':
+ 383:binary.c      ****         blink_zero();
+ 698              		.loc 1 383 0
+ 699 02f2 FFF7FEFF 		bl	blink_zero
+ 700              	.LVL142:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 20
+
+
+ 384:binary.c      ****         blink_zero();
+ 701              		.loc 1 384 0
+ 702 02f6 FFF7FEFF 		bl	blink_zero
+ 703              	.LVL143:
+ 385:binary.c      ****         blink_one();
+ 704              		.loc 1 385 0
+ 705 02fa FFF7FEFF 		bl	blink_one
+ 706              	.LVL144:
+ 707              	.L74:
+ 386:binary.c      ****         blink_one();
+ 708              		.loc 1 386 0
+ 709 02fe FFF7FEFF 		bl	blink_one
+ 710              	.LVL145:
+ 711              	.L75:
+ 387:binary.c      ****         blink_zero();
+ 712              		.loc 1 387 0
+ 713 0302 FFF7FEFF 		bl	blink_zero
+ 714              	.LVL146:
+ 715              	.L76:
+ 388:binary.c      ****         blink_one();
+ 716              		.loc 1 388 0
+ 717 0306 FFF7FEFF 		bl	blink_one
+ 718              	.LVL147:
+ 719 030a 3AE0     		b	.L57
+ 720              	.L21:
+ 389:binary.c      ****         blink_zero();
+ 390:binary.c      ****         blink_one();
+ 391:binary.c      ****         break;
+ 392:binary.c      ****        case '6':
+ 393:binary.c      ****         blink_zero();
+ 721              		.loc 1 393 0
+ 722 030c FFF7FEFF 		bl	blink_zero
+ 723              	.LVL148:
+ 394:binary.c      ****         blink_zero();
+ 724              		.loc 1 394 0
+ 725 0310 FFF7FEFF 		bl	blink_zero
+ 726              	.LVL149:
+ 395:binary.c      ****         blink_one();
+ 727              		.loc 1 395 0
+ 728 0314 FFF7FEFF 		bl	blink_one
+ 729              	.LVL150:
+ 730              	.L71:
+ 396:binary.c      ****         blink_one();
+ 731              		.loc 1 396 0
+ 732 0318 FFF7FEFF 		bl	blink_one
+ 733              	.LVL151:
+ 734              	.L69:
+ 397:binary.c      ****         blink_zero();
+ 735              		.loc 1 397 0
+ 736 031c FFF7FEFF 		bl	blink_zero
+ 737              	.LVL152:
+ 738              	.L70:
+ 398:binary.c      ****         blink_one();
+ 739              		.loc 1 398 0
+ 740 0320 FFF7FEFF 		bl	blink_one
+ 741              	.LVL153:
+ 742              	.L68:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 21
+
+
+ 399:binary.c      ****         blink_one();
+ 743              		.loc 1 399 0
+ 744 0324 FFF7FEFF 		bl	blink_one
+ 745              	.LVL154:
+ 746 0328 1CE0     		b	.L56
+ 747              	.L22:
+ 400:binary.c      ****         blink_zero();
+ 401:binary.c      ****         break;
+ 402:binary.c      ****        case '7':
+ 403:binary.c      ****         blink_zero();
+ 748              		.loc 1 403 0
+ 749 032a FFF7FEFF 		bl	blink_zero
+ 750              	.LVL155:
+ 404:binary.c      ****         blink_zero();
+ 751              		.loc 1 404 0
+ 752 032e FFF7FEFF 		bl	blink_zero
+ 753              	.LVL156:
+ 405:binary.c      ****         blink_one();
+ 754              		.loc 1 405 0
+ 755 0332 FFF7FEFF 		bl	blink_one
+ 756              	.LVL157:
+ 757              	.L80:
+ 406:binary.c      ****         blink_one();
+ 758              		.loc 1 406 0
+ 759 0336 FFF7FEFF 		bl	blink_one
+ 760              	.LVL158:
+ 761              	.L78:
+ 407:binary.c      ****         blink_zero();
+ 762              		.loc 1 407 0
+ 763 033a FFF7FEFF 		bl	blink_zero
+ 764              	.LVL159:
+ 765              	.L79:
+ 408:binary.c      ****         blink_one();
+ 766              		.loc 1 408 0
+ 767 033e FFF7FEFF 		bl	blink_one
+ 768              	.LVL160:
+ 769              	.L77:
+ 409:binary.c      ****         blink_one();
+ 770              		.loc 1 409 0
+ 771 0342 FFF7FEFF 		bl	blink_one
+ 772              	.LVL161:
+ 773 0346 1EE0     		b	.L54
+ 774              	.L23:
+ 410:binary.c      ****         blink_one();
+ 411:binary.c      ****         break;
+ 412:binary.c      ****        case '8':
+ 413:binary.c      ****         blink_zero();
+ 775              		.loc 1 413 0
+ 776 0348 FFF7FEFF 		bl	blink_zero
+ 777              	.LVL162:
+ 414:binary.c      ****         blink_zero();
+ 778              		.loc 1 414 0
+ 779 034c FFF7FEFF 		bl	blink_zero
+ 780              	.LVL163:
+ 415:binary.c      ****         blink_one();
+ 781              		.loc 1 415 0
+ 782 0350 FFF7FEFF 		bl	blink_one
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 22
+
+
+ 783              	.LVL164:
+ 784              	.L61:
+ 416:binary.c      ****         blink_one();
+ 785              		.loc 1 416 0
+ 786 0354 FFF7FEFF 		bl	blink_one
+ 787              	.LVL165:
+ 788              	.L63:
+ 417:binary.c      ****         blink_one();
+ 789              		.loc 1 417 0
+ 790 0358 FFF7FEFF 		bl	blink_one
+ 791              	.LVL166:
+ 792              	.L59:
+ 418:binary.c      ****         blink_zero();
+ 793              		.loc 1 418 0
+ 794 035c FFF7FEFF 		bl	blink_zero
+ 795              	.LVL167:
+ 796              	.L58:
+ 419:binary.c      ****         blink_zero();
+ 797              		.loc 1 419 0
+ 798 0360 FFF7FEFF 		bl	blink_zero
+ 799              	.LVL168:
+ 800              	.L56:
+ 420:binary.c      ****         blink_zero();
+ 801              		.loc 1 420 0
+ 802 0364 FFF7FEFF 		bl	blink_zero
+ 803              	.LVL169:
+ 804 0368 0FE0     		b	.L12
+ 805              	.L24:
+ 421:binary.c      ****         break;
+ 422:binary.c      ****        case '9':
+ 423:binary.c      ****         blink_zero();
+ 806              		.loc 1 423 0
+ 807 036a FFF7FEFF 		bl	blink_zero
+ 808              	.LVL170:
+ 424:binary.c      ****         blink_zero();
+ 809              		.loc 1 424 0
+ 810 036e FFF7FEFF 		bl	blink_zero
+ 811              	.LVL171:
+ 425:binary.c      ****         blink_one();
+ 812              		.loc 1 425 0
+ 813 0372 FFF7FEFF 		bl	blink_one
+ 814              	.LVL172:
+ 815              	.L60:
+ 426:binary.c      ****         blink_one();
+ 816              		.loc 1 426 0
+ 817 0376 FFF7FEFF 		bl	blink_one
+ 818              	.LVL173:
+ 819              	.L62:
+ 427:binary.c      ****         blink_one();
+ 820              		.loc 1 427 0
+ 821 037a FFF7FEFF 		bl	blink_one
+ 822              	.LVL174:
+ 823              	.L55:
+ 428:binary.c      ****         blink_zero();
+ 824              		.loc 1 428 0
+ 825 037e FFF7FEFF 		bl	blink_zero
+ 826              	.LVL175:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 23
+
+
+ 827              	.L57:
+ 429:binary.c      ****         blink_zero();
+ 828              		.loc 1 429 0
+ 829 0382 FFF7FEFF 		bl	blink_zero
+ 830              	.LVL176:
+ 831              	.L54:
+ 430:binary.c      ****         blink_one();
+ 832              		.loc 1 430 0
+ 833 0386 FFF7FEFF 		bl	blink_one
+ 834              	.LVL177:
+ 835              	.L12:
+ 836              	.LBE13:
+ 837              	.LBE12:
+ 431:binary.c      ****         break;
+ 432:binary.c      ****        case '\n':
+ 433:binary.c      ****         /* Clear the screen on a new line */
+ 434:binary.c      ****         break;
+ 435:binary.c      ****    }
+ 436:binary.c      **** }
+ 838              		.loc 1 436 0
+ 839              		@ sp needed
+ 840 038a 10BD     		pop	{r4, pc}
+ 841              		.cfi_endproc
+ 842              	.LFE34:
+ 843              		.size	binary_encode, .-binary_encode
+ 844              		.section	.text.binary_message,"ax",%progbits
+ 845              		.align	1
+ 846              		.global	binary_message
+ 847              		.code	16
+ 848              		.thumb_func
+ 849              		.type	binary_message, %function
+ 850              	binary_message:
+ 851              	.LFB35:
+ 437:binary.c      **** 
+ 438:binary.c      **** void binary_message(char* message) {
+ 852              		.loc 1 438 0
+ 853              		.cfi_startproc
+ 854              		@ args = 0, pretend = 0, frame = 0
+ 855              		@ frame_needed = 0, uses_anonymous_args = 0
+ 856              	.LVL178:
+ 857 0000 70B5     		push	{r4, r5, r6, lr}
+ 858              		.cfi_def_cfa_offset 16
+ 859              		.cfi_offset 4, -16
+ 860              		.cfi_offset 5, -12
+ 861              		.cfi_offset 6, -8
+ 862              		.cfi_offset 14, -4
+ 863              		.loc 1 438 0
+ 864 0002 0500     		movs	r5, r0
+ 439:binary.c      ****     unsigned int i;
+ 440:binary.c      ****     
+ 441:binary.c      ****     /* Blink the encoded message */
+ 442:binary.c      ****     for (i=0; i < strlen(message); i++) {
+ 865              		.loc 1 442 0
+ 866 0004 0024     		movs	r4, #0
+ 867              	.LVL179:
+ 868              	.L89:
+ 869              		.loc 1 442 0 is_stmt 0 discriminator 1
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 24
+
+
+ 870 0006 2800     		movs	r0, r5
+ 871 0008 FFF7FEFF 		bl	strlen
+ 872              	.LVL180:
+ 873 000c 8442     		cmp	r4, r0
+ 874 000e 09D2     		bcs	.L88
+ 443:binary.c      ****         /* Verify state */
+ 444:binary.c      ****         if(!verify_state(BINARY)) {
+ 875              		.loc 1 444 0 is_stmt 1
+ 876 0010 0220     		movs	r0, #2
+ 877 0012 FFF7FEFF 		bl	verify_state
+ 878              	.LVL181:
+ 879 0016 0028     		cmp	r0, #0
+ 880 0018 04D0     		beq	.L88
+ 445:binary.c      ****             return;
+ 446:binary.c      ****         }
+ 447:binary.c      ****         binary_encode(message[i]);
+ 881              		.loc 1 447 0 discriminator 2
+ 882 001a 285D     		ldrb	r0, [r5, r4]
+ 883 001c FFF7FEFF 		bl	binary_encode
+ 884              	.LVL182:
+ 442:binary.c      ****         /* Verify state */
+ 885              		.loc 1 442 0 discriminator 2
+ 886 0020 0134     		adds	r4, r4, #1
+ 887              	.LVL183:
+ 888 0022 F0E7     		b	.L89
+ 889              	.L88:
+ 448:binary.c      ****     }
+ 449:binary.c      **** }
+ 890              		.loc 1 449 0
+ 891              		@ sp needed
+ 892              	.LVL184:
+ 893              	.LVL185:
+ 894 0024 70BD     		pop	{r4, r5, r6, pc}
+ 895              		.cfi_endproc
+ 896              	.LFE35:
+ 897              		.size	binary_message, .-binary_message
+ 898              		.text
+ 899              	.Letext0:
+ 900              		.file 2 "state.h"
+ 901              		.file 3 "lightlib.h"
+ 902              		.file 4 "Generated_Source\\PSoC4/CyLib.h"
+ 903              		.file 5 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
+ 904              		.section	.debug_info,"",%progbits
+ 905              	.Ldebug_info0:
+ 906 0000 40080000 		.4byte	0x840
+ 907 0004 0400     		.2byte	0x4
+ 908 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 909 000a 04       		.byte	0x4
+ 910 000b 01       		.uleb128 0x1
+ 911 000c 2D000000 		.4byte	.LASF21
+ 912 0010 0C       		.byte	0xc
+ 913 0011 BB000000 		.4byte	.LASF22
+ 914 0015 DE000000 		.4byte	.LASF23
+ 915 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 916 001d 00000000 		.4byte	0
+ 917 0021 00000000 		.4byte	.Ldebug_line0
+ 918 0025 02       		.uleb128 0x2
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 25
+
+
+ 919 0026 01       		.byte	0x1
+ 920 0027 06       		.byte	0x6
+ 921 0028 B6010000 		.4byte	.LASF0
+ 922 002c 02       		.uleb128 0x2
+ 923 002d 01       		.byte	0x1
+ 924 002e 08       		.byte	0x8
+ 925 002f 5C010000 		.4byte	.LASF1
+ 926 0033 02       		.uleb128 0x2
+ 927 0034 02       		.byte	0x2
+ 928 0035 05       		.byte	0x5
+ 929 0036 CE010000 		.4byte	.LASF2
+ 930 003a 02       		.uleb128 0x2
+ 931 003b 02       		.byte	0x2
+ 932 003c 07       		.byte	0x7
+ 933 003d A3010000 		.4byte	.LASF3
+ 934 0041 02       		.uleb128 0x2
+ 935 0042 04       		.byte	0x4
+ 936 0043 05       		.byte	0x5
+ 937 0044 7E010000 		.4byte	.LASF4
+ 938 0048 02       		.uleb128 0x2
+ 939 0049 04       		.byte	0x4
+ 940 004a 07       		.byte	0x7
+ 941 004b CC000000 		.4byte	.LASF5
+ 942 004f 02       		.uleb128 0x2
+ 943 0050 08       		.byte	0x8
+ 944 0051 05       		.byte	0x5
+ 945 0052 00000000 		.4byte	.LASF6
+ 946 0056 02       		.uleb128 0x2
+ 947 0057 08       		.byte	0x8
+ 948 0058 07       		.byte	0x7
+ 949 0059 23010000 		.4byte	.LASF7
+ 950 005d 03       		.uleb128 0x3
+ 951 005e 04       		.byte	0x4
+ 952 005f 05       		.byte	0x5
+ 953 0060 696E7400 		.ascii	"int\000"
+ 954 0064 02       		.uleb128 0x2
+ 955 0065 04       		.byte	0x4
+ 956 0066 07       		.byte	0x7
+ 957 0067 D8010000 		.4byte	.LASF8
+ 958 006b 02       		.uleb128 0x2
+ 959 006c 04       		.byte	0x4
+ 960 006d 04       		.byte	0x4
+ 961 006e 3A010000 		.4byte	.LASF9
+ 962 0072 02       		.uleb128 0x2
+ 963 0073 08       		.byte	0x8
+ 964 0074 04       		.byte	0x4
+ 965 0075 95010000 		.4byte	.LASF10
+ 966 0079 02       		.uleb128 0x2
+ 967 007a 01       		.byte	0x1
+ 968 007b 08       		.byte	0x8
+ 969 007c 6A010000 		.4byte	.LASF11
+ 970 0080 02       		.uleb128 0x2
+ 971 0081 08       		.byte	0x8
+ 972 0082 04       		.byte	0x4
+ 973 0083 C2010000 		.4byte	.LASF12
+ 974 0087 02       		.uleb128 0x2
+ 975 0088 04       		.byte	0x4
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 26
+
+
+ 976 0089 07       		.byte	0x7
+ 977 008a E5010000 		.4byte	.LASF13
+ 978 008e 04       		.uleb128 0x4
+ 979 008f 04       		.byte	0x4
+ 980 0090 79000000 		.4byte	0x79
+ 981 0094 05       		.uleb128 0x5
+ 982 0095 40010000 		.4byte	.LASF14
+ 983 0099 01       		.byte	0x1
+ 984 009a 12       		.byte	0x12
+ 985 009b 01       		.byte	0x1
+ 986 009c 05       		.uleb128 0x5
+ 987 009d 1B000000 		.4byte	.LASF15
+ 988 00a1 01       		.byte	0x1
+ 989 00a2 1D       		.byte	0x1d
+ 990 00a3 01       		.byte	0x1
+ 991 00a4 06       		.uleb128 0x6
+ 992 00a5 87010000 		.4byte	.LASF24
+ 993 00a9 01       		.byte	0x1
+ 994 00aa 28       		.byte	0x28
+ 995 00ab 01       		.byte	0x1
+ 996 00ac BA000000 		.4byte	0xba
+ 997 00b0 07       		.uleb128 0x7
+ 998 00b1 6300     		.ascii	"c\000"
+ 999 00b3 01       		.byte	0x1
+ 1000 00b4 28       		.byte	0x28
+ 1001 00b5 79000000 		.4byte	0x79
+ 1002 00b9 00       		.byte	0
+ 1003 00ba 08       		.uleb128 0x8
+ 1004 00bb 94000000 		.4byte	0x94
+ 1005 00bf 00000000 		.4byte	.LFB32
+ 1006 00c3 2A000000 		.4byte	.LFE32-.LFB32
+ 1007 00c7 01       		.uleb128 0x1
+ 1008 00c8 9C       		.byte	0x9c
+ 1009 00c9 2D010000 		.4byte	0x12d
+ 1010 00cd 09       		.uleb128 0x9
+ 1011 00ce 08000000 		.4byte	.LVL0
+ 1012 00d2 0C080000 		.4byte	0x80c
+ 1013 00d6 E0000000 		.4byte	0xe0
+ 1014 00da 0A       		.uleb128 0xa
+ 1015 00db 01       		.uleb128 0x1
+ 1016 00dc 50       		.byte	0x50
+ 1017 00dd 01       		.uleb128 0x1
+ 1018 00de 32       		.byte	0x32
+ 1019 00df 00       		.byte	0
+ 1020 00e0 09       		.uleb128 0x9
+ 1021 00e1 12000000 		.4byte	.LVL1
+ 1022 00e5 17080000 		.4byte	0x817
+ 1023 00e9 F3000000 		.4byte	0xf3
+ 1024 00ed 0A       		.uleb128 0xa
+ 1025 00ee 01       		.uleb128 0x1
+ 1026 00ef 50       		.byte	0x50
+ 1027 00f0 01       		.uleb128 0x1
+ 1028 00f1 31       		.byte	0x31
+ 1029 00f2 00       		.byte	0
+ 1030 00f3 09       		.uleb128 0x9
+ 1031 00f4 1A000000 		.4byte	.LVL2
+ 1032 00f8 22080000 		.4byte	0x822
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 27
+
+
+ 1033 00fc 08010000 		.4byte	0x108
+ 1034 0100 0A       		.uleb128 0xa
+ 1035 0101 01       		.uleb128 0x1
+ 1036 0102 50       		.byte	0x50
+ 1037 0103 03       		.uleb128 0x3
+ 1038 0104 0A       		.byte	0xa
+ 1039 0105 F401     		.2byte	0x1f4
+ 1040 0107 00       		.byte	0
+ 1041 0108 09       		.uleb128 0x9
+ 1042 0109 20000000 		.4byte	.LVL3
+ 1043 010d 2D080000 		.4byte	0x82d
+ 1044 0111 1B010000 		.4byte	0x11b
+ 1045 0115 0A       		.uleb128 0xa
+ 1046 0116 01       		.uleb128 0x1
+ 1047 0117 50       		.byte	0x50
+ 1048 0118 01       		.uleb128 0x1
+ 1049 0119 31       		.byte	0x31
+ 1050 011a 00       		.byte	0
+ 1051 011b 0B       		.uleb128 0xb
+ 1052 011c 28000000 		.4byte	.LVL4
+ 1053 0120 22080000 		.4byte	0x822
+ 1054 0124 0A       		.uleb128 0xa
+ 1055 0125 01       		.uleb128 0x1
+ 1056 0126 50       		.byte	0x50
+ 1057 0127 03       		.uleb128 0x3
+ 1058 0128 0A       		.byte	0xa
+ 1059 0129 F401     		.2byte	0x1f4
+ 1060 012b 00       		.byte	0
+ 1061 012c 00       		.byte	0
+ 1062 012d 08       		.uleb128 0x8
+ 1063 012e 9C000000 		.4byte	0x9c
+ 1064 0132 00000000 		.4byte	.LFB33
+ 1065 0136 2A000000 		.4byte	.LFE33-.LFB33
+ 1066 013a 01       		.uleb128 0x1
+ 1067 013b 9C       		.byte	0x9c
+ 1068 013c A0010000 		.4byte	0x1a0
+ 1069 0140 09       		.uleb128 0x9
+ 1070 0141 08000000 		.4byte	.LVL5
+ 1071 0145 0C080000 		.4byte	0x80c
+ 1072 0149 53010000 		.4byte	0x153
+ 1073 014d 0A       		.uleb128 0xa
+ 1074 014e 01       		.uleb128 0x1
+ 1075 014f 50       		.byte	0x50
+ 1076 0150 01       		.uleb128 0x1
+ 1077 0151 32       		.byte	0x32
+ 1078 0152 00       		.byte	0
+ 1079 0153 09       		.uleb128 0x9
+ 1080 0154 12000000 		.4byte	.LVL6
+ 1081 0158 17080000 		.4byte	0x817
+ 1082 015c 66010000 		.4byte	0x166
+ 1083 0160 0A       		.uleb128 0xa
+ 1084 0161 01       		.uleb128 0x1
+ 1085 0162 50       		.byte	0x50
+ 1086 0163 01       		.uleb128 0x1
+ 1087 0164 32       		.byte	0x32
+ 1088 0165 00       		.byte	0
+ 1089 0166 09       		.uleb128 0x9
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 28
+
+
+ 1090 0167 1A000000 		.4byte	.LVL7
+ 1091 016b 22080000 		.4byte	0x822
+ 1092 016f 7B010000 		.4byte	0x17b
+ 1093 0173 0A       		.uleb128 0xa
+ 1094 0174 01       		.uleb128 0x1
+ 1095 0175 50       		.byte	0x50
+ 1096 0176 03       		.uleb128 0x3
+ 1097 0177 0A       		.byte	0xa
+ 1098 0178 F401     		.2byte	0x1f4
+ 1099 017a 00       		.byte	0
+ 1100 017b 09       		.uleb128 0x9
+ 1101 017c 20000000 		.4byte	.LVL8
+ 1102 0180 2D080000 		.4byte	0x82d
+ 1103 0184 8E010000 		.4byte	0x18e
+ 1104 0188 0A       		.uleb128 0xa
+ 1105 0189 01       		.uleb128 0x1
+ 1106 018a 50       		.byte	0x50
+ 1107 018b 01       		.uleb128 0x1
+ 1108 018c 32       		.byte	0x32
+ 1109 018d 00       		.byte	0
+ 1110 018e 0B       		.uleb128 0xb
+ 1111 018f 28000000 		.4byte	.LVL9
+ 1112 0193 22080000 		.4byte	0x822
+ 1113 0197 0A       		.uleb128 0xa
+ 1114 0198 01       		.uleb128 0x1
+ 1115 0199 50       		.byte	0x50
+ 1116 019a 03       		.uleb128 0x3
+ 1117 019b 0A       		.byte	0xa
+ 1118 019c F401     		.2byte	0x1f4
+ 1119 019e 00       		.byte	0
+ 1120 019f 00       		.byte	0
+ 1121 01a0 08       		.uleb128 0x8
+ 1122 01a1 A4000000 		.4byte	0xa4
+ 1123 01a5 00000000 		.4byte	.LFB34
+ 1124 01a9 8C030000 		.4byte	.LFE34-.LFB34
+ 1125 01ad 01       		.uleb128 0x1
+ 1126 01ae 9C       		.byte	0x9c
+ 1127 01af A7070000 		.4byte	0x7a7
+ 1128 01b3 0C       		.uleb128 0xc
+ 1129 01b4 B0000000 		.4byte	0xb0
+ 1130 01b8 00000000 		.4byte	.LLST0
+ 1131 01bc 0D       		.uleb128 0xd
+ 1132 01bd 10000000 		.4byte	.LBB12
+ 1133 01c1 7A030000 		.4byte	.LBE12-.LBB12
+ 1134 01c5 97070000 		.4byte	0x797
+ 1135 01c9 0C       		.uleb128 0xc
+ 1136 01ca B0000000 		.4byte	0xb0
+ 1137 01ce 21000000 		.4byte	.LLST1
+ 1138 01d2 0E       		.uleb128 0xe
+ 1139 01d3 B8000000 		.4byte	.LVL14
+ 1140 01d7 94000000 		.4byte	0x94
+ 1141 01db 0E       		.uleb128 0xe
+ 1142 01dc BC000000 		.4byte	.LVL15
+ 1143 01e0 9C000000 		.4byte	0x9c
+ 1144 01e4 0E       		.uleb128 0xe
+ 1145 01e5 C0000000 		.4byte	.LVL16
+ 1146 01e9 94000000 		.4byte	0x94
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 29
+
+
+ 1147 01ed 0E       		.uleb128 0xe
+ 1148 01ee C4000000 		.4byte	.LVL17
+ 1149 01f2 94000000 		.4byte	0x94
+ 1150 01f6 0E       		.uleb128 0xe
+ 1151 01f7 CA000000 		.4byte	.LVL18
+ 1152 01fb 94000000 		.4byte	0x94
+ 1153 01ff 0E       		.uleb128 0xe
+ 1154 0200 CE000000 		.4byte	.LVL19
+ 1155 0204 9C000000 		.4byte	0x9c
+ 1156 0208 0E       		.uleb128 0xe
+ 1157 0209 D2000000 		.4byte	.LVL20
+ 1158 020d 94000000 		.4byte	0x94
+ 1159 0211 0E       		.uleb128 0xe
+ 1160 0212 D6000000 		.4byte	.LVL21
+ 1161 0216 94000000 		.4byte	0x94
+ 1162 021a 0E       		.uleb128 0xe
+ 1163 021b DC000000 		.4byte	.LVL22
+ 1164 021f 94000000 		.4byte	0x94
+ 1165 0223 0E       		.uleb128 0xe
+ 1166 0224 E0000000 		.4byte	.LVL23
+ 1167 0228 9C000000 		.4byte	0x9c
+ 1168 022c 0E       		.uleb128 0xe
+ 1169 022d E4000000 		.4byte	.LVL24
+ 1170 0231 94000000 		.4byte	0x94
+ 1171 0235 0E       		.uleb128 0xe
+ 1172 0236 E8000000 		.4byte	.LVL25
+ 1173 023a 94000000 		.4byte	0x94
+ 1174 023e 0E       		.uleb128 0xe
+ 1175 023f EE000000 		.4byte	.LVL26
+ 1176 0243 94000000 		.4byte	0x94
+ 1177 0247 0E       		.uleb128 0xe
+ 1178 0248 F2000000 		.4byte	.LVL27
+ 1179 024c 9C000000 		.4byte	0x9c
+ 1180 0250 0E       		.uleb128 0xe
+ 1181 0251 F6000000 		.4byte	.LVL28
+ 1182 0255 94000000 		.4byte	0x94
+ 1183 0259 0E       		.uleb128 0xe
+ 1184 025a FA000000 		.4byte	.LVL29
+ 1185 025e 94000000 		.4byte	0x94
+ 1186 0262 0E       		.uleb128 0xe
+ 1187 0263 00010000 		.4byte	.LVL30
+ 1188 0267 94000000 		.4byte	0x94
+ 1189 026b 0E       		.uleb128 0xe
+ 1190 026c 04010000 		.4byte	.LVL31
+ 1191 0270 9C000000 		.4byte	0x9c
+ 1192 0274 0E       		.uleb128 0xe
+ 1193 0275 08010000 		.4byte	.LVL32
+ 1194 0279 94000000 		.4byte	0x94
+ 1195 027d 0E       		.uleb128 0xe
+ 1196 027e 0C010000 		.4byte	.LVL33
+ 1197 0282 94000000 		.4byte	0x94
+ 1198 0286 0E       		.uleb128 0xe
+ 1199 0287 12010000 		.4byte	.LVL34
+ 1200 028b 94000000 		.4byte	0x94
+ 1201 028f 0E       		.uleb128 0xe
+ 1202 0290 16010000 		.4byte	.LVL35
+ 1203 0294 9C000000 		.4byte	0x9c
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 30
+
+
+ 1204 0298 0E       		.uleb128 0xe
+ 1205 0299 1A010000 		.4byte	.LVL36
+ 1206 029d 94000000 		.4byte	0x94
+ 1207 02a1 0E       		.uleb128 0xe
+ 1208 02a2 1E010000 		.4byte	.LVL37
+ 1209 02a6 94000000 		.4byte	0x94
+ 1210 02aa 0E       		.uleb128 0xe
+ 1211 02ab 24010000 		.4byte	.LVL38
+ 1212 02af 94000000 		.4byte	0x94
+ 1213 02b3 0E       		.uleb128 0xe
+ 1214 02b4 28010000 		.4byte	.LVL39
+ 1215 02b8 9C000000 		.4byte	0x9c
+ 1216 02bc 0E       		.uleb128 0xe
+ 1217 02bd 2C010000 		.4byte	.LVL40
+ 1218 02c1 94000000 		.4byte	0x94
+ 1219 02c5 0E       		.uleb128 0xe
+ 1220 02c6 30010000 		.4byte	.LVL41
+ 1221 02ca 94000000 		.4byte	0x94
+ 1222 02ce 0E       		.uleb128 0xe
+ 1223 02cf 36010000 		.4byte	.LVL42
+ 1224 02d3 94000000 		.4byte	0x94
+ 1225 02d7 0E       		.uleb128 0xe
+ 1226 02d8 3A010000 		.4byte	.LVL43
+ 1227 02dc 9C000000 		.4byte	0x9c
+ 1228 02e0 0E       		.uleb128 0xe
+ 1229 02e1 3E010000 		.4byte	.LVL44
+ 1230 02e5 94000000 		.4byte	0x94
+ 1231 02e9 0E       		.uleb128 0xe
+ 1232 02ea 42010000 		.4byte	.LVL45
+ 1233 02ee 94000000 		.4byte	0x94
+ 1234 02f2 0E       		.uleb128 0xe
+ 1235 02f3 48010000 		.4byte	.LVL46
+ 1236 02f7 94000000 		.4byte	0x94
+ 1237 02fb 0E       		.uleb128 0xe
+ 1238 02fc 4C010000 		.4byte	.LVL47
+ 1239 0300 9C000000 		.4byte	0x9c
+ 1240 0304 0E       		.uleb128 0xe
+ 1241 0305 50010000 		.4byte	.LVL48
+ 1242 0309 94000000 		.4byte	0x94
+ 1243 030d 0E       		.uleb128 0xe
+ 1244 030e 54010000 		.4byte	.LVL49
+ 1245 0312 94000000 		.4byte	0x94
+ 1246 0316 0E       		.uleb128 0xe
+ 1247 0317 5A010000 		.4byte	.LVL50
+ 1248 031b 94000000 		.4byte	0x94
+ 1249 031f 0E       		.uleb128 0xe
+ 1250 0320 5E010000 		.4byte	.LVL51
+ 1251 0324 9C000000 		.4byte	0x9c
+ 1252 0328 0E       		.uleb128 0xe
+ 1253 0329 62010000 		.4byte	.LVL52
+ 1254 032d 94000000 		.4byte	0x94
+ 1255 0331 0E       		.uleb128 0xe
+ 1256 0332 66010000 		.4byte	.LVL53
+ 1257 0336 94000000 		.4byte	0x94
+ 1258 033a 0E       		.uleb128 0xe
+ 1259 033b 6C010000 		.4byte	.LVL54
+ 1260 033f 94000000 		.4byte	0x94
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 31
+
+
+ 1261 0343 0E       		.uleb128 0xe
+ 1262 0344 70010000 		.4byte	.LVL55
+ 1263 0348 9C000000 		.4byte	0x9c
+ 1264 034c 0E       		.uleb128 0xe
+ 1265 034d 74010000 		.4byte	.LVL56
+ 1266 0351 94000000 		.4byte	0x94
+ 1267 0355 0E       		.uleb128 0xe
+ 1268 0356 78010000 		.4byte	.LVL57
+ 1269 035a 94000000 		.4byte	0x94
+ 1270 035e 0E       		.uleb128 0xe
+ 1271 035f 7C010000 		.4byte	.LVL58
+ 1272 0363 9C000000 		.4byte	0x9c
+ 1273 0367 0E       		.uleb128 0xe
+ 1274 0368 82010000 		.4byte	.LVL59
+ 1275 036c 94000000 		.4byte	0x94
+ 1276 0370 0E       		.uleb128 0xe
+ 1277 0371 86010000 		.4byte	.LVL60
+ 1278 0375 9C000000 		.4byte	0x9c
+ 1279 0379 0E       		.uleb128 0xe
+ 1280 037a 8A010000 		.4byte	.LVL61
+ 1281 037e 94000000 		.4byte	0x94
+ 1282 0382 0E       		.uleb128 0xe
+ 1283 0383 8E010000 		.4byte	.LVL62
+ 1284 0387 94000000 		.4byte	0x94
+ 1285 038b 0E       		.uleb128 0xe
+ 1286 038c 92010000 		.4byte	.LVL63
+ 1287 0390 9C000000 		.4byte	0x9c
+ 1288 0394 0E       		.uleb128 0xe
+ 1289 0395 98010000 		.4byte	.LVL64
+ 1290 0399 94000000 		.4byte	0x94
+ 1291 039d 0E       		.uleb128 0xe
+ 1292 039e 9C010000 		.4byte	.LVL65
+ 1293 03a2 9C000000 		.4byte	0x9c
+ 1294 03a6 0E       		.uleb128 0xe
+ 1295 03a7 A0010000 		.4byte	.LVL66
+ 1296 03ab 94000000 		.4byte	0x94
+ 1297 03af 0E       		.uleb128 0xe
+ 1298 03b0 A4010000 		.4byte	.LVL67
+ 1299 03b4 94000000 		.4byte	0x94
+ 1300 03b8 0E       		.uleb128 0xe
+ 1301 03b9 A8010000 		.4byte	.LVL68
+ 1302 03bd 9C000000 		.4byte	0x9c
+ 1303 03c1 0E       		.uleb128 0xe
+ 1304 03c2 AE010000 		.4byte	.LVL69
+ 1305 03c6 94000000 		.4byte	0x94
+ 1306 03ca 0E       		.uleb128 0xe
+ 1307 03cb B2010000 		.4byte	.LVL70
+ 1308 03cf 9C000000 		.4byte	0x9c
+ 1309 03d3 0E       		.uleb128 0xe
+ 1310 03d4 B6010000 		.4byte	.LVL71
+ 1311 03d8 94000000 		.4byte	0x94
+ 1312 03dc 0E       		.uleb128 0xe
+ 1313 03dd BA010000 		.4byte	.LVL72
+ 1314 03e1 94000000 		.4byte	0x94
+ 1315 03e5 0E       		.uleb128 0xe
+ 1316 03e6 BE010000 		.4byte	.LVL73
+ 1317 03ea 9C000000 		.4byte	0x9c
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 32
+
+
+ 1318 03ee 0E       		.uleb128 0xe
+ 1319 03ef C4010000 		.4byte	.LVL74
+ 1320 03f3 94000000 		.4byte	0x94
+ 1321 03f7 0E       		.uleb128 0xe
+ 1322 03f8 C8010000 		.4byte	.LVL75
+ 1323 03fc 9C000000 		.4byte	0x9c
+ 1324 0400 0E       		.uleb128 0xe
+ 1325 0401 CC010000 		.4byte	.LVL76
+ 1326 0405 94000000 		.4byte	0x94
+ 1327 0409 0E       		.uleb128 0xe
+ 1328 040a D0010000 		.4byte	.LVL77
+ 1329 040e 94000000 		.4byte	0x94
+ 1330 0412 0E       		.uleb128 0xe
+ 1331 0413 D4010000 		.4byte	.LVL78
+ 1332 0417 9C000000 		.4byte	0x9c
+ 1333 041b 0E       		.uleb128 0xe
+ 1334 041c DA010000 		.4byte	.LVL79
+ 1335 0420 94000000 		.4byte	0x94
+ 1336 0424 0E       		.uleb128 0xe
+ 1337 0425 DE010000 		.4byte	.LVL80
+ 1338 0429 9C000000 		.4byte	0x9c
+ 1339 042d 0E       		.uleb128 0xe
+ 1340 042e E2010000 		.4byte	.LVL81
+ 1341 0432 94000000 		.4byte	0x94
+ 1342 0436 0E       		.uleb128 0xe
+ 1343 0437 E8010000 		.4byte	.LVL82
+ 1344 043b 94000000 		.4byte	0x94
+ 1345 043f 0E       		.uleb128 0xe
+ 1346 0440 EC010000 		.4byte	.LVL83
+ 1347 0444 9C000000 		.4byte	0x9c
+ 1348 0448 0E       		.uleb128 0xe
+ 1349 0449 F0010000 		.4byte	.LVL84
+ 1350 044d 94000000 		.4byte	0x94
+ 1351 0451 0E       		.uleb128 0xe
+ 1352 0452 F6010000 		.4byte	.LVL85
+ 1353 0456 94000000 		.4byte	0x94
+ 1354 045a 0E       		.uleb128 0xe
+ 1355 045b FA010000 		.4byte	.LVL86
+ 1356 045f 9C000000 		.4byte	0x9c
+ 1357 0463 0E       		.uleb128 0xe
+ 1358 0464 FE010000 		.4byte	.LVL87
+ 1359 0468 94000000 		.4byte	0x94
+ 1360 046c 0E       		.uleb128 0xe
+ 1361 046d 04020000 		.4byte	.LVL88
+ 1362 0471 94000000 		.4byte	0x94
+ 1363 0475 0E       		.uleb128 0xe
+ 1364 0476 08020000 		.4byte	.LVL89
+ 1365 047a 9C000000 		.4byte	0x9c
+ 1366 047e 0E       		.uleb128 0xe
+ 1367 047f 0C020000 		.4byte	.LVL90
+ 1368 0483 94000000 		.4byte	0x94
+ 1369 0487 0E       		.uleb128 0xe
+ 1370 0488 12020000 		.4byte	.LVL91
+ 1371 048c 94000000 		.4byte	0x94
+ 1372 0490 0E       		.uleb128 0xe
+ 1373 0491 16020000 		.4byte	.LVL92
+ 1374 0495 9C000000 		.4byte	0x9c
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 33
+
+
+ 1375 0499 0E       		.uleb128 0xe
+ 1376 049a 1A020000 		.4byte	.LVL93
+ 1377 049e 94000000 		.4byte	0x94
+ 1378 04a2 0E       		.uleb128 0xe
+ 1379 04a3 20020000 		.4byte	.LVL94
+ 1380 04a7 94000000 		.4byte	0x94
+ 1381 04ab 0E       		.uleb128 0xe
+ 1382 04ac 24020000 		.4byte	.LVL95
+ 1383 04b0 9C000000 		.4byte	0x9c
+ 1384 04b4 0E       		.uleb128 0xe
+ 1385 04b5 28020000 		.4byte	.LVL96
+ 1386 04b9 94000000 		.4byte	0x94
+ 1387 04bd 0E       		.uleb128 0xe
+ 1388 04be 2E020000 		.4byte	.LVL97
+ 1389 04c2 94000000 		.4byte	0x94
+ 1390 04c6 0E       		.uleb128 0xe
+ 1391 04c7 32020000 		.4byte	.LVL98
+ 1392 04cb 9C000000 		.4byte	0x9c
+ 1393 04cf 0E       		.uleb128 0xe
+ 1394 04d0 36020000 		.4byte	.LVL99
+ 1395 04d4 94000000 		.4byte	0x94
+ 1396 04d8 0E       		.uleb128 0xe
+ 1397 04d9 3C020000 		.4byte	.LVL100
+ 1398 04dd 94000000 		.4byte	0x94
+ 1399 04e1 0E       		.uleb128 0xe
+ 1400 04e2 40020000 		.4byte	.LVL101
+ 1401 04e6 9C000000 		.4byte	0x9c
+ 1402 04ea 0E       		.uleb128 0xe
+ 1403 04eb 44020000 		.4byte	.LVL102
+ 1404 04ef 94000000 		.4byte	0x94
+ 1405 04f3 0E       		.uleb128 0xe
+ 1406 04f4 4A020000 		.4byte	.LVL103
+ 1407 04f8 94000000 		.4byte	0x94
+ 1408 04fc 0E       		.uleb128 0xe
+ 1409 04fd 4E020000 		.4byte	.LVL104
+ 1410 0501 9C000000 		.4byte	0x9c
+ 1411 0505 0E       		.uleb128 0xe
+ 1412 0506 52020000 		.4byte	.LVL105
+ 1413 050a 94000000 		.4byte	0x94
+ 1414 050e 0E       		.uleb128 0xe
+ 1415 050f 58020000 		.4byte	.LVL106
+ 1416 0513 94000000 		.4byte	0x94
+ 1417 0517 0E       		.uleb128 0xe
+ 1418 0518 5C020000 		.4byte	.LVL107
+ 1419 051c 9C000000 		.4byte	0x9c
+ 1420 0520 0E       		.uleb128 0xe
+ 1421 0521 60020000 		.4byte	.LVL108
+ 1422 0525 94000000 		.4byte	0x94
+ 1423 0529 0E       		.uleb128 0xe
+ 1424 052a 66020000 		.4byte	.LVL109
+ 1425 052e 94000000 		.4byte	0x94
+ 1426 0532 0E       		.uleb128 0xe
+ 1427 0533 6A020000 		.4byte	.LVL110
+ 1428 0537 9C000000 		.4byte	0x9c
+ 1429 053b 0E       		.uleb128 0xe
+ 1430 053c 6E020000 		.4byte	.LVL111
+ 1431 0540 94000000 		.4byte	0x94
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 34
+
+
+ 1432 0544 0E       		.uleb128 0xe
+ 1433 0545 72020000 		.4byte	.LVL112
+ 1434 0549 9C000000 		.4byte	0x9c
+ 1435 054d 0E       		.uleb128 0xe
+ 1436 054e 76020000 		.4byte	.LVL113
+ 1437 0552 9C000000 		.4byte	0x9c
+ 1438 0556 0E       		.uleb128 0xe
+ 1439 0557 7C020000 		.4byte	.LVL114
+ 1440 055b 94000000 		.4byte	0x94
+ 1441 055f 0E       		.uleb128 0xe
+ 1442 0560 80020000 		.4byte	.LVL115
+ 1443 0564 94000000 		.4byte	0x94
+ 1444 0568 0E       		.uleb128 0xe
+ 1445 0569 84020000 		.4byte	.LVL116
+ 1446 056d 9C000000 		.4byte	0x9c
+ 1447 0571 0E       		.uleb128 0xe
+ 1448 0572 88020000 		.4byte	.LVL117
+ 1449 0576 9C000000 		.4byte	0x9c
+ 1450 057a 0E       		.uleb128 0xe
+ 1451 057b 8C020000 		.4byte	.LVL118
+ 1452 057f 94000000 		.4byte	0x94
+ 1453 0583 0E       		.uleb128 0xe
+ 1454 0584 92020000 		.4byte	.LVL119
+ 1455 0588 94000000 		.4byte	0x94
+ 1456 058c 0E       		.uleb128 0xe
+ 1457 058d 96020000 		.4byte	.LVL120
+ 1458 0591 94000000 		.4byte	0x94
+ 1459 0595 0E       		.uleb128 0xe
+ 1460 0596 9A020000 		.4byte	.LVL121
+ 1461 059a 9C000000 		.4byte	0x9c
+ 1462 059e 0E       		.uleb128 0xe
+ 1463 059f 9E020000 		.4byte	.LVL122
+ 1464 05a3 9C000000 		.4byte	0x9c
+ 1465 05a7 0E       		.uleb128 0xe
+ 1466 05a8 A2020000 		.4byte	.LVL123
+ 1467 05ac 94000000 		.4byte	0x94
+ 1468 05b0 0E       		.uleb128 0xe
+ 1469 05b1 A8020000 		.4byte	.LVL124
+ 1470 05b5 94000000 		.4byte	0x94
+ 1471 05b9 0E       		.uleb128 0xe
+ 1472 05ba AC020000 		.4byte	.LVL125
+ 1473 05be 94000000 		.4byte	0x94
+ 1474 05c2 0E       		.uleb128 0xe
+ 1475 05c3 B0020000 		.4byte	.LVL126
+ 1476 05c7 9C000000 		.4byte	0x9c
+ 1477 05cb 0E       		.uleb128 0xe
+ 1478 05cc B4020000 		.4byte	.LVL127
+ 1479 05d0 9C000000 		.4byte	0x9c
+ 1480 05d4 0E       		.uleb128 0xe
+ 1481 05d5 B8020000 		.4byte	.LVL128
+ 1482 05d9 94000000 		.4byte	0x94
+ 1483 05dd 0E       		.uleb128 0xe
+ 1484 05de BC020000 		.4byte	.LVL129
+ 1485 05e2 94000000 		.4byte	0x94
+ 1486 05e6 0E       		.uleb128 0xe
+ 1487 05e7 C2020000 		.4byte	.LVL130
+ 1488 05eb 94000000 		.4byte	0x94
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 35
+
+
+ 1489 05ef 0E       		.uleb128 0xe
+ 1490 05f0 C6020000 		.4byte	.LVL131
+ 1491 05f4 94000000 		.4byte	0x94
+ 1492 05f8 0E       		.uleb128 0xe
+ 1493 05f9 CA020000 		.4byte	.LVL132
+ 1494 05fd 9C000000 		.4byte	0x9c
+ 1495 0601 0E       		.uleb128 0xe
+ 1496 0602 CE020000 		.4byte	.LVL133
+ 1497 0606 9C000000 		.4byte	0x9c
+ 1498 060a 0E       		.uleb128 0xe
+ 1499 060b D2020000 		.4byte	.LVL134
+ 1500 060f 94000000 		.4byte	0x94
+ 1501 0613 0E       		.uleb128 0xe
+ 1502 0614 D6020000 		.4byte	.LVL135
+ 1503 0618 94000000 		.4byte	0x94
+ 1504 061c 0E       		.uleb128 0xe
+ 1505 061d DC020000 		.4byte	.LVL136
+ 1506 0621 94000000 		.4byte	0x94
+ 1507 0625 0E       		.uleb128 0xe
+ 1508 0626 E0020000 		.4byte	.LVL137
+ 1509 062a 94000000 		.4byte	0x94
+ 1510 062e 0E       		.uleb128 0xe
+ 1511 062f E4020000 		.4byte	.LVL138
+ 1512 0633 9C000000 		.4byte	0x9c
+ 1513 0637 0E       		.uleb128 0xe
+ 1514 0638 E8020000 		.4byte	.LVL139
+ 1515 063c 9C000000 		.4byte	0x9c
+ 1516 0640 0E       		.uleb128 0xe
+ 1517 0641 EC020000 		.4byte	.LVL140
+ 1518 0645 94000000 		.4byte	0x94
+ 1519 0649 0E       		.uleb128 0xe
+ 1520 064a F0020000 		.4byte	.LVL141
+ 1521 064e 9C000000 		.4byte	0x9c
+ 1522 0652 0E       		.uleb128 0xe
+ 1523 0653 F6020000 		.4byte	.LVL142
+ 1524 0657 94000000 		.4byte	0x94
+ 1525 065b 0E       		.uleb128 0xe
+ 1526 065c FA020000 		.4byte	.LVL143
+ 1527 0660 94000000 		.4byte	0x94
+ 1528 0664 0E       		.uleb128 0xe
+ 1529 0665 FE020000 		.4byte	.LVL144
+ 1530 0669 9C000000 		.4byte	0x9c
+ 1531 066d 0E       		.uleb128 0xe
+ 1532 066e 02030000 		.4byte	.LVL145
+ 1533 0672 9C000000 		.4byte	0x9c
+ 1534 0676 0E       		.uleb128 0xe
+ 1535 0677 06030000 		.4byte	.LVL146
+ 1536 067b 94000000 		.4byte	0x94
+ 1537 067f 0E       		.uleb128 0xe
+ 1538 0680 0A030000 		.4byte	.LVL147
+ 1539 0684 9C000000 		.4byte	0x9c
+ 1540 0688 0E       		.uleb128 0xe
+ 1541 0689 10030000 		.4byte	.LVL148
+ 1542 068d 94000000 		.4byte	0x94
+ 1543 0691 0E       		.uleb128 0xe
+ 1544 0692 14030000 		.4byte	.LVL149
+ 1545 0696 94000000 		.4byte	0x94
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 36
+
+
+ 1546 069a 0E       		.uleb128 0xe
+ 1547 069b 18030000 		.4byte	.LVL150
+ 1548 069f 9C000000 		.4byte	0x9c
+ 1549 06a3 0E       		.uleb128 0xe
+ 1550 06a4 1C030000 		.4byte	.LVL151
+ 1551 06a8 9C000000 		.4byte	0x9c
+ 1552 06ac 0E       		.uleb128 0xe
+ 1553 06ad 20030000 		.4byte	.LVL152
+ 1554 06b1 94000000 		.4byte	0x94
+ 1555 06b5 0E       		.uleb128 0xe
+ 1556 06b6 24030000 		.4byte	.LVL153
+ 1557 06ba 9C000000 		.4byte	0x9c
+ 1558 06be 0E       		.uleb128 0xe
+ 1559 06bf 28030000 		.4byte	.LVL154
+ 1560 06c3 9C000000 		.4byte	0x9c
+ 1561 06c7 0E       		.uleb128 0xe
+ 1562 06c8 2E030000 		.4byte	.LVL155
+ 1563 06cc 94000000 		.4byte	0x94
+ 1564 06d0 0E       		.uleb128 0xe
+ 1565 06d1 32030000 		.4byte	.LVL156
+ 1566 06d5 94000000 		.4byte	0x94
+ 1567 06d9 0E       		.uleb128 0xe
+ 1568 06da 36030000 		.4byte	.LVL157
+ 1569 06de 9C000000 		.4byte	0x9c
+ 1570 06e2 0E       		.uleb128 0xe
+ 1571 06e3 3A030000 		.4byte	.LVL158
+ 1572 06e7 9C000000 		.4byte	0x9c
+ 1573 06eb 0E       		.uleb128 0xe
+ 1574 06ec 3E030000 		.4byte	.LVL159
+ 1575 06f0 94000000 		.4byte	0x94
+ 1576 06f4 0E       		.uleb128 0xe
+ 1577 06f5 42030000 		.4byte	.LVL160
+ 1578 06f9 9C000000 		.4byte	0x9c
+ 1579 06fd 0E       		.uleb128 0xe
+ 1580 06fe 46030000 		.4byte	.LVL161
+ 1581 0702 9C000000 		.4byte	0x9c
+ 1582 0706 0E       		.uleb128 0xe
+ 1583 0707 4C030000 		.4byte	.LVL162
+ 1584 070b 94000000 		.4byte	0x94
+ 1585 070f 0E       		.uleb128 0xe
+ 1586 0710 50030000 		.4byte	.LVL163
+ 1587 0714 94000000 		.4byte	0x94
+ 1588 0718 0E       		.uleb128 0xe
+ 1589 0719 54030000 		.4byte	.LVL164
+ 1590 071d 9C000000 		.4byte	0x9c
+ 1591 0721 0E       		.uleb128 0xe
+ 1592 0722 58030000 		.4byte	.LVL165
+ 1593 0726 9C000000 		.4byte	0x9c
+ 1594 072a 0E       		.uleb128 0xe
+ 1595 072b 5C030000 		.4byte	.LVL166
+ 1596 072f 9C000000 		.4byte	0x9c
+ 1597 0733 0E       		.uleb128 0xe
+ 1598 0734 60030000 		.4byte	.LVL167
+ 1599 0738 94000000 		.4byte	0x94
+ 1600 073c 0E       		.uleb128 0xe
+ 1601 073d 64030000 		.4byte	.LVL168
+ 1602 0741 94000000 		.4byte	0x94
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 37
+
+
+ 1603 0745 0E       		.uleb128 0xe
+ 1604 0746 68030000 		.4byte	.LVL169
+ 1605 074a 94000000 		.4byte	0x94
+ 1606 074e 0E       		.uleb128 0xe
+ 1607 074f 6E030000 		.4byte	.LVL170
+ 1608 0753 94000000 		.4byte	0x94
+ 1609 0757 0E       		.uleb128 0xe
+ 1610 0758 72030000 		.4byte	.LVL171
+ 1611 075c 94000000 		.4byte	0x94
+ 1612 0760 0E       		.uleb128 0xe
+ 1613 0761 76030000 		.4byte	.LVL172
+ 1614 0765 9C000000 		.4byte	0x9c
+ 1615 0769 0E       		.uleb128 0xe
+ 1616 076a 7A030000 		.4byte	.LVL173
+ 1617 076e 9C000000 		.4byte	0x9c
+ 1618 0772 0E       		.uleb128 0xe
+ 1619 0773 7E030000 		.4byte	.LVL174
+ 1620 0777 9C000000 		.4byte	0x9c
+ 1621 077b 0E       		.uleb128 0xe
+ 1622 077c 82030000 		.4byte	.LVL175
+ 1623 0780 94000000 		.4byte	0x94
+ 1624 0784 0E       		.uleb128 0xe
+ 1625 0785 86030000 		.4byte	.LVL176
+ 1626 0789 94000000 		.4byte	0x94
+ 1627 078d 0E       		.uleb128 0xe
+ 1628 078e 8A030000 		.4byte	.LVL177
+ 1629 0792 9C000000 		.4byte	0x9c
+ 1630 0796 00       		.byte	0
+ 1631 0797 0B       		.uleb128 0xb
+ 1632 0798 0A000000 		.4byte	.LVL12
+ 1633 079c 0C080000 		.4byte	0x80c
+ 1634 07a0 0A       		.uleb128 0xa
+ 1635 07a1 01       		.uleb128 0x1
+ 1636 07a2 50       		.byte	0x50
+ 1637 07a3 01       		.uleb128 0x1
+ 1638 07a4 32       		.byte	0x32
+ 1639 07a5 00       		.byte	0
+ 1640 07a6 00       		.byte	0
+ 1641 07a7 0F       		.uleb128 0xf
+ 1642 07a8 6F010000 		.4byte	.LASF25
+ 1643 07ac 01       		.byte	0x1
+ 1644 07ad B601     		.2byte	0x1b6
+ 1645 07af 00000000 		.4byte	.LFB35
+ 1646 07b3 26000000 		.4byte	.LFE35-.LFB35
+ 1647 07b7 01       		.uleb128 0x1
+ 1648 07b8 9C       		.byte	0x9c
+ 1649 07b9 0C080000 		.4byte	0x80c
+ 1650 07bd 10       		.uleb128 0x10
+ 1651 07be 25000000 		.4byte	.LASF26
+ 1652 07c2 01       		.byte	0x1
+ 1653 07c3 B601     		.2byte	0x1b6
+ 1654 07c5 8E000000 		.4byte	0x8e
+ 1655 07c9 34000000 		.4byte	.LLST2
+ 1656 07cd 11       		.uleb128 0x11
+ 1657 07ce 6900     		.ascii	"i\000"
+ 1658 07d0 01       		.byte	0x1
+ 1659 07d1 B701     		.2byte	0x1b7
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 38
+
+
+ 1660 07d3 64000000 		.4byte	0x64
+ 1661 07d7 60000000 		.4byte	.LLST3
+ 1662 07db 09       		.uleb128 0x9
+ 1663 07dc 0C000000 		.4byte	.LVL180
+ 1664 07e0 38080000 		.4byte	0x838
+ 1665 07e4 EF070000 		.4byte	0x7ef
+ 1666 07e8 0A       		.uleb128 0xa
+ 1667 07e9 01       		.uleb128 0x1
+ 1668 07ea 50       		.byte	0x50
+ 1669 07eb 02       		.uleb128 0x2
+ 1670 07ec 75       		.byte	0x75
+ 1671 07ed 00       		.sleb128 0
+ 1672 07ee 00       		.byte	0
+ 1673 07ef 09       		.uleb128 0x9
+ 1674 07f0 16000000 		.4byte	.LVL181
+ 1675 07f4 0C080000 		.4byte	0x80c
+ 1676 07f8 02080000 		.4byte	0x802
+ 1677 07fc 0A       		.uleb128 0xa
+ 1678 07fd 01       		.uleb128 0x1
+ 1679 07fe 50       		.byte	0x50
+ 1680 07ff 01       		.uleb128 0x1
+ 1681 0800 32       		.byte	0x32
+ 1682 0801 00       		.byte	0
+ 1683 0802 0E       		.uleb128 0xe
+ 1684 0803 20000000 		.4byte	.LVL182
+ 1685 0807 A4000000 		.4byte	0xa4
+ 1686 080b 00       		.byte	0
+ 1687 080c 12       		.uleb128 0x12
+ 1688 080d 0E000000 		.4byte	.LASF16
+ 1689 0811 0E000000 		.4byte	.LASF16
+ 1690 0815 02       		.byte	0x2
+ 1691 0816 18       		.byte	0x18
+ 1692 0817 12       		.uleb128 0x12
+ 1693 0818 54010000 		.4byte	.LASF17
+ 1694 081c 54010000 		.4byte	.LASF17
+ 1695 0820 03       		.byte	0x3
+ 1696 0821 3B       		.byte	0x3b
+ 1697 0822 12       		.uleb128 0x12
+ 1698 0823 C4000000 		.4byte	.LASF18
+ 1699 0827 C4000000 		.4byte	.LASF18
+ 1700 082b 04       		.byte	0x4
+ 1701 082c D9       		.byte	0xd9
+ 1702 082d 12       		.uleb128 0x12
+ 1703 082e 4B010000 		.4byte	.LASF19
+ 1704 0832 4B010000 		.4byte	.LASF19
+ 1705 0836 03       		.byte	0x3
+ 1706 0837 3C       		.byte	0x3c
+ 1707 0838 12       		.uleb128 0x12
+ 1708 0839 9C010000 		.4byte	.LASF20
+ 1709 083d 9C010000 		.4byte	.LASF20
+ 1710 0841 05       		.byte	0x5
+ 1711 0842 21       		.byte	0x21
+ 1712 0843 00       		.byte	0
+ 1713              		.section	.debug_abbrev,"",%progbits
+ 1714              	.Ldebug_abbrev0:
+ 1715 0000 01       		.uleb128 0x1
+ 1716 0001 11       		.uleb128 0x11
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 39
+
+
+ 1717 0002 01       		.byte	0x1
+ 1718 0003 25       		.uleb128 0x25
+ 1719 0004 0E       		.uleb128 0xe
+ 1720 0005 13       		.uleb128 0x13
+ 1721 0006 0B       		.uleb128 0xb
+ 1722 0007 03       		.uleb128 0x3
+ 1723 0008 0E       		.uleb128 0xe
+ 1724 0009 1B       		.uleb128 0x1b
+ 1725 000a 0E       		.uleb128 0xe
+ 1726 000b 55       		.uleb128 0x55
+ 1727 000c 17       		.uleb128 0x17
+ 1728 000d 11       		.uleb128 0x11
+ 1729 000e 01       		.uleb128 0x1
+ 1730 000f 10       		.uleb128 0x10
+ 1731 0010 17       		.uleb128 0x17
+ 1732 0011 00       		.byte	0
+ 1733 0012 00       		.byte	0
+ 1734 0013 02       		.uleb128 0x2
+ 1735 0014 24       		.uleb128 0x24
+ 1736 0015 00       		.byte	0
+ 1737 0016 0B       		.uleb128 0xb
+ 1738 0017 0B       		.uleb128 0xb
+ 1739 0018 3E       		.uleb128 0x3e
+ 1740 0019 0B       		.uleb128 0xb
+ 1741 001a 03       		.uleb128 0x3
+ 1742 001b 0E       		.uleb128 0xe
+ 1743 001c 00       		.byte	0
+ 1744 001d 00       		.byte	0
+ 1745 001e 03       		.uleb128 0x3
+ 1746 001f 24       		.uleb128 0x24
+ 1747 0020 00       		.byte	0
+ 1748 0021 0B       		.uleb128 0xb
+ 1749 0022 0B       		.uleb128 0xb
+ 1750 0023 3E       		.uleb128 0x3e
+ 1751 0024 0B       		.uleb128 0xb
+ 1752 0025 03       		.uleb128 0x3
+ 1753 0026 08       		.uleb128 0x8
+ 1754 0027 00       		.byte	0
+ 1755 0028 00       		.byte	0
+ 1756 0029 04       		.uleb128 0x4
+ 1757 002a 0F       		.uleb128 0xf
+ 1758 002b 00       		.byte	0
+ 1759 002c 0B       		.uleb128 0xb
+ 1760 002d 0B       		.uleb128 0xb
+ 1761 002e 49       		.uleb128 0x49
+ 1762 002f 13       		.uleb128 0x13
+ 1763 0030 00       		.byte	0
+ 1764 0031 00       		.byte	0
+ 1765 0032 05       		.uleb128 0x5
+ 1766 0033 2E       		.uleb128 0x2e
+ 1767 0034 00       		.byte	0
+ 1768 0035 3F       		.uleb128 0x3f
+ 1769 0036 19       		.uleb128 0x19
+ 1770 0037 03       		.uleb128 0x3
+ 1771 0038 0E       		.uleb128 0xe
+ 1772 0039 3A       		.uleb128 0x3a
+ 1773 003a 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 40
+
+
+ 1774 003b 3B       		.uleb128 0x3b
+ 1775 003c 0B       		.uleb128 0xb
+ 1776 003d 27       		.uleb128 0x27
+ 1777 003e 19       		.uleb128 0x19
+ 1778 003f 20       		.uleb128 0x20
+ 1779 0040 0B       		.uleb128 0xb
+ 1780 0041 00       		.byte	0
+ 1781 0042 00       		.byte	0
+ 1782 0043 06       		.uleb128 0x6
+ 1783 0044 2E       		.uleb128 0x2e
+ 1784 0045 01       		.byte	0x1
+ 1785 0046 3F       		.uleb128 0x3f
+ 1786 0047 19       		.uleb128 0x19
+ 1787 0048 03       		.uleb128 0x3
+ 1788 0049 0E       		.uleb128 0xe
+ 1789 004a 3A       		.uleb128 0x3a
+ 1790 004b 0B       		.uleb128 0xb
+ 1791 004c 3B       		.uleb128 0x3b
+ 1792 004d 0B       		.uleb128 0xb
+ 1793 004e 27       		.uleb128 0x27
+ 1794 004f 19       		.uleb128 0x19
+ 1795 0050 20       		.uleb128 0x20
+ 1796 0051 0B       		.uleb128 0xb
+ 1797 0052 01       		.uleb128 0x1
+ 1798 0053 13       		.uleb128 0x13
+ 1799 0054 00       		.byte	0
+ 1800 0055 00       		.byte	0
+ 1801 0056 07       		.uleb128 0x7
+ 1802 0057 05       		.uleb128 0x5
+ 1803 0058 00       		.byte	0
+ 1804 0059 03       		.uleb128 0x3
+ 1805 005a 08       		.uleb128 0x8
+ 1806 005b 3A       		.uleb128 0x3a
+ 1807 005c 0B       		.uleb128 0xb
+ 1808 005d 3B       		.uleb128 0x3b
+ 1809 005e 0B       		.uleb128 0xb
+ 1810 005f 49       		.uleb128 0x49
+ 1811 0060 13       		.uleb128 0x13
+ 1812 0061 00       		.byte	0
+ 1813 0062 00       		.byte	0
+ 1814 0063 08       		.uleb128 0x8
+ 1815 0064 2E       		.uleb128 0x2e
+ 1816 0065 01       		.byte	0x1
+ 1817 0066 31       		.uleb128 0x31
+ 1818 0067 13       		.uleb128 0x13
+ 1819 0068 11       		.uleb128 0x11
+ 1820 0069 01       		.uleb128 0x1
+ 1821 006a 12       		.uleb128 0x12
+ 1822 006b 06       		.uleb128 0x6
+ 1823 006c 40       		.uleb128 0x40
+ 1824 006d 18       		.uleb128 0x18
+ 1825 006e 9742     		.uleb128 0x2117
+ 1826 0070 19       		.uleb128 0x19
+ 1827 0071 01       		.uleb128 0x1
+ 1828 0072 13       		.uleb128 0x13
+ 1829 0073 00       		.byte	0
+ 1830 0074 00       		.byte	0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 41
+
+
+ 1831 0075 09       		.uleb128 0x9
+ 1832 0076 898201   		.uleb128 0x4109
+ 1833 0079 01       		.byte	0x1
+ 1834 007a 11       		.uleb128 0x11
+ 1835 007b 01       		.uleb128 0x1
+ 1836 007c 31       		.uleb128 0x31
+ 1837 007d 13       		.uleb128 0x13
+ 1838 007e 01       		.uleb128 0x1
+ 1839 007f 13       		.uleb128 0x13
+ 1840 0080 00       		.byte	0
+ 1841 0081 00       		.byte	0
+ 1842 0082 0A       		.uleb128 0xa
+ 1843 0083 8A8201   		.uleb128 0x410a
+ 1844 0086 00       		.byte	0
+ 1845 0087 02       		.uleb128 0x2
+ 1846 0088 18       		.uleb128 0x18
+ 1847 0089 9142     		.uleb128 0x2111
+ 1848 008b 18       		.uleb128 0x18
+ 1849 008c 00       		.byte	0
+ 1850 008d 00       		.byte	0
+ 1851 008e 0B       		.uleb128 0xb
+ 1852 008f 898201   		.uleb128 0x4109
+ 1853 0092 01       		.byte	0x1
+ 1854 0093 11       		.uleb128 0x11
+ 1855 0094 01       		.uleb128 0x1
+ 1856 0095 31       		.uleb128 0x31
+ 1857 0096 13       		.uleb128 0x13
+ 1858 0097 00       		.byte	0
+ 1859 0098 00       		.byte	0
+ 1860 0099 0C       		.uleb128 0xc
+ 1861 009a 05       		.uleb128 0x5
+ 1862 009b 00       		.byte	0
+ 1863 009c 31       		.uleb128 0x31
+ 1864 009d 13       		.uleb128 0x13
+ 1865 009e 02       		.uleb128 0x2
+ 1866 009f 17       		.uleb128 0x17
+ 1867 00a0 00       		.byte	0
+ 1868 00a1 00       		.byte	0
+ 1869 00a2 0D       		.uleb128 0xd
+ 1870 00a3 0B       		.uleb128 0xb
+ 1871 00a4 01       		.byte	0x1
+ 1872 00a5 11       		.uleb128 0x11
+ 1873 00a6 01       		.uleb128 0x1
+ 1874 00a7 12       		.uleb128 0x12
+ 1875 00a8 06       		.uleb128 0x6
+ 1876 00a9 01       		.uleb128 0x1
+ 1877 00aa 13       		.uleb128 0x13
+ 1878 00ab 00       		.byte	0
+ 1879 00ac 00       		.byte	0
+ 1880 00ad 0E       		.uleb128 0xe
+ 1881 00ae 898201   		.uleb128 0x4109
+ 1882 00b1 00       		.byte	0
+ 1883 00b2 11       		.uleb128 0x11
+ 1884 00b3 01       		.uleb128 0x1
+ 1885 00b4 31       		.uleb128 0x31
+ 1886 00b5 13       		.uleb128 0x13
+ 1887 00b6 00       		.byte	0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 42
+
+
+ 1888 00b7 00       		.byte	0
+ 1889 00b8 0F       		.uleb128 0xf
+ 1890 00b9 2E       		.uleb128 0x2e
+ 1891 00ba 01       		.byte	0x1
+ 1892 00bb 3F       		.uleb128 0x3f
+ 1893 00bc 19       		.uleb128 0x19
+ 1894 00bd 03       		.uleb128 0x3
+ 1895 00be 0E       		.uleb128 0xe
+ 1896 00bf 3A       		.uleb128 0x3a
+ 1897 00c0 0B       		.uleb128 0xb
+ 1898 00c1 3B       		.uleb128 0x3b
+ 1899 00c2 05       		.uleb128 0x5
+ 1900 00c3 27       		.uleb128 0x27
+ 1901 00c4 19       		.uleb128 0x19
+ 1902 00c5 11       		.uleb128 0x11
+ 1903 00c6 01       		.uleb128 0x1
+ 1904 00c7 12       		.uleb128 0x12
+ 1905 00c8 06       		.uleb128 0x6
+ 1906 00c9 40       		.uleb128 0x40
+ 1907 00ca 18       		.uleb128 0x18
+ 1908 00cb 9742     		.uleb128 0x2117
+ 1909 00cd 19       		.uleb128 0x19
+ 1910 00ce 01       		.uleb128 0x1
+ 1911 00cf 13       		.uleb128 0x13
+ 1912 00d0 00       		.byte	0
+ 1913 00d1 00       		.byte	0
+ 1914 00d2 10       		.uleb128 0x10
+ 1915 00d3 05       		.uleb128 0x5
+ 1916 00d4 00       		.byte	0
+ 1917 00d5 03       		.uleb128 0x3
+ 1918 00d6 0E       		.uleb128 0xe
+ 1919 00d7 3A       		.uleb128 0x3a
+ 1920 00d8 0B       		.uleb128 0xb
+ 1921 00d9 3B       		.uleb128 0x3b
+ 1922 00da 05       		.uleb128 0x5
+ 1923 00db 49       		.uleb128 0x49
+ 1924 00dc 13       		.uleb128 0x13
+ 1925 00dd 02       		.uleb128 0x2
+ 1926 00de 17       		.uleb128 0x17
+ 1927 00df 00       		.byte	0
+ 1928 00e0 00       		.byte	0
+ 1929 00e1 11       		.uleb128 0x11
+ 1930 00e2 34       		.uleb128 0x34
+ 1931 00e3 00       		.byte	0
+ 1932 00e4 03       		.uleb128 0x3
+ 1933 00e5 08       		.uleb128 0x8
+ 1934 00e6 3A       		.uleb128 0x3a
+ 1935 00e7 0B       		.uleb128 0xb
+ 1936 00e8 3B       		.uleb128 0x3b
+ 1937 00e9 05       		.uleb128 0x5
+ 1938 00ea 49       		.uleb128 0x49
+ 1939 00eb 13       		.uleb128 0x13
+ 1940 00ec 02       		.uleb128 0x2
+ 1941 00ed 17       		.uleb128 0x17
+ 1942 00ee 00       		.byte	0
+ 1943 00ef 00       		.byte	0
+ 1944 00f0 12       		.uleb128 0x12
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 43
+
+
+ 1945 00f1 2E       		.uleb128 0x2e
+ 1946 00f2 00       		.byte	0
+ 1947 00f3 3F       		.uleb128 0x3f
+ 1948 00f4 19       		.uleb128 0x19
+ 1949 00f5 3C       		.uleb128 0x3c
+ 1950 00f6 19       		.uleb128 0x19
+ 1951 00f7 6E       		.uleb128 0x6e
+ 1952 00f8 0E       		.uleb128 0xe
+ 1953 00f9 03       		.uleb128 0x3
+ 1954 00fa 0E       		.uleb128 0xe
+ 1955 00fb 3A       		.uleb128 0x3a
+ 1956 00fc 0B       		.uleb128 0xb
+ 1957 00fd 3B       		.uleb128 0x3b
+ 1958 00fe 0B       		.uleb128 0xb
+ 1959 00ff 00       		.byte	0
+ 1960 0100 00       		.byte	0
+ 1961 0101 00       		.byte	0
+ 1962              		.section	.debug_loc,"",%progbits
+ 1963              	.Ldebug_loc0:
+ 1964              	.LLST0:
+ 1965 0000 00000000 		.4byte	.LVL10
+ 1966 0004 06000000 		.4byte	.LVL11
+ 1967 0008 0100     		.2byte	0x1
+ 1968 000a 50       		.byte	0x50
+ 1969 000b 06000000 		.4byte	.LVL11
+ 1970 000f 8C030000 		.4byte	.LFE34
+ 1971 0013 0400     		.2byte	0x4
+ 1972 0015 F3       		.byte	0xf3
+ 1973 0016 01       		.uleb128 0x1
+ 1974 0017 50       		.byte	0x50
+ 1975 0018 9F       		.byte	0x9f
+ 1976 0019 00000000 		.4byte	0
+ 1977 001d 00000000 		.4byte	0
+ 1978              	.LLST1:
+ 1979 0021 10000000 		.4byte	.LVL13
+ 1980 0025 8A030000 		.4byte	.LVL177
+ 1981 0029 0100     		.2byte	0x1
+ 1982 002b 54       		.byte	0x54
+ 1983 002c 00000000 		.4byte	0
+ 1984 0030 00000000 		.4byte	0
+ 1985              	.LLST2:
+ 1986 0034 00000000 		.4byte	.LVL178
+ 1987 0038 06000000 		.4byte	.LVL179
+ 1988 003c 0100     		.2byte	0x1
+ 1989 003e 50       		.byte	0x50
+ 1990 003f 06000000 		.4byte	.LVL179
+ 1991 0043 24000000 		.4byte	.LVL185
+ 1992 0047 0100     		.2byte	0x1
+ 1993 0049 55       		.byte	0x55
+ 1994 004a 24000000 		.4byte	.LVL185
+ 1995 004e 26000000 		.4byte	.LFE35
+ 1996 0052 0400     		.2byte	0x4
+ 1997 0054 F3       		.byte	0xf3
+ 1998 0055 01       		.uleb128 0x1
+ 1999 0056 50       		.byte	0x50
+ 2000 0057 9F       		.byte	0x9f
+ 2001 0058 00000000 		.4byte	0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 44
+
+
+ 2002 005c 00000000 		.4byte	0
+ 2003              	.LLST3:
+ 2004 0060 00000000 		.4byte	.LVL178
+ 2005 0064 06000000 		.4byte	.LVL179
+ 2006 0068 0200     		.2byte	0x2
+ 2007 006a 30       		.byte	0x30
+ 2008 006b 9F       		.byte	0x9f
+ 2009 006c 06000000 		.4byte	.LVL179
+ 2010 0070 24000000 		.4byte	.LVL184
+ 2011 0074 0100     		.2byte	0x1
+ 2012 0076 54       		.byte	0x54
+ 2013 0077 00000000 		.4byte	0
+ 2014 007b 00000000 		.4byte	0
+ 2015              		.section	.debug_aranges,"",%progbits
+ 2016 0000 34000000 		.4byte	0x34
+ 2017 0004 0200     		.2byte	0x2
+ 2018 0006 00000000 		.4byte	.Ldebug_info0
+ 2019 000a 04       		.byte	0x4
+ 2020 000b 00       		.byte	0
+ 2021 000c 0000     		.2byte	0
+ 2022 000e 0000     		.2byte	0
+ 2023 0010 00000000 		.4byte	.LFB32
+ 2024 0014 2A000000 		.4byte	.LFE32-.LFB32
+ 2025 0018 00000000 		.4byte	.LFB33
+ 2026 001c 2A000000 		.4byte	.LFE33-.LFB33
+ 2027 0020 00000000 		.4byte	.LFB34
+ 2028 0024 8C030000 		.4byte	.LFE34-.LFB34
+ 2029 0028 00000000 		.4byte	.LFB35
+ 2030 002c 26000000 		.4byte	.LFE35-.LFB35
+ 2031 0030 00000000 		.4byte	0
+ 2032 0034 00000000 		.4byte	0
+ 2033              		.section	.debug_ranges,"",%progbits
+ 2034              	.Ldebug_ranges0:
+ 2035 0000 00000000 		.4byte	.LFB32
+ 2036 0004 2A000000 		.4byte	.LFE32
+ 2037 0008 00000000 		.4byte	.LFB33
+ 2038 000c 2A000000 		.4byte	.LFE33
+ 2039 0010 00000000 		.4byte	.LFB34
+ 2040 0014 8C030000 		.4byte	.LFE34
+ 2041 0018 00000000 		.4byte	.LFB35
+ 2042 001c 26000000 		.4byte	.LFE35
+ 2043 0020 00000000 		.4byte	0
+ 2044 0024 00000000 		.4byte	0
+ 2045              		.section	.debug_line,"",%progbits
+ 2046              	.Ldebug_line0:
+ 2047 0000 F0010000 		.section	.debug_str,"MS",%progbits,1
+ 2047      0200CE00 
+ 2047      00000201 
+ 2047      FB0E0D00 
+ 2047      01010101 
+ 2048              	.LASF6:
+ 2049 0000 6C6F6E67 		.ascii	"long long int\000"
+ 2049      206C6F6E 
+ 2049      6720696E 
+ 2049      7400
+ 2050              	.LASF16:
+ 2051 000e 76657269 		.ascii	"verify_state\000"
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 45
+
+
+ 2051      66795F73 
+ 2051      74617465 
+ 2051      00
+ 2052              	.LASF15:
+ 2053 001b 626C696E 		.ascii	"blink_one\000"
+ 2053      6B5F6F6E 
+ 2053      6500
+ 2054              	.LASF26:
+ 2055 0025 6D657373 		.ascii	"message\000"
+ 2055      61676500 
+ 2056              	.LASF21:
+ 2057 002d 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2057      43313120 
+ 2057      352E342E 
+ 2057      31203230 
+ 2057      31363036 
+ 2058 0060 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 2058      20726576 
+ 2058      6973696F 
+ 2058      6E203233 
+ 2058      37373135 
+ 2059 0093 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 2059      66756E63 
+ 2059      74696F6E 
+ 2059      2D736563 
+ 2059      74696F6E 
+ 2060              	.LASF22:
+ 2061 00bb 62696E61 		.ascii	"binary.c\000"
+ 2061      72792E63 
+ 2061      00
+ 2062              	.LASF18:
+ 2063 00c4 43794465 		.ascii	"CyDelay\000"
+ 2063      6C617900 
+ 2064              	.LASF5:
+ 2065 00cc 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2065      20756E73 
+ 2065      69676E65 
+ 2065      6420696E 
+ 2065      7400
+ 2066              	.LASF23:
+ 2067 00de 433A5C55 		.ascii	"C:\\Users\\ryan\\Documents\\PSoC Creator\\Defcon_Ba"
+ 2067      73657273 
+ 2067      5C727961 
+ 2067      6E5C446F 
+ 2067      63756D65 
+ 2068 010c 6467655C 		.ascii	"dge\\Defcon_Badge.cydsn\000"
+ 2068      44656663 
+ 2068      6F6E5F42 
+ 2068      61646765 
+ 2068      2E637964 
+ 2069              	.LASF7:
+ 2070 0123 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2070      206C6F6E 
+ 2070      6720756E 
+ 2070      7369676E 
+ 2070      65642069 
+ 2071              	.LASF9:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 46
+
+
+ 2072 013a 666C6F61 		.ascii	"float\000"
+ 2072      7400
+ 2073              	.LASF14:
+ 2074 0140 626C696E 		.ascii	"blink_zero\000"
+ 2074      6B5F7A65 
+ 2074      726F00
+ 2075              	.LASF19:
+ 2076 014b 7475726E 		.ascii	"turn_off\000"
+ 2076      5F6F6666 
+ 2076      00
+ 2077              	.LASF17:
+ 2078 0154 7475726E 		.ascii	"turn_on\000"
+ 2078      5F6F6E00 
+ 2079              	.LASF1:
+ 2080 015c 756E7369 		.ascii	"unsigned char\000"
+ 2080      676E6564 
+ 2080      20636861 
+ 2080      7200
+ 2081              	.LASF11:
+ 2082 016a 63686172 		.ascii	"char\000"
+ 2082      00
+ 2083              	.LASF25:
+ 2084 016f 62696E61 		.ascii	"binary_message\000"
+ 2084      72795F6D 
+ 2084      65737361 
+ 2084      676500
+ 2085              	.LASF4:
+ 2086 017e 6C6F6E67 		.ascii	"long int\000"
+ 2086      20696E74 
+ 2086      00
+ 2087              	.LASF24:
+ 2088 0187 62696E61 		.ascii	"binary_encode\000"
+ 2088      72795F65 
+ 2088      6E636F64 
+ 2088      6500
+ 2089              	.LASF10:
+ 2090 0195 646F7562 		.ascii	"double\000"
+ 2090      6C6500
+ 2091              	.LASF20:
+ 2092 019c 7374726C 		.ascii	"strlen\000"
+ 2092      656E00
+ 2093              	.LASF3:
+ 2094 01a3 73686F72 		.ascii	"short unsigned int\000"
+ 2094      7420756E 
+ 2094      7369676E 
+ 2094      65642069 
+ 2094      6E7400
+ 2095              	.LASF0:
+ 2096 01b6 7369676E 		.ascii	"signed char\000"
+ 2096      65642063 
+ 2096      68617200 
+ 2097              	.LASF12:
+ 2098 01c2 6C6F6E67 		.ascii	"long double\000"
+ 2098      20646F75 
+ 2098      626C6500 
+ 2099              	.LASF2:
+ 2100 01ce 73686F72 		.ascii	"short int\000"
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\cctRcFiZ.s 			page 47
+
+
+ 2100      7420696E 
+ 2100      7400
+ 2101              	.LASF8:
+ 2102 01d8 756E7369 		.ascii	"unsigned int\000"
+ 2102      676E6564 
+ 2102      20696E74 
+ 2102      00
+ 2103              	.LASF13:
+ 2104 01e5 73697A65 		.ascii	"sizetype\000"
+ 2104      74797065 
+ 2104      00
+ 2105              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

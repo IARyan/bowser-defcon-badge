@@ -1,0 +1,741 @@
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccD8jQrD.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.startup.main,"ax",%progbits
+  20              		.align	1
+  21              		.global	main
+  22              		.code	16
+  23              		.thumb_func
+  24              		.type	main, %function
+  25              	main:
+  26              	.LFB33:
+  27              		.file 1 "main.c"
+   1:main.c        **** /* ========================================
+   2:main.c        ****  *
+   3:main.c        ****  * Red Badge source code. The volunteer badge
+   4:main.c        ****  * is used to send encoded morse code message.
+   5:main.c        ****  *
+   6:main.c        ****  * Author(s): Ryan Grandgenett <rmgrandgenett@unomaha.edu>
+   7:main.c        ****  *
+   8:main.c        ****  * Eye Color: Red
+   9:main.c        ****  * Stage1: Morse Code
+  10:main.c        ****  * Stage2: Binary
+  11:main.c        ****  * Stage3: Substitution
+  12:main.c        ****  * Stage4: Serial
+  13:main.c        ****  * Stage5: Organizer
+  14:main.c        ****  *
+  15:main.c        ****  * Serial: Print the morse code output
+  16:main.c        ****  *
+  17:main.c        ****  * Copyright Nullify, 2016
+  18:main.c        ****  * All Rights Reserved
+  19:main.c        ****  * UNPUBLISHED, LICENSED SOFTWARE.
+  20:main.c        ****  *
+  21:main.c        ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+  22:main.c        ****  * WHICH IS THE PROPERTY OF NULLIY.
+  23:main.c        ****  *
+  24:main.c        ****  * ========================================
+  25:main.c        **** */
+  26:main.c        **** #include <project.h>
+  27:main.c        **** #include <string.h>
+  28:main.c        **** #include <stdio.h>
+  29:main.c        **** #include "lightlib.h"
+  30:main.c        **** #include "togglelib.h"
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccD8jQrD.s 			page 2
+
+
+  31:main.c        **** #include "state.h"
+  32:main.c        **** #include "morse.h"
+  33:main.c        **** #include "binary.h"
+  34:main.c        **** #include "substitution.h"
+  35:main.c        **** 
+  36:main.c        **** int main()
+  37:main.c        **** {
+  28              		.loc 1 37 0
+  29              		.cfi_startproc
+  30              		@ Volatile: function does not return.
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 10B5     		push	{r4, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 4, -8
+  36              		.cfi_offset 14, -4
+  38:main.c        ****     /* Enable interrupts (needed for toggles and DEFCONPARTY PWM) */
+  39:main.c        ****     CyGlobalIntEnable;
+  37              		.loc 1 39 0
+  38              		.syntax divided
+  39              	@ 39 "main.c" 1
+  40 0002 62B6     		CPSIE   i
+  41              	@ 0 "" 2
+  40:main.c        ****     
+  41:main.c        ****     /* Make sure IR_LED and BOARD_LED are off to save battery */
+  42:main.c        ****     turn_off(IR_LED);
+  42              		.loc 1 42 0
+  43              		.thumb
+  44              		.syntax unified
+  45 0004 0420     		movs	r0, #4
+  46 0006 FFF7FEFF 		bl	turn_off
+  47              	.LVL0:
+  43:main.c        ****     turn_off(BOARD_LED);
+  48              		.loc 1 43 0
+  49 000a 0520     		movs	r0, #5
+  50 000c FFF7FEFF 		bl	turn_off
+  51              	.LVL1:
+  44:main.c        ****     
+  45:main.c        ****     /* Enable toggle buttons */
+  46:main.c        ****     enable_toggle_interrupts();
+  52              		.loc 1 46 0
+  53 0010 FFF7FEFF 		bl	enable_toggle_interrupts
+  54              	.LVL2:
+  47:main.c        **** 
+  48:main.c        ****     /* Initialize LEDs to off and default color value */
+  49:main.c        ****     init_led(RED);
+  55              		.loc 1 49 0
+  56 0014 0120     		movs	r0, #1
+  57 0016 FFF7FEFF 		bl	init_led
+  58              	.LVL3:
+  50:main.c        ****       
+  51:main.c        ****     /* Set the default state to Defcon Party */
+  52:main.c        ****     badge_state = DEFCONPARTY;
+  59              		.loc 1 52 0
+  60 001a 0323     		movs	r3, #3
+  61 001c 0B4C     		ldr	r4, .L9
+  62 001e 2370     		strb	r3, [r4]
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccD8jQrD.s 			page 3
+
+
+  53:main.c        ****     
+  54:main.c        ****     /* Start the Defcon Party Time PWM */
+  55:main.c        ****     PWM_Defcon_Start();
+  63              		.loc 1 55 0
+  64 0020 FFF7FEFF 		bl	PWM_Defcon_Start
+  65              	.LVL4:
+  66              	.L3:
+  56:main.c        ****     
+  57:main.c        ****     for(;;)
+  58:main.c        ****     {           
+  59:main.c        ****         switch(badge_state) {
+  67              		.loc 1 59 0
+  68 0024 2378     		ldrb	r3, [r4]
+  69 0026 DBB2     		uxtb	r3, r3
+  70 0028 022B     		cmp	r3, #2
+  71 002a 08D0     		beq	.L4
+  72 002c 032B     		cmp	r3, #3
+  73 002e 0AD0     		beq	.L5
+  74 0030 012B     		cmp	r3, #1
+  75 0032 F7D1     		bne	.L3
+  60:main.c        ****         case MORSE:
+  61:main.c        ****             morse_message(LEFT_RIGHT_LED, "DEFCON25");
+  76              		.loc 1 61 0
+  77 0034 0649     		ldr	r1, .L9+4
+  78 0036 0320     		movs	r0, #3
+  79 0038 FFF7FEFF 		bl	morse_message
+  80              	.LVL5:
+  62:main.c        ****         break;
+  81              		.loc 1 62 0
+  82 003c F2E7     		b	.L3
+  83              	.L4:
+  63:main.c        ****         case BINARY:
+  64:main.c        ****             binary_message("DEFCON25");
+  84              		.loc 1 64 0
+  85 003e 0448     		ldr	r0, .L9+4
+  86 0040 FFF7FEFF 		bl	binary_message
+  87              	.LVL6:
+  65:main.c        ****         break;
+  88              		.loc 1 65 0
+  89 0044 EEE7     		b	.L3
+  90              	.L5:
+  66:main.c        ****         case DEFCONPARTY:
+  67:main.c        ****             CySysPmSleep();
+  91              		.loc 1 67 0
+  92 0046 FFF7FEFF 		bl	CySysPmSleep
+  93              	.LVL7:
+  68:main.c        ****         break;
+  94              		.loc 1 68 0
+  95 004a EBE7     		b	.L3
+  96              	.L10:
+  97              		.align	2
+  98              	.L9:
+  99 004c 00000000 		.word	badge_state
+ 100 0050 00000000 		.word	.LC1
+ 101              		.cfi_endproc
+ 102              	.LFE33:
+ 103              		.size	main, .-main
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccD8jQrD.s 			page 4
+
+
+ 104              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 105              	.LC1:
+ 106 0000 44454643 		.ascii	"DEFCON25\000"
+ 106      4F4E3235 
+ 106      00
+ 107              		.text
+ 108              	.Letext0:
+ 109              		.file 2 "lightlib.h"
+ 110              		.file 3 "togglelib.h"
+ 111              		.file 4 "Generated_Source\\PSoC4/PWM_Defcon.h"
+ 112              		.file 5 "morse.h"
+ 113              		.file 6 "binary.h"
+ 114              		.file 7 "Generated_Source\\PSoC4/cyPm.h"
+ 115              		.file 8 "Generated_Source\\PSoC4/cytypes.h"
+ 116              		.file 9 "state.h"
+ 117              		.section	.debug_info,"",%progbits
+ 118              	.Ldebug_info0:
+ 119 0000 95010000 		.4byte	0x195
+ 120 0004 0400     		.2byte	0x4
+ 121 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 122 000a 04       		.byte	0x4
+ 123 000b 01       		.uleb128 0x1
+ 124 000c A7000000 		.4byte	.LASF21
+ 125 0010 0C       		.byte	0xc
+ 126 0011 1B000000 		.4byte	.LASF22
+ 127 0015 4B000000 		.4byte	.LASF23
+ 128 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 129 001d 00000000 		.4byte	0
+ 130 0021 00000000 		.4byte	.Ldebug_line0
+ 131 0025 02       		.uleb128 0x2
+ 132 0026 01       		.byte	0x1
+ 133 0027 06       		.byte	0x6
+ 134 0028 9B010000 		.4byte	.LASF0
+ 135 002c 02       		.uleb128 0x2
+ 136 002d 01       		.byte	0x1
+ 137 002e 08       		.byte	0x8
+ 138 002f 3E010000 		.4byte	.LASF1
+ 139 0033 02       		.uleb128 0x2
+ 140 0034 02       		.byte	0x2
+ 141 0035 05       		.byte	0x5
+ 142 0036 69010000 		.4byte	.LASF2
+ 143 003a 02       		.uleb128 0x2
+ 144 003b 02       		.byte	0x2
+ 145 003c 07       		.byte	0x7
+ 146 003d 88010000 		.4byte	.LASF3
+ 147 0041 02       		.uleb128 0x2
+ 148 0042 04       		.byte	0x4
+ 149 0043 05       		.byte	0x5
+ 150 0044 60010000 		.4byte	.LASF4
+ 151 0048 02       		.uleb128 0x2
+ 152 0049 04       		.byte	0x4
+ 153 004a 07       		.byte	0x7
+ 154 004b 39000000 		.4byte	.LASF5
+ 155 004f 02       		.uleb128 0x2
+ 156 0050 08       		.byte	0x8
+ 157 0051 05       		.byte	0x5
+ 158 0052 00000000 		.4byte	.LASF6
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccD8jQrD.s 			page 5
+
+
+ 159 0056 02       		.uleb128 0x2
+ 160 0057 08       		.byte	0x8
+ 161 0058 07       		.byte	0x7
+ 162 0059 90000000 		.4byte	.LASF7
+ 163 005d 03       		.uleb128 0x3
+ 164 005e 04       		.byte	0x4
+ 165 005f 05       		.byte	0x5
+ 166 0060 696E7400 		.ascii	"int\000"
+ 167 0064 02       		.uleb128 0x2
+ 168 0065 04       		.byte	0x4
+ 169 0066 07       		.byte	0x7
+ 170 0067 0E000000 		.4byte	.LASF8
+ 171 006b 04       		.uleb128 0x4
+ 172 006c 33000000 		.4byte	.LASF24
+ 173 0070 08       		.byte	0x8
+ 174 0071 D201     		.2byte	0x1d2
+ 175 0073 2C000000 		.4byte	0x2c
+ 176 0077 02       		.uleb128 0x2
+ 177 0078 04       		.byte	0x4
+ 178 0079 04       		.byte	0x4
+ 179 007a F3010000 		.4byte	.LASF9
+ 180 007e 02       		.uleb128 0x2
+ 181 007f 08       		.byte	0x8
+ 182 0080 04       		.byte	0x4
+ 183 0081 73010000 		.4byte	.LASF10
+ 184 0085 02       		.uleb128 0x2
+ 185 0086 01       		.byte	0x1
+ 186 0087 08       		.byte	0x8
+ 187 0088 4C010000 		.4byte	.LASF11
+ 188 008c 05       		.uleb128 0x5
+ 189 008d 6B000000 		.4byte	0x6b
+ 190 0091 02       		.uleb128 0x2
+ 191 0092 08       		.byte	0x8
+ 192 0093 04       		.byte	0x4
+ 193 0094 CE010000 		.4byte	.LASF12
+ 194 0098 02       		.uleb128 0x2
+ 195 0099 04       		.byte	0x4
+ 196 009a 07       		.byte	0x7
+ 197 009b F9010000 		.4byte	.LASF13
+ 198 009f 06       		.uleb128 0x6
+ 199 00a0 22000000 		.4byte	.LASF25
+ 200 00a4 01       		.byte	0x1
+ 201 00a5 24       		.byte	0x24
+ 202 00a6 5D000000 		.4byte	0x5d
+ 203 00aa 00000000 		.4byte	.LFB33
+ 204 00ae 54000000 		.4byte	.LFE33-.LFB33
+ 205 00b2 01       		.uleb128 0x1
+ 206 00b3 9C       		.byte	0x9c
+ 207 00b4 40010000 		.4byte	0x140
+ 208 00b8 07       		.uleb128 0x7
+ 209 00b9 0A000000 		.4byte	.LVL0
+ 210 00bd 4B010000 		.4byte	0x14b
+ 211 00c1 CB000000 		.4byte	0xcb
+ 212 00c5 08       		.uleb128 0x8
+ 213 00c6 01       		.uleb128 0x1
+ 214 00c7 50       		.byte	0x50
+ 215 00c8 01       		.uleb128 0x1
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccD8jQrD.s 			page 6
+
+
+ 216 00c9 34       		.byte	0x34
+ 217 00ca 00       		.byte	0
+ 218 00cb 07       		.uleb128 0x7
+ 219 00cc 10000000 		.4byte	.LVL1
+ 220 00d0 4B010000 		.4byte	0x14b
+ 221 00d4 DE000000 		.4byte	0xde
+ 222 00d8 08       		.uleb128 0x8
+ 223 00d9 01       		.uleb128 0x1
+ 224 00da 50       		.byte	0x50
+ 225 00db 01       		.uleb128 0x1
+ 226 00dc 35       		.byte	0x35
+ 227 00dd 00       		.byte	0
+ 228 00de 09       		.uleb128 0x9
+ 229 00df 14000000 		.4byte	.LVL2
+ 230 00e3 56010000 		.4byte	0x156
+ 231 00e7 07       		.uleb128 0x7
+ 232 00e8 1A000000 		.4byte	.LVL3
+ 233 00ec 61010000 		.4byte	0x161
+ 234 00f0 FA000000 		.4byte	0xfa
+ 235 00f4 08       		.uleb128 0x8
+ 236 00f5 01       		.uleb128 0x1
+ 237 00f6 50       		.byte	0x50
+ 238 00f7 01       		.uleb128 0x1
+ 239 00f8 31       		.byte	0x31
+ 240 00f9 00       		.byte	0
+ 241 00fa 09       		.uleb128 0x9
+ 242 00fb 24000000 		.4byte	.LVL4
+ 243 00ff 6C010000 		.4byte	0x16c
+ 244 0103 07       		.uleb128 0x7
+ 245 0104 3C000000 		.4byte	.LVL5
+ 246 0108 77010000 		.4byte	0x177
+ 247 010c 1F010000 		.4byte	0x11f
+ 248 0110 08       		.uleb128 0x8
+ 249 0111 01       		.uleb128 0x1
+ 250 0112 50       		.byte	0x50
+ 251 0113 01       		.uleb128 0x1
+ 252 0114 33       		.byte	0x33
+ 253 0115 08       		.uleb128 0x8
+ 254 0116 01       		.uleb128 0x1
+ 255 0117 51       		.byte	0x51
+ 256 0118 05       		.uleb128 0x5
+ 257 0119 03       		.byte	0x3
+ 258 011a 00000000 		.4byte	.LC1
+ 259 011e 00       		.byte	0
+ 260 011f 07       		.uleb128 0x7
+ 261 0120 44000000 		.4byte	.LVL6
+ 262 0124 82010000 		.4byte	0x182
+ 263 0128 36010000 		.4byte	0x136
+ 264 012c 08       		.uleb128 0x8
+ 265 012d 01       		.uleb128 0x1
+ 266 012e 50       		.byte	0x50
+ 267 012f 05       		.uleb128 0x5
+ 268 0130 03       		.byte	0x3
+ 269 0131 00000000 		.4byte	.LC1
+ 270 0135 00       		.byte	0
+ 271 0136 09       		.uleb128 0x9
+ 272 0137 4A000000 		.4byte	.LVL7
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccD8jQrD.s 			page 7
+
+
+ 273 013b 8D010000 		.4byte	0x18d
+ 274 013f 00       		.byte	0
+ 275 0140 0A       		.uleb128 0xa
+ 276 0141 27000000 		.4byte	.LASF26
+ 277 0145 09       		.byte	0x9
+ 278 0146 16       		.byte	0x16
+ 279 0147 8C000000 		.4byte	0x8c
+ 280 014b 0B       		.uleb128 0xb
+ 281 014c 35010000 		.4byte	.LASF14
+ 282 0150 35010000 		.4byte	.LASF14
+ 283 0154 02       		.byte	0x2
+ 284 0155 3C       		.byte	0x3c
+ 285 0156 0B       		.uleb128 0xb
+ 286 0157 DA010000 		.4byte	.LASF15
+ 287 015b DA010000 		.4byte	.LASF15
+ 288 015f 03       		.byte	0x3
+ 289 0160 1A       		.byte	0x1a
+ 290 0161 0B       		.uleb128 0xb
+ 291 0162 C5010000 		.4byte	.LASF16
+ 292 0166 C5010000 		.4byte	.LASF16
+ 293 016a 02       		.byte	0x2
+ 294 016b 3F       		.byte	0x3f
+ 295 016c 0B       		.uleb128 0xb
+ 296 016d B4010000 		.4byte	.LASF17
+ 297 0171 B4010000 		.4byte	.LASF17
+ 298 0175 04       		.byte	0x4
+ 299 0176 92       		.byte	0x92
+ 300 0177 0B       		.uleb128 0xb
+ 301 0178 7A010000 		.4byte	.LASF18
+ 302 017c 7A010000 		.4byte	.LASF18
+ 303 0180 05       		.byte	0x5
+ 304 0181 20       		.byte	0x20
+ 305 0182 0B       		.uleb128 0xb
+ 306 0183 51010000 		.4byte	.LASF19
+ 307 0187 51010000 		.4byte	.LASF19
+ 308 018b 06       		.byte	0x6
+ 309 018c 19       		.byte	0x19
+ 310 018d 0B       		.uleb128 0xb
+ 311 018e A7010000 		.4byte	.LASF20
+ 312 0192 A7010000 		.4byte	.LASF20
+ 313 0196 07       		.byte	0x7
+ 314 0197 56       		.byte	0x56
+ 315 0198 00       		.byte	0
+ 316              		.section	.debug_abbrev,"",%progbits
+ 317              	.Ldebug_abbrev0:
+ 318 0000 01       		.uleb128 0x1
+ 319 0001 11       		.uleb128 0x11
+ 320 0002 01       		.byte	0x1
+ 321 0003 25       		.uleb128 0x25
+ 322 0004 0E       		.uleb128 0xe
+ 323 0005 13       		.uleb128 0x13
+ 324 0006 0B       		.uleb128 0xb
+ 325 0007 03       		.uleb128 0x3
+ 326 0008 0E       		.uleb128 0xe
+ 327 0009 1B       		.uleb128 0x1b
+ 328 000a 0E       		.uleb128 0xe
+ 329 000b 55       		.uleb128 0x55
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccD8jQrD.s 			page 8
+
+
+ 330 000c 17       		.uleb128 0x17
+ 331 000d 11       		.uleb128 0x11
+ 332 000e 01       		.uleb128 0x1
+ 333 000f 10       		.uleb128 0x10
+ 334 0010 17       		.uleb128 0x17
+ 335 0011 00       		.byte	0
+ 336 0012 00       		.byte	0
+ 337 0013 02       		.uleb128 0x2
+ 338 0014 24       		.uleb128 0x24
+ 339 0015 00       		.byte	0
+ 340 0016 0B       		.uleb128 0xb
+ 341 0017 0B       		.uleb128 0xb
+ 342 0018 3E       		.uleb128 0x3e
+ 343 0019 0B       		.uleb128 0xb
+ 344 001a 03       		.uleb128 0x3
+ 345 001b 0E       		.uleb128 0xe
+ 346 001c 00       		.byte	0
+ 347 001d 00       		.byte	0
+ 348 001e 03       		.uleb128 0x3
+ 349 001f 24       		.uleb128 0x24
+ 350 0020 00       		.byte	0
+ 351 0021 0B       		.uleb128 0xb
+ 352 0022 0B       		.uleb128 0xb
+ 353 0023 3E       		.uleb128 0x3e
+ 354 0024 0B       		.uleb128 0xb
+ 355 0025 03       		.uleb128 0x3
+ 356 0026 08       		.uleb128 0x8
+ 357 0027 00       		.byte	0
+ 358 0028 00       		.byte	0
+ 359 0029 04       		.uleb128 0x4
+ 360 002a 16       		.uleb128 0x16
+ 361 002b 00       		.byte	0
+ 362 002c 03       		.uleb128 0x3
+ 363 002d 0E       		.uleb128 0xe
+ 364 002e 3A       		.uleb128 0x3a
+ 365 002f 0B       		.uleb128 0xb
+ 366 0030 3B       		.uleb128 0x3b
+ 367 0031 05       		.uleb128 0x5
+ 368 0032 49       		.uleb128 0x49
+ 369 0033 13       		.uleb128 0x13
+ 370 0034 00       		.byte	0
+ 371 0035 00       		.byte	0
+ 372 0036 05       		.uleb128 0x5
+ 373 0037 35       		.uleb128 0x35
+ 374 0038 00       		.byte	0
+ 375 0039 49       		.uleb128 0x49
+ 376 003a 13       		.uleb128 0x13
+ 377 003b 00       		.byte	0
+ 378 003c 00       		.byte	0
+ 379 003d 06       		.uleb128 0x6
+ 380 003e 2E       		.uleb128 0x2e
+ 381 003f 01       		.byte	0x1
+ 382 0040 3F       		.uleb128 0x3f
+ 383 0041 19       		.uleb128 0x19
+ 384 0042 03       		.uleb128 0x3
+ 385 0043 0E       		.uleb128 0xe
+ 386 0044 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccD8jQrD.s 			page 9
+
+
+ 387 0045 0B       		.uleb128 0xb
+ 388 0046 3B       		.uleb128 0x3b
+ 389 0047 0B       		.uleb128 0xb
+ 390 0048 49       		.uleb128 0x49
+ 391 0049 13       		.uleb128 0x13
+ 392 004a 8701     		.uleb128 0x87
+ 393 004c 19       		.uleb128 0x19
+ 394 004d 11       		.uleb128 0x11
+ 395 004e 01       		.uleb128 0x1
+ 396 004f 12       		.uleb128 0x12
+ 397 0050 06       		.uleb128 0x6
+ 398 0051 40       		.uleb128 0x40
+ 399 0052 18       		.uleb128 0x18
+ 400 0053 9742     		.uleb128 0x2117
+ 401 0055 19       		.uleb128 0x19
+ 402 0056 01       		.uleb128 0x1
+ 403 0057 13       		.uleb128 0x13
+ 404 0058 00       		.byte	0
+ 405 0059 00       		.byte	0
+ 406 005a 07       		.uleb128 0x7
+ 407 005b 898201   		.uleb128 0x4109
+ 408 005e 01       		.byte	0x1
+ 409 005f 11       		.uleb128 0x11
+ 410 0060 01       		.uleb128 0x1
+ 411 0061 31       		.uleb128 0x31
+ 412 0062 13       		.uleb128 0x13
+ 413 0063 01       		.uleb128 0x1
+ 414 0064 13       		.uleb128 0x13
+ 415 0065 00       		.byte	0
+ 416 0066 00       		.byte	0
+ 417 0067 08       		.uleb128 0x8
+ 418 0068 8A8201   		.uleb128 0x410a
+ 419 006b 00       		.byte	0
+ 420 006c 02       		.uleb128 0x2
+ 421 006d 18       		.uleb128 0x18
+ 422 006e 9142     		.uleb128 0x2111
+ 423 0070 18       		.uleb128 0x18
+ 424 0071 00       		.byte	0
+ 425 0072 00       		.byte	0
+ 426 0073 09       		.uleb128 0x9
+ 427 0074 898201   		.uleb128 0x4109
+ 428 0077 00       		.byte	0
+ 429 0078 11       		.uleb128 0x11
+ 430 0079 01       		.uleb128 0x1
+ 431 007a 31       		.uleb128 0x31
+ 432 007b 13       		.uleb128 0x13
+ 433 007c 00       		.byte	0
+ 434 007d 00       		.byte	0
+ 435 007e 0A       		.uleb128 0xa
+ 436 007f 34       		.uleb128 0x34
+ 437 0080 00       		.byte	0
+ 438 0081 03       		.uleb128 0x3
+ 439 0082 0E       		.uleb128 0xe
+ 440 0083 3A       		.uleb128 0x3a
+ 441 0084 0B       		.uleb128 0xb
+ 442 0085 3B       		.uleb128 0x3b
+ 443 0086 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccD8jQrD.s 			page 10
+
+
+ 444 0087 49       		.uleb128 0x49
+ 445 0088 13       		.uleb128 0x13
+ 446 0089 3F       		.uleb128 0x3f
+ 447 008a 19       		.uleb128 0x19
+ 448 008b 3C       		.uleb128 0x3c
+ 449 008c 19       		.uleb128 0x19
+ 450 008d 00       		.byte	0
+ 451 008e 00       		.byte	0
+ 452 008f 0B       		.uleb128 0xb
+ 453 0090 2E       		.uleb128 0x2e
+ 454 0091 00       		.byte	0
+ 455 0092 3F       		.uleb128 0x3f
+ 456 0093 19       		.uleb128 0x19
+ 457 0094 3C       		.uleb128 0x3c
+ 458 0095 19       		.uleb128 0x19
+ 459 0096 6E       		.uleb128 0x6e
+ 460 0097 0E       		.uleb128 0xe
+ 461 0098 03       		.uleb128 0x3
+ 462 0099 0E       		.uleb128 0xe
+ 463 009a 3A       		.uleb128 0x3a
+ 464 009b 0B       		.uleb128 0xb
+ 465 009c 3B       		.uleb128 0x3b
+ 466 009d 0B       		.uleb128 0xb
+ 467 009e 00       		.byte	0
+ 468 009f 00       		.byte	0
+ 469 00a0 00       		.byte	0
+ 470              		.section	.debug_aranges,"",%progbits
+ 471 0000 1C000000 		.4byte	0x1c
+ 472 0004 0200     		.2byte	0x2
+ 473 0006 00000000 		.4byte	.Ldebug_info0
+ 474 000a 04       		.byte	0x4
+ 475 000b 00       		.byte	0
+ 476 000c 0000     		.2byte	0
+ 477 000e 0000     		.2byte	0
+ 478 0010 00000000 		.4byte	.LFB33
+ 479 0014 54000000 		.4byte	.LFE33-.LFB33
+ 480 0018 00000000 		.4byte	0
+ 481 001c 00000000 		.4byte	0
+ 482              		.section	.debug_ranges,"",%progbits
+ 483              	.Ldebug_ranges0:
+ 484 0000 00000000 		.4byte	.LFB33
+ 485 0004 54000000 		.4byte	.LFE33
+ 486 0008 00000000 		.4byte	0
+ 487 000c 00000000 		.4byte	0
+ 488              		.section	.debug_line,"",%progbits
+ 489              	.Ldebug_line0:
+ 490 0000 BD000000 		.section	.debug_str,"MS",%progbits,1
+ 490      02009A00 
+ 490      00000201 
+ 490      FB0E0D00 
+ 490      01010101 
+ 491              	.LASF6:
+ 492 0000 6C6F6E67 		.ascii	"long long int\000"
+ 492      206C6F6E 
+ 492      6720696E 
+ 492      7400
+ 493              	.LASF8:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccD8jQrD.s 			page 11
+
+
+ 494 000e 756E7369 		.ascii	"unsigned int\000"
+ 494      676E6564 
+ 494      20696E74 
+ 494      00
+ 495              	.LASF22:
+ 496 001b 6D61696E 		.ascii	"main.c\000"
+ 496      2E6300
+ 497              	.LASF25:
+ 498 0022 6D61696E 		.ascii	"main\000"
+ 498      00
+ 499              	.LASF26:
+ 500 0027 62616467 		.ascii	"badge_state\000"
+ 500      655F7374 
+ 500      61746500 
+ 501              	.LASF24:
+ 502 0033 75696E74 		.ascii	"uint8\000"
+ 502      3800
+ 503              	.LASF5:
+ 504 0039 6C6F6E67 		.ascii	"long unsigned int\000"
+ 504      20756E73 
+ 504      69676E65 
+ 504      6420696E 
+ 504      7400
+ 505              	.LASF23:
+ 506 004b 433A5C55 		.ascii	"C:\\Users\\ryan\\Documents\\PSoC Creator\\Defcon_Ba"
+ 506      73657273 
+ 506      5C727961 
+ 506      6E5C446F 
+ 506      63756D65 
+ 507 0079 6467655C 		.ascii	"dge\\Defcon_Badge.cydsn\000"
+ 507      44656663 
+ 507      6F6E5F42 
+ 507      61646765 
+ 507      2E637964 
+ 508              	.LASF7:
+ 509 0090 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 509      206C6F6E 
+ 509      6720756E 
+ 509      7369676E 
+ 509      65642069 
+ 510              	.LASF21:
+ 511 00a7 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 511      43313120 
+ 511      352E342E 
+ 511      31203230 
+ 511      31363036 
+ 512 00da 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 512      20726576 
+ 512      6973696F 
+ 512      6E203233 
+ 512      37373135 
+ 513 010d 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 513      66756E63 
+ 513      74696F6E 
+ 513      2D736563 
+ 513      74696F6E 
+ 514              	.LASF14:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccD8jQrD.s 			page 12
+
+
+ 515 0135 7475726E 		.ascii	"turn_off\000"
+ 515      5F6F6666 
+ 515      00
+ 516              	.LASF1:
+ 517 013e 756E7369 		.ascii	"unsigned char\000"
+ 517      676E6564 
+ 517      20636861 
+ 517      7200
+ 518              	.LASF11:
+ 519 014c 63686172 		.ascii	"char\000"
+ 519      00
+ 520              	.LASF19:
+ 521 0151 62696E61 		.ascii	"binary_message\000"
+ 521      72795F6D 
+ 521      65737361 
+ 521      676500
+ 522              	.LASF4:
+ 523 0160 6C6F6E67 		.ascii	"long int\000"
+ 523      20696E74 
+ 523      00
+ 524              	.LASF2:
+ 525 0169 73686F72 		.ascii	"short int\000"
+ 525      7420696E 
+ 525      7400
+ 526              	.LASF10:
+ 527 0173 646F7562 		.ascii	"double\000"
+ 527      6C6500
+ 528              	.LASF18:
+ 529 017a 6D6F7273 		.ascii	"morse_message\000"
+ 529      655F6D65 
+ 529      73736167 
+ 529      6500
+ 530              	.LASF3:
+ 531 0188 73686F72 		.ascii	"short unsigned int\000"
+ 531      7420756E 
+ 531      7369676E 
+ 531      65642069 
+ 531      6E7400
+ 532              	.LASF0:
+ 533 019b 7369676E 		.ascii	"signed char\000"
+ 533      65642063 
+ 533      68617200 
+ 534              	.LASF20:
+ 535 01a7 43795379 		.ascii	"CySysPmSleep\000"
+ 535      73506D53 
+ 535      6C656570 
+ 535      00
+ 536              	.LASF17:
+ 537 01b4 50574D5F 		.ascii	"PWM_Defcon_Start\000"
+ 537      44656663 
+ 537      6F6E5F53 
+ 537      74617274 
+ 537      00
+ 538              	.LASF16:
+ 539 01c5 696E6974 		.ascii	"init_led\000"
+ 539      5F6C6564 
+ 539      00
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccD8jQrD.s 			page 13
+
+
+ 540              	.LASF12:
+ 541 01ce 6C6F6E67 		.ascii	"long double\000"
+ 541      20646F75 
+ 541      626C6500 
+ 542              	.LASF15:
+ 543 01da 656E6162 		.ascii	"enable_toggle_interrupts\000"
+ 543      6C655F74 
+ 543      6F67676C 
+ 543      655F696E 
+ 543      74657272 
+ 544              	.LASF9:
+ 545 01f3 666C6F61 		.ascii	"float\000"
+ 545      7400
+ 546              	.LASF13:
+ 547 01f9 73697A65 		.ascii	"sizetype\000"
+ 547      74797065 
+ 547      00
+ 548              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

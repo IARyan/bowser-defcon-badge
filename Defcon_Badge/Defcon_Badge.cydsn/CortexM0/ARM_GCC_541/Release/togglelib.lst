@@ -1,0 +1,1618 @@
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"togglelib.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	__aeabi_idivmod
+  20              		.section	.text.SWL_Handler,"ax",%progbits
+  21              		.align	1
+  22              		.global	SWL_Handler
+  23              		.code	16
+  24              		.thumb_func
+  25              		.type	SWL_Handler, %function
+  26              	SWL_Handler:
+  27              	.LFB33:
+  28              		.file 1 "togglelib.c"
+   1:togglelib.c   **** /* ========================================
+   2:togglelib.c   ****  *
+   3:togglelib.c   ****  * Copyright Nullify, 2016
+   4:togglelib.c   ****  * All Rights Reserved
+   5:togglelib.c   ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:togglelib.c   ****  *
+   7:togglelib.c   ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:togglelib.c   ****  * WHICH IS THE PROPERTY OF NULLIY.
+   9:togglelib.c   ****  *
+  10:togglelib.c   ****  * ========================================
+  11:togglelib.c   **** */
+  12:togglelib.c   **** #include <project.h>
+  13:togglelib.c   **** #include <stdio.h>
+  14:togglelib.c   **** #include <time.h>
+  15:togglelib.c   **** #include <stdlib.h>
+  16:togglelib.c   **** #include "lightlib.h"
+  17:togglelib.c   **** #include "togglelib.h"
+  18:togglelib.c   **** #include "state.h"
+  19:togglelib.c   **** 
+  20:togglelib.c   **** /* Signal handler for left toggle press */
+  21:togglelib.c   **** CY_ISR( SWL_Handler ) { 
+  29              		.loc 1 21 0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 10B5     		push	{r4, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 4, -8
+  36              		.cfi_offset 14, -4
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 2
+
+
+  22:togglelib.c   ****     uint8 current_color; 
+  23:togglelib.c   ****     uint32 rand_color; 
+  24:togglelib.c   ****     
+  25:togglelib.c   ****     /* Make sure Defcon party time PWM is off */
+  26:togglelib.c   ****     PWM_Defcon_Stop();
+  37              		.loc 1 26 0
+  38 0002 FFF7FEFF 		bl	PWM_Defcon_Stop
+  39              	.LVL0:
+  27:togglelib.c   ****     
+  28:togglelib.c   ****    /* Get the current color of the leds and pick a new one */
+  29:togglelib.c   ****    current_color = get_color(LEFT_LED);
+  40              		.loc 1 29 0
+  41 0006 0120     		movs	r0, #1
+  42 0008 FFF7FEFF 		bl	get_color
+  43              	.LVL1:
+  44 000c 0400     		movs	r4, r0
+  45              	.LVL2:
+  46              	.L3:
+  30:togglelib.c   ****    rand_color = (rand() % 7) + 1;
+  31:togglelib.c   ****     
+  32:togglelib.c   ****     while (current_color == rand_color){
+  33:togglelib.c   ****         rand_color = (rand() % 7) + 1;
+  47              		.loc 1 33 0
+  48 000e FFF7FEFF 		bl	rand
+  49              	.LVL3:
+  50 0012 0721     		movs	r1, #7
+  51 0014 FFF7FEFF 		bl	__aeabi_idivmod
+  52              	.LVL4:
+  53 0018 0131     		adds	r1, r1, #1
+  54              	.LVL5:
+  32:togglelib.c   ****         rand_color = (rand() % 7) + 1;
+  55              		.loc 1 32 0
+  56 001a A142     		cmp	r1, r4
+  57 001c F7D0     		beq	.L3
+  34:togglelib.c   ****     }
+  35:togglelib.c   **** 
+  36:togglelib.c   ****     init_led(rand_color);
+  58              		.loc 1 36 0
+  59 001e C8B2     		uxtb	r0, r1
+  60 0020 FFF7FEFF 		bl	init_led
+  61              	.LVL6:
+  37:togglelib.c   ****     
+  38:togglelib.c   ****     /* Badge State is MORSE */
+  39:togglelib.c   ****     badge_state = MORSE;
+  62              		.loc 1 39 0
+  63 0024 0122     		movs	r2, #1
+  64 0026 024B     		ldr	r3, .L5
+  40:togglelib.c   ****     
+  41:togglelib.c   ****     /* Clear interrupt */
+  42:togglelib.c   ****     SWL_ClearInterrupt();
+  43:togglelib.c   **** }
+  65              		.loc 1 43 0
+  66              		@ sp needed
+  39:togglelib.c   ****     
+  67              		.loc 1 39 0
+  68 0028 1A70     		strb	r2, [r3]
+  42:togglelib.c   **** }
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 3
+
+
+  69              		.loc 1 42 0
+  70 002a FFF7FEFF 		bl	SWL_ClearInterrupt
+  71              	.LVL7:
+  72              	.LVL8:
+  73              		.loc 1 43 0
+  74 002e 10BD     		pop	{r4, pc}
+  75              	.L6:
+  76              		.align	2
+  77              	.L5:
+  78 0030 00000000 		.word	badge_state
+  79              		.cfi_endproc
+  80              	.LFE33:
+  81              		.size	SWL_Handler, .-SWL_Handler
+  82              		.section	.text.SWR_Handler,"ax",%progbits
+  83              		.align	1
+  84              		.global	SWR_Handler
+  85              		.code	16
+  86              		.thumb_func
+  87              		.type	SWR_Handler, %function
+  88              	SWR_Handler:
+  89              	.LFB34:
+  44:togglelib.c   **** 
+  45:togglelib.c   **** /* Signal handler for right toggle press */
+  46:togglelib.c   **** CY_ISR( SWR_Handler ) {
+  90              		.loc 1 46 0
+  91              		.cfi_startproc
+  92              		@ args = 0, pretend = 0, frame = 0
+  93              		@ frame_needed = 0, uses_anonymous_args = 0
+  94 0000 10B5     		push	{r4, lr}
+  95              		.cfi_def_cfa_offset 8
+  96              		.cfi_offset 4, -8
+  97              		.cfi_offset 14, -4
+  47:togglelib.c   ****     uint8 current_color; 
+  48:togglelib.c   ****     uint32 rand_color; 
+  49:togglelib.c   ****     
+  50:togglelib.c   ****     /* Make sure Defcon party time PWM is off */
+  51:togglelib.c   ****     PWM_Defcon_Stop();
+  98              		.loc 1 51 0
+  99 0002 FFF7FEFF 		bl	PWM_Defcon_Stop
+ 100              	.LVL9:
+  52:togglelib.c   ****     
+  53:togglelib.c   ****    /* Get the current color of the leds and pick a new one */
+  54:togglelib.c   ****    current_color = get_color(LEFT_LED);
+ 101              		.loc 1 54 0
+ 102 0006 0120     		movs	r0, #1
+ 103 0008 FFF7FEFF 		bl	get_color
+ 104              	.LVL10:
+ 105 000c 0400     		movs	r4, r0
+ 106              	.LVL11:
+ 107              	.L9:
+  55:togglelib.c   ****    rand_color = (rand() % 7) + 1;
+  56:togglelib.c   ****     
+  57:togglelib.c   ****     while (current_color == rand_color){
+  58:togglelib.c   ****         rand_color = (rand() % 7) + 1;
+ 108              		.loc 1 58 0
+ 109 000e FFF7FEFF 		bl	rand
+ 110              	.LVL12:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 4
+
+
+ 111 0012 0721     		movs	r1, #7
+ 112 0014 FFF7FEFF 		bl	__aeabi_idivmod
+ 113              	.LVL13:
+ 114 0018 0131     		adds	r1, r1, #1
+ 115              	.LVL14:
+  57:togglelib.c   ****         rand_color = (rand() % 7) + 1;
+ 116              		.loc 1 57 0
+ 117 001a A142     		cmp	r1, r4
+ 118 001c F7D0     		beq	.L9
+  59:togglelib.c   ****     }
+  60:togglelib.c   **** 
+  61:togglelib.c   ****     init_led(rand_color);
+ 119              		.loc 1 61 0
+ 120 001e C8B2     		uxtb	r0, r1
+ 121 0020 FFF7FEFF 		bl	init_led
+ 122              	.LVL15:
+  62:togglelib.c   ****     
+  63:togglelib.c   ****     /* Badge State is BINARY_MESSAGE */
+  64:togglelib.c   ****     badge_state = BINARY;
+ 123              		.loc 1 64 0
+ 124 0024 0222     		movs	r2, #2
+ 125 0026 024B     		ldr	r3, .L10
+  65:togglelib.c   ****     
+  66:togglelib.c   ****    /* Clear interrupt */
+  67:togglelib.c   ****     SWR_ClearInterrupt();
+  68:togglelib.c   **** }
+ 126              		.loc 1 68 0
+ 127              		@ sp needed
+  64:togglelib.c   ****     
+ 128              		.loc 1 64 0
+ 129 0028 1A70     		strb	r2, [r3]
+  67:togglelib.c   **** }
+ 130              		.loc 1 67 0
+ 131 002a FFF7FEFF 		bl	SWR_ClearInterrupt
+ 132              	.LVL16:
+ 133              	.LVL17:
+ 134              		.loc 1 68 0
+ 135 002e 10BD     		pop	{r4, pc}
+ 136              	.L11:
+ 137              		.align	2
+ 138              	.L10:
+ 139 0030 00000000 		.word	badge_state
+ 140              		.cfi_endproc
+ 141              	.LFE34:
+ 142              		.size	SWR_Handler, .-SWR_Handler
+ 143              		.section	.text.SWB_Handler,"ax",%progbits
+ 144              		.align	1
+ 145              		.global	SWB_Handler
+ 146              		.code	16
+ 147              		.thumb_func
+ 148              		.type	SWB_Handler, %function
+ 149              	SWB_Handler:
+ 150              	.LFB35:
+  69:togglelib.c   **** 
+  70:togglelib.c   **** /* Signal handler for on board toggle press */
+  71:togglelib.c   **** CY_ISR( SWB_Handler ) {
+ 151              		.loc 1 71 0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 5
+
+
+ 152              		.cfi_startproc
+ 153              		@ args = 0, pretend = 0, frame = 0
+ 154              		@ frame_needed = 0, uses_anonymous_args = 0
+  72:togglelib.c   ****     badge_state = DEFCONPARTY;
+ 155              		.loc 1 72 0
+ 156 0000 0322     		movs	r2, #3
+  71:togglelib.c   ****     badge_state = DEFCONPARTY;
+ 157              		.loc 1 71 0
+ 158 0002 10B5     		push	{r4, lr}
+ 159              		.cfi_def_cfa_offset 8
+ 160              		.cfi_offset 4, -8
+ 161              		.cfi_offset 14, -4
+ 162              		.loc 1 72 0
+ 163 0004 034B     		ldr	r3, .L13
+  73:togglelib.c   ****     
+  74:togglelib.c   ****     /* Start the Defcon Party Time PWM */
+  75:togglelib.c   ****     PWM_Defcon_Start();
+  76:togglelib.c   ****         
+  77:togglelib.c   ****     /* Clear interrupt */
+  78:togglelib.c   ****     SWB_ClearInterrupt();
+  79:togglelib.c   **** }
+ 164              		.loc 1 79 0
+ 165              		@ sp needed
+  72:togglelib.c   ****     
+ 166              		.loc 1 72 0
+ 167 0006 1A70     		strb	r2, [r3]
+  75:togglelib.c   ****         
+ 168              		.loc 1 75 0
+ 169 0008 FFF7FEFF 		bl	PWM_Defcon_Start
+ 170              	.LVL18:
+  78:togglelib.c   **** }
+ 171              		.loc 1 78 0
+ 172 000c FFF7FEFF 		bl	SWB_ClearInterrupt
+ 173              	.LVL19:
+ 174              		.loc 1 79 0
+ 175 0010 10BD     		pop	{r4, pc}
+ 176              	.L14:
+ 177 0012 C046     		.align	2
+ 178              	.L13:
+ 179 0014 00000000 		.word	badge_state
+ 180              		.cfi_endproc
+ 181              	.LFE35:
+ 182              		.size	SWB_Handler, .-SWB_Handler
+ 183              		.section	.text.DEFCON_Handler,"ax",%progbits
+ 184              		.align	1
+ 185              		.global	DEFCON_Handler
+ 186              		.code	16
+ 187              		.thumb_func
+ 188              		.type	DEFCON_Handler, %function
+ 189              	DEFCON_Handler:
+ 190              	.LFB36:
+  80:togglelib.c   **** 
+  81:togglelib.c   **** /* Signal handler for organizer lights */
+  82:togglelib.c   **** CY_ISR( DEFCON_Handler ) {
+ 191              		.loc 1 82 0
+ 192              		.cfi_startproc
+ 193              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 6
+
+
+ 194              		@ frame_needed = 0, uses_anonymous_args = 0
+ 195 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 196              		.cfi_def_cfa_offset 24
+ 197              		.cfi_offset 3, -24
+ 198              		.cfi_offset 4, -20
+ 199              		.cfi_offset 5, -16
+ 200              		.cfi_offset 6, -12
+ 201              		.cfi_offset 7, -8
+ 202              		.cfi_offset 14, -4
+  83:togglelib.c   ****     /* Generate random eye colors */
+  84:togglelib.c   ****     uint8 current_color_left = get_color(LEFT_LED);
+ 203              		.loc 1 84 0
+ 204 0002 0120     		movs	r0, #1
+ 205 0004 FFF7FEFF 		bl	get_color
+ 206              	.LVL20:
+ 207 0008 0700     		movs	r7, r0
+ 208              	.LVL21:
+  85:togglelib.c   ****     uint8 current_color_right = get_color(RIGHT_LED);
+ 209              		.loc 1 85 0
+ 210 000a 0220     		movs	r0, #2
+ 211              	.LVL22:
+ 212 000c FFF7FEFF 		bl	get_color
+ 213              	.LVL23:
+ 214 0010 0600     		movs	r6, r0
+ 215              	.LVL24:
+  86:togglelib.c   ****     uint32 rand_num_left = (rand() % 7) + 1;
+ 216              		.loc 1 86 0
+ 217 0012 FFF7FEFF 		bl	rand
+ 218              	.LVL25:
+ 219 0016 0721     		movs	r1, #7
+ 220 0018 FFF7FEFF 		bl	__aeabi_idivmod
+ 221              	.LVL26:
+ 222 001c 4D1C     		adds	r5, r1, #1
+ 223              	.LVL27:
+  87:togglelib.c   ****     uint32 rand_num_right = (rand() % 7) + 1;
+ 224              		.loc 1 87 0
+ 225 001e FFF7FEFF 		bl	rand
+ 226              	.LVL28:
+ 227 0022 0721     		movs	r1, #7
+ 228 0024 FFF7FEFF 		bl	__aeabi_idivmod
+ 229              	.LVL29:
+ 230 0028 4C1C     		adds	r4, r1, #1
+ 231              	.LVL30:
+ 232              	.L16:
+  88:togglelib.c   ****     
+  89:togglelib.c   ****     while (current_color_left == rand_num_left){
+ 233              		.loc 1 89 0
+ 234 002a BD42     		cmp	r5, r7
+ 235 002c 06D1     		bne	.L18
+  90:togglelib.c   ****         rand_num_left = (rand() % 7) + 1;
+ 236              		.loc 1 90 0
+ 237 002e FFF7FEFF 		bl	rand
+ 238              	.LVL31:
+ 239 0032 0721     		movs	r1, #7
+ 240 0034 FFF7FEFF 		bl	__aeabi_idivmod
+ 241              	.LVL32:
+ 242 0038 4D1C     		adds	r5, r1, #1
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 7
+
+
+ 243              	.LVL33:
+ 244 003a F6E7     		b	.L16
+ 245              	.L18:
+  91:togglelib.c   ****     }
+  92:togglelib.c   ****     
+  93:togglelib.c   ****    while (current_color_right == rand_num_right){
+ 246              		.loc 1 93 0
+ 247 003c B442     		cmp	r4, r6
+ 248 003e 06D1     		bne	.L20
+  94:togglelib.c   ****         rand_num_right = (rand() % 7) + 1;
+ 249              		.loc 1 94 0
+ 250 0040 FFF7FEFF 		bl	rand
+ 251              	.LVL34:
+ 252 0044 0721     		movs	r1, #7
+ 253 0046 FFF7FEFF 		bl	__aeabi_idivmod
+ 254              	.LVL35:
+ 255 004a 4C1C     		adds	r4, r1, #1
+ 256              	.LVL36:
+ 257 004c F6E7     		b	.L18
+ 258              	.L20:
+  95:togglelib.c   ****     }
+  96:togglelib.c   ****     
+  97:togglelib.c   ****     set_color(LEFT_LED, rand_num_left);
+ 259              		.loc 1 97 0
+ 260 004e E9B2     		uxtb	r1, r5
+ 261 0050 0120     		movs	r0, #1
+ 262 0052 FFF7FEFF 		bl	set_color
+ 263              	.LVL37:
+  98:togglelib.c   ****     set_color(RIGHT_LED, rand_num_right);
+ 264              		.loc 1 98 0
+ 265 0056 E1B2     		uxtb	r1, r4
+ 266 0058 0220     		movs	r0, #2
+ 267 005a FFF7FEFF 		bl	set_color
+ 268              	.LVL38:
+  99:togglelib.c   ****     turn_off(LEFT_RIGHT_LED);
+ 269              		.loc 1 99 0
+ 270 005e 0320     		movs	r0, #3
+ 271 0060 FFF7FEFF 		bl	turn_off
+ 272              	.LVL39:
+ 100:togglelib.c   ****     turn_on(LEFT_RIGHT_LED);
+ 273              		.loc 1 100 0
+ 274 0064 0320     		movs	r0, #3
+ 275 0066 FFF7FEFF 		bl	turn_on
+ 276              	.LVL40:
+ 101:togglelib.c   ****     
+ 102:togglelib.c   ****     DEFCON_Int_ClearPending();
+ 103:togglelib.c   ****     PWM_Defcon_ReadStatusRegister();
+ 104:togglelib.c   **** }
+ 277              		.loc 1 104 0
+ 278              		@ sp needed
+ 102:togglelib.c   ****     PWM_Defcon_ReadStatusRegister();
+ 279              		.loc 1 102 0
+ 280 006a FFF7FEFF 		bl	DEFCON_Int_ClearPending
+ 281              	.LVL41:
+ 103:togglelib.c   **** }
+ 282              		.loc 1 103 0
+ 283 006e FFF7FEFF 		bl	PWM_Defcon_ReadStatusRegister
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 8
+
+
+ 284              	.LVL42:
+ 285              	.LVL43:
+ 286              	.LVL44:
+ 287              	.LVL45:
+ 288              	.LVL46:
+ 289              		.loc 1 104 0
+ 290 0072 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 291              		.cfi_endproc
+ 292              	.LFE36:
+ 293              		.size	DEFCON_Handler, .-DEFCON_Handler
+ 294              		.section	.text.enable_toggle_interrupts,"ax",%progbits
+ 295              		.align	1
+ 296              		.global	enable_toggle_interrupts
+ 297              		.code	16
+ 298              		.thumb_func
+ 299              		.type	enable_toggle_interrupts, %function
+ 300              	enable_toggle_interrupts:
+ 301              	.LFB37:
+ 105:togglelib.c   **** 
+ 106:togglelib.c   **** void enable_toggle_interrupts() {
+ 302              		.loc 1 106 0
+ 303              		.cfi_startproc
+ 304              		@ args = 0, pretend = 0, frame = 0
+ 305              		@ frame_needed = 0, uses_anonymous_args = 0
+ 306 0000 10B5     		push	{r4, lr}
+ 307              		.cfi_def_cfa_offset 8
+ 308              		.cfi_offset 4, -8
+ 309              		.cfi_offset 14, -4
+ 107:togglelib.c   ****     /* Setup toggle interrupts  */
+ 108:togglelib.c   ****     SWB_Int_StartEx( SWB_Handler );
+ 310              		.loc 1 108 0
+ 311 0002 0948     		ldr	r0, .L22
+ 312 0004 FFF7FEFF 		bl	SWB_Int_StartEx
+ 313              	.LVL47:
+ 109:togglelib.c   ****     SWL_Int_StartEx( SWL_Handler );
+ 314              		.loc 1 109 0
+ 315 0008 0848     		ldr	r0, .L22+4
+ 316 000a FFF7FEFF 		bl	SWL_Int_StartEx
+ 317              	.LVL48:
+ 110:togglelib.c   ****     SWR_Int_StartEx( SWR_Handler );
+ 318              		.loc 1 110 0
+ 319 000e 0848     		ldr	r0, .L22+8
+ 320 0010 FFF7FEFF 		bl	SWR_Int_StartEx
+ 321              	.LVL49:
+ 111:togglelib.c   ****     DEFCON_Int_StartEx( DEFCON_Handler );
+ 322              		.loc 1 111 0
+ 323 0014 0748     		ldr	r0, .L22+12
+ 324 0016 FFF7FEFF 		bl	DEFCON_Int_StartEx
+ 325              	.LVL50:
+ 112:togglelib.c   ****     /* Seed random */
+ 113:togglelib.c   ****     srand(time(NULL));
+ 326              		.loc 1 113 0
+ 327 001a 0020     		movs	r0, #0
+ 328 001c FFF7FEFF 		bl	time
+ 329              	.LVL51:
+ 330 0020 FFF7FEFF 		bl	srand
+ 331              	.LVL52:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 9
+
+
+ 114:togglelib.c   **** }...
+ 332              		.loc 1 114 0
+ 333              		@ sp needed
+ 334 0024 10BD     		pop	{r4, pc}
+ 335              	.L23:
+ 336 0026 C046     		.align	2
+ 337              	.L22:
+ 338 0028 00000000 		.word	SWB_Handler
+ 339 002c 00000000 		.word	SWL_Handler
+ 340 0030 00000000 		.word	SWR_Handler
+ 341 0034 00000000 		.word	DEFCON_Handler
+ 342              		.cfi_endproc
+ 343              	.LFE37:
+ 344              		.size	enable_toggle_interrupts, .-enable_toggle_interrupts
+ 345              		.text
+ 346              	.Letext0:
+ 347              		.file 2 "Generated_Source\\PSoC4/cytypes.h"
+ 348              		.file 3 "Generated_Source\\PSoC4/PWM_Defcon.h"
+ 349              		.file 4 "lightlib.h"
+ 350              		.file 5 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
+ 351              		.file 6 "Generated_Source\\PSoC4/SWL.h"
+ 352              		.file 7 "Generated_Source\\PSoC4/SWR.h"
+ 353              		.file 8 "Generated_Source\\PSoC4/SWB.h"
+ 354              		.file 9 "Generated_Source\\PSoC4/DEFCON_Int.h"
+ 355              		.file 10 "Generated_Source\\PSoC4/SWB_Int.h"
+ 356              		.file 11 "Generated_Source\\PSoC4/SWL_Int.h"
+ 357              		.file 12 "Generated_Source\\PSoC4/SWR_Int.h"
+ 358              		.file 13 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4
+ 359              		.file 14 "state.h"
+ 360              		.section	.debug_info,"",%progbits
+ 361              	.Ldebug_info0:
+ 362 0000 16040000 		.4byte	0x416
+ 363 0004 0400     		.2byte	0x4
+ 364 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 365 000a 04       		.byte	0x4
+ 366 000b 01       		.uleb128 0x1
+ 367 000c A6020000 		.4byte	.LASF45
+ 368 0010 0C       		.byte	0xc
+ 369 0011 19020000 		.4byte	.LASF46
+ 370 0015 4C000000 		.4byte	.LASF47
+ 371 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 372 001d 00000000 		.4byte	0
+ 373 0021 00000000 		.4byte	.Ldebug_line0
+ 374 0025 02       		.uleb128 0x2
+ 375 0026 01       		.byte	0x1
+ 376 0027 06       		.byte	0x6
+ 377 0028 9A020000 		.4byte	.LASF0
+ 378 002c 02       		.uleb128 0x2
+ 379 002d 01       		.byte	0x1
+ 380 002e 08       		.byte	0x8
+ 381 002f CD000000 		.4byte	.LASF1
+ 382 0033 02       		.uleb128 0x2
+ 383 0034 02       		.byte	0x2
+ 384 0035 05       		.byte	0x5
+ 385 0036 56020000 		.4byte	.LASF2
+ 386 003a 02       		.uleb128 0x2
+ 387 003b 02       		.byte	0x2
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 10
+
+
+ 388 003c 07       		.byte	0x7
+ 389 003d 1F000000 		.4byte	.LASF3
+ 390 0041 02       		.uleb128 0x2
+ 391 0042 04       		.byte	0x4
+ 392 0043 05       		.byte	0x5
+ 393 0044 85020000 		.4byte	.LASF4
+ 394 0048 02       		.uleb128 0x2
+ 395 0049 04       		.byte	0x4
+ 396 004a 07       		.byte	0x7
+ 397 004b 19010000 		.4byte	.LASF5
+ 398 004f 02       		.uleb128 0x2
+ 399 0050 08       		.byte	0x8
+ 400 0051 05       		.byte	0x5
+ 401 0052 25020000 		.4byte	.LASF6
+ 402 0056 02       		.uleb128 0x2
+ 403 0057 08       		.byte	0x8
+ 404 0058 07       		.byte	0x7
+ 405 0059 9E010000 		.4byte	.LASF7
+ 406 005d 03       		.uleb128 0x3
+ 407 005e 04       		.byte	0x4
+ 408 005f 05       		.byte	0x5
+ 409 0060 696E7400 		.ascii	"int\000"
+ 410 0064 02       		.uleb128 0x2
+ 411 0065 04       		.byte	0x4
+ 412 0066 07       		.byte	0x7
+ 413 0067 60010000 		.4byte	.LASF8
+ 414 006b 04       		.uleb128 0x4
+ 415 006c 6C020000 		.4byte	.LASF9
+ 416 0070 02       		.byte	0x2
+ 417 0071 D201     		.2byte	0x1d2
+ 418 0073 2C000000 		.4byte	0x2c
+ 419 0077 04       		.uleb128 0x4
+ 420 0078 49010000 		.4byte	.LASF10
+ 421 007c 02       		.byte	0x2
+ 422 007d D401     		.2byte	0x1d4
+ 423 007f 48000000 		.4byte	0x48
+ 424 0083 02       		.uleb128 0x2
+ 425 0084 04       		.byte	0x4
+ 426 0085 04       		.byte	0x4
+ 427 0086 91000000 		.4byte	.LASF11
+ 428 008a 02       		.uleb128 0x2
+ 429 008b 08       		.byte	0x8
+ 430 008c 04       		.byte	0x4
+ 431 008d 32000000 		.4byte	.LASF12
+ 432 0091 02       		.uleb128 0x2
+ 433 0092 01       		.byte	0x1
+ 434 0093 08       		.byte	0x8
+ 435 0094 33020000 		.4byte	.LASF13
+ 436 0098 05       		.uleb128 0x5
+ 437 0099 6B000000 		.4byte	0x6b
+ 438 009d 02       		.uleb128 0x2
+ 439 009e 08       		.byte	0x8
+ 440 009f 04       		.byte	0x4
+ 441 00a0 8E020000 		.4byte	.LASF14
+ 442 00a4 02       		.uleb128 0x2
+ 443 00a5 04       		.byte	0x4
+ 444 00a6 07       		.byte	0x7
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 11
+
+
+ 445 00a7 10020000 		.4byte	.LASF15
+ 446 00ab 06       		.uleb128 0x6
+ 447 00ac 60020000 		.4byte	.LASF18
+ 448 00b0 01       		.byte	0x1
+ 449 00b1 15       		.byte	0x15
+ 450 00b2 00000000 		.4byte	.LFB33
+ 451 00b6 34000000 		.4byte	.LFE33-.LFB33
+ 452 00ba 01       		.uleb128 0x1
+ 453 00bb 9C       		.byte	0x9c
+ 454 00bc 16010000 		.4byte	0x116
+ 455 00c0 07       		.uleb128 0x7
+ 456 00c1 48020000 		.4byte	.LASF16
+ 457 00c5 01       		.byte	0x1
+ 458 00c6 16       		.byte	0x16
+ 459 00c7 6B000000 		.4byte	0x6b
+ 460 00cb 00000000 		.4byte	.LLST0
+ 461 00cf 07       		.uleb128 0x7
+ 462 00d0 72020000 		.4byte	.LASF17
+ 463 00d4 01       		.byte	0x1
+ 464 00d5 17       		.byte	0x17
+ 465 00d6 77000000 		.4byte	0x77
+ 466 00da 13000000 		.4byte	.LLST1
+ 467 00de 08       		.uleb128 0x8
+ 468 00df 06000000 		.4byte	.LVL0
+ 469 00e3 48030000 		.4byte	0x348
+ 470 00e7 09       		.uleb128 0x9
+ 471 00e8 0C000000 		.4byte	.LVL1
+ 472 00ec 53030000 		.4byte	0x353
+ 473 00f0 FA000000 		.4byte	0xfa
+ 474 00f4 0A       		.uleb128 0xa
+ 475 00f5 01       		.uleb128 0x1
+ 476 00f6 50       		.byte	0x50
+ 477 00f7 01       		.uleb128 0x1
+ 478 00f8 31       		.byte	0x31
+ 479 00f9 00       		.byte	0
+ 480 00fa 08       		.uleb128 0x8
+ 481 00fb 12000000 		.4byte	.LVL3
+ 482 00ff 5E030000 		.4byte	0x35e
+ 483 0103 08       		.uleb128 0x8
+ 484 0104 24000000 		.4byte	.LVL6
+ 485 0108 69030000 		.4byte	0x369
+ 486 010c 08       		.uleb128 0x8
+ 487 010d 2E000000 		.4byte	.LVL7
+ 488 0111 74030000 		.4byte	0x374
+ 489 0115 00       		.byte	0
+ 490 0116 06       		.uleb128 0x6
+ 491 0117 13000000 		.4byte	.LASF19
+ 492 011b 01       		.byte	0x1
+ 493 011c 2E       		.byte	0x2e
+ 494 011d 00000000 		.4byte	.LFB34
+ 495 0121 34000000 		.4byte	.LFE34-.LFB34
+ 496 0125 01       		.uleb128 0x1
+ 497 0126 9C       		.byte	0x9c
+ 498 0127 81010000 		.4byte	0x181
+ 499 012b 07       		.uleb128 0x7
+ 500 012c 48020000 		.4byte	.LASF16
+ 501 0130 01       		.byte	0x1
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 12
+
+
+ 502 0131 2F       		.byte	0x2f
+ 503 0132 6B000000 		.4byte	0x6b
+ 504 0136 26000000 		.4byte	.LLST2
+ 505 013a 07       		.uleb128 0x7
+ 506 013b 72020000 		.4byte	.LASF17
+ 507 013f 01       		.byte	0x1
+ 508 0140 30       		.byte	0x30
+ 509 0141 77000000 		.4byte	0x77
+ 510 0145 39000000 		.4byte	.LLST3
+ 511 0149 08       		.uleb128 0x8
+ 512 014a 06000000 		.4byte	.LVL9
+ 513 014e 48030000 		.4byte	0x348
+ 514 0152 09       		.uleb128 0x9
+ 515 0153 0C000000 		.4byte	.LVL10
+ 516 0157 53030000 		.4byte	0x353
+ 517 015b 65010000 		.4byte	0x165
+ 518 015f 0A       		.uleb128 0xa
+ 519 0160 01       		.uleb128 0x1
+ 520 0161 50       		.byte	0x50
+ 521 0162 01       		.uleb128 0x1
+ 522 0163 31       		.byte	0x31
+ 523 0164 00       		.byte	0
+ 524 0165 08       		.uleb128 0x8
+ 525 0166 12000000 		.4byte	.LVL12
+ 526 016a 5E030000 		.4byte	0x35e
+ 527 016e 08       		.uleb128 0x8
+ 528 016f 24000000 		.4byte	.LVL15
+ 529 0173 69030000 		.4byte	0x369
+ 530 0177 08       		.uleb128 0x8
+ 531 0178 2E000000 		.4byte	.LVL16
+ 532 017c 7F030000 		.4byte	0x37f
+ 533 0180 00       		.byte	0
+ 534 0181 0B       		.uleb128 0xb
+ 535 0182 4C030000 		.4byte	.LASF20
+ 536 0186 01       		.byte	0x1
+ 537 0187 47       		.byte	0x47
+ 538 0188 00000000 		.4byte	.LFB35
+ 539 018c 18000000 		.4byte	.LFE35-.LFB35
+ 540 0190 01       		.uleb128 0x1
+ 541 0191 9C       		.byte	0x9c
+ 542 0192 A9010000 		.4byte	0x1a9
+ 543 0196 08       		.uleb128 0x8
+ 544 0197 0C000000 		.4byte	.LVL18
+ 545 019b 8A030000 		.4byte	0x38a
+ 546 019f 08       		.uleb128 0x8
+ 547 01a0 10000000 		.4byte	.LVL19
+ 548 01a4 95030000 		.4byte	0x395
+ 549 01a8 00       		.byte	0
+ 550 01a9 06       		.uleb128 0x6
+ 551 01aa 2B010000 		.4byte	.LASF21
+ 552 01ae 01       		.byte	0x1
+ 553 01af 52       		.byte	0x52
+ 554 01b0 00000000 		.4byte	.LFB36
+ 555 01b4 74000000 		.4byte	.LFE36-.LFB36
+ 556 01b8 01       		.uleb128 0x1
+ 557 01b9 9C       		.byte	0x9c
+ 558 01ba AF020000 		.4byte	0x2af
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 13
+
+
+ 559 01be 07       		.uleb128 0x7
+ 560 01bf 39000000 		.4byte	.LASF22
+ 561 01c3 01       		.byte	0x1
+ 562 01c4 54       		.byte	0x54
+ 563 01c5 6B000000 		.4byte	0x6b
+ 564 01c9 4C000000 		.4byte	.LLST4
+ 565 01cd 07       		.uleb128 0x7
+ 566 01ce FB000000 		.4byte	.LASF23
+ 567 01d2 01       		.byte	0x1
+ 568 01d3 55       		.byte	0x55
+ 569 01d4 6B000000 		.4byte	0x6b
+ 570 01d8 6A000000 		.4byte	.LLST5
+ 571 01dc 07       		.uleb128 0x7
+ 572 01dd 02020000 		.4byte	.LASF24
+ 573 01e1 01       		.byte	0x1
+ 574 01e2 56       		.byte	0x56
+ 575 01e3 77000000 		.4byte	0x77
+ 576 01e7 88000000 		.4byte	.LLST6
+ 577 01eb 07       		.uleb128 0x7
+ 578 01ec EC000000 		.4byte	.LASF25
+ 579 01f0 01       		.byte	0x1
+ 580 01f1 57       		.byte	0x57
+ 581 01f2 77000000 		.4byte	0x77
+ 582 01f6 9B000000 		.4byte	.LLST7
+ 583 01fa 09       		.uleb128 0x9
+ 584 01fb 08000000 		.4byte	.LVL20
+ 585 01ff 53030000 		.4byte	0x353
+ 586 0203 0D020000 		.4byte	0x20d
+ 587 0207 0A       		.uleb128 0xa
+ 588 0208 01       		.uleb128 0x1
+ 589 0209 50       		.byte	0x50
+ 590 020a 01       		.uleb128 0x1
+ 591 020b 31       		.byte	0x31
+ 592 020c 00       		.byte	0
+ 593 020d 09       		.uleb128 0x9
+ 594 020e 10000000 		.4byte	.LVL23
+ 595 0212 53030000 		.4byte	0x353
+ 596 0216 20020000 		.4byte	0x220
+ 597 021a 0A       		.uleb128 0xa
+ 598 021b 01       		.uleb128 0x1
+ 599 021c 50       		.byte	0x50
+ 600 021d 01       		.uleb128 0x1
+ 601 021e 32       		.byte	0x32
+ 602 021f 00       		.byte	0
+ 603 0220 08       		.uleb128 0x8
+ 604 0221 16000000 		.4byte	.LVL25
+ 605 0225 5E030000 		.4byte	0x35e
+ 606 0229 08       		.uleb128 0x8
+ 607 022a 22000000 		.4byte	.LVL28
+ 608 022e 5E030000 		.4byte	0x35e
+ 609 0232 08       		.uleb128 0x8
+ 610 0233 32000000 		.4byte	.LVL31
+ 611 0237 5E030000 		.4byte	0x35e
+ 612 023b 08       		.uleb128 0x8
+ 613 023c 44000000 		.4byte	.LVL34
+ 614 0240 5E030000 		.4byte	0x35e
+ 615 0244 09       		.uleb128 0x9
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 14
+
+
+ 616 0245 56000000 		.4byte	.LVL37
+ 617 0249 A0030000 		.4byte	0x3a0
+ 618 024d 5D020000 		.4byte	0x25d
+ 619 0251 0A       		.uleb128 0xa
+ 620 0252 01       		.uleb128 0x1
+ 621 0253 50       		.byte	0x50
+ 622 0254 01       		.uleb128 0x1
+ 623 0255 31       		.byte	0x31
+ 624 0256 0A       		.uleb128 0xa
+ 625 0257 01       		.uleb128 0x1
+ 626 0258 51       		.byte	0x51
+ 627 0259 02       		.uleb128 0x2
+ 628 025a 75       		.byte	0x75
+ 629 025b 00       		.sleb128 0
+ 630 025c 00       		.byte	0
+ 631 025d 09       		.uleb128 0x9
+ 632 025e 5E000000 		.4byte	.LVL38
+ 633 0262 A0030000 		.4byte	0x3a0
+ 634 0266 76020000 		.4byte	0x276
+ 635 026a 0A       		.uleb128 0xa
+ 636 026b 01       		.uleb128 0x1
+ 637 026c 50       		.byte	0x50
+ 638 026d 01       		.uleb128 0x1
+ 639 026e 32       		.byte	0x32
+ 640 026f 0A       		.uleb128 0xa
+ 641 0270 01       		.uleb128 0x1
+ 642 0271 51       		.byte	0x51
+ 643 0272 02       		.uleb128 0x2
+ 644 0273 74       		.byte	0x74
+ 645 0274 00       		.sleb128 0
+ 646 0275 00       		.byte	0
+ 647 0276 09       		.uleb128 0x9
+ 648 0277 64000000 		.4byte	.LVL39
+ 649 027b AB030000 		.4byte	0x3ab
+ 650 027f 89020000 		.4byte	0x289
+ 651 0283 0A       		.uleb128 0xa
+ 652 0284 01       		.uleb128 0x1
+ 653 0285 50       		.byte	0x50
+ 654 0286 01       		.uleb128 0x1
+ 655 0287 33       		.byte	0x33
+ 656 0288 00       		.byte	0
+ 657 0289 09       		.uleb128 0x9
+ 658 028a 6A000000 		.4byte	.LVL40
+ 659 028e B6030000 		.4byte	0x3b6
+ 660 0292 9C020000 		.4byte	0x29c
+ 661 0296 0A       		.uleb128 0xa
+ 662 0297 01       		.uleb128 0x1
+ 663 0298 50       		.byte	0x50
+ 664 0299 01       		.uleb128 0x1
+ 665 029a 33       		.byte	0x33
+ 666 029b 00       		.byte	0
+ 667 029c 08       		.uleb128 0x8
+ 668 029d 6E000000 		.4byte	.LVL41
+ 669 02a1 C1030000 		.4byte	0x3c1
+ 670 02a5 08       		.uleb128 0x8
+ 671 02a6 72000000 		.4byte	.LVL42
+ 672 02aa CC030000 		.4byte	0x3cc
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 15
+
+
+ 673 02ae 00       		.byte	0
+ 674 02af 0C       		.uleb128 0xc
+ 675 02b0 E4010000 		.4byte	.LASF48
+ 676 02b4 01       		.byte	0x1
+ 677 02b5 6A       		.byte	0x6a
+ 678 02b6 00000000 		.4byte	.LFB37
+ 679 02ba 38000000 		.4byte	.LFE37-.LFB37
+ 680 02be 01       		.uleb128 0x1
+ 681 02bf 9C       		.byte	0x9c
+ 682 02c0 3D030000 		.4byte	0x33d
+ 683 02c4 09       		.uleb128 0x9
+ 684 02c5 08000000 		.4byte	.LVL47
+ 685 02c9 D7030000 		.4byte	0x3d7
+ 686 02cd DB020000 		.4byte	0x2db
+ 687 02d1 0A       		.uleb128 0xa
+ 688 02d2 01       		.uleb128 0x1
+ 689 02d3 50       		.byte	0x50
+ 690 02d4 05       		.uleb128 0x5
+ 691 02d5 03       		.byte	0x3
+ 692 02d6 00000000 		.4byte	SWB_Handler
+ 693 02da 00       		.byte	0
+ 694 02db 09       		.uleb128 0x9
+ 695 02dc 0E000000 		.4byte	.LVL48
+ 696 02e0 E2030000 		.4byte	0x3e2
+ 697 02e4 F2020000 		.4byte	0x2f2
+ 698 02e8 0A       		.uleb128 0xa
+ 699 02e9 01       		.uleb128 0x1
+ 700 02ea 50       		.byte	0x50
+ 701 02eb 05       		.uleb128 0x5
+ 702 02ec 03       		.byte	0x3
+ 703 02ed 00000000 		.4byte	SWL_Handler
+ 704 02f1 00       		.byte	0
+ 705 02f2 09       		.uleb128 0x9
+ 706 02f3 14000000 		.4byte	.LVL49
+ 707 02f7 ED030000 		.4byte	0x3ed
+ 708 02fb 09030000 		.4byte	0x309
+ 709 02ff 0A       		.uleb128 0xa
+ 710 0300 01       		.uleb128 0x1
+ 711 0301 50       		.byte	0x50
+ 712 0302 05       		.uleb128 0x5
+ 713 0303 03       		.byte	0x3
+ 714 0304 00000000 		.4byte	SWR_Handler
+ 715 0308 00       		.byte	0
+ 716 0309 09       		.uleb128 0x9
+ 717 030a 1A000000 		.4byte	.LVL50
+ 718 030e F8030000 		.4byte	0x3f8
+ 719 0312 20030000 		.4byte	0x320
+ 720 0316 0A       		.uleb128 0xa
+ 721 0317 01       		.uleb128 0x1
+ 722 0318 50       		.byte	0x50
+ 723 0319 05       		.uleb128 0x5
+ 724 031a 03       		.byte	0x3
+ 725 031b 00000000 		.4byte	DEFCON_Handler
+ 726 031f 00       		.byte	0
+ 727 0320 09       		.uleb128 0x9
+ 728 0321 20000000 		.4byte	.LVL51
+ 729 0325 03040000 		.4byte	0x403
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 16
+
+
+ 730 0329 33030000 		.4byte	0x333
+ 731 032d 0A       		.uleb128 0xa
+ 732 032e 01       		.uleb128 0x1
+ 733 032f 50       		.byte	0x50
+ 734 0330 01       		.uleb128 0x1
+ 735 0331 30       		.byte	0x30
+ 736 0332 00       		.byte	0
+ 737 0333 08       		.uleb128 0x8
+ 738 0334 24000000 		.4byte	.LVL52
+ 739 0338 0E040000 		.4byte	0x40e
+ 740 033c 00       		.byte	0
+ 741 033d 0D       		.uleb128 0xd
+ 742 033e D8010000 		.4byte	.LASF49
+ 743 0342 0E       		.byte	0xe
+ 744 0343 16       		.byte	0x16
+ 745 0344 98000000 		.4byte	0x98
+ 746 0348 0E       		.uleb128 0xe
+ 747 0349 50010000 		.4byte	.LASF26
+ 748 034d 50010000 		.4byte	.LASF26
+ 749 0351 03       		.byte	0x3
+ 750 0352 93       		.byte	0x93
+ 751 0353 0E       		.uleb128 0xe
+ 752 0354 0F010000 		.4byte	.LASF27
+ 753 0358 0F010000 		.4byte	.LASF27
+ 754 035c 04       		.byte	0x4
+ 755 035d 39       		.byte	0x39
+ 756 035e 0E       		.uleb128 0xe
+ 757 035f 58030000 		.4byte	.LASF28
+ 758 0363 58030000 		.4byte	.LASF28
+ 759 0367 05       		.byte	0x5
+ 760 0368 88       		.byte	0x88
+ 761 0369 0E       		.uleb128 0xe
+ 762 036a 40010000 		.4byte	.LASF29
+ 763 036e 40010000 		.4byte	.LASF29
+ 764 0372 04       		.byte	0x4
+ 765 0373 3F       		.byte	0x3f
+ 766 0374 0E       		.uleb128 0xe
+ 767 0375 6D010000 		.4byte	.LASF30
+ 768 0379 6D010000 		.4byte	.LASF30
+ 769 037d 06       		.byte	0x6
+ 770 037e 39       		.byte	0x39
+ 771 037f 0E       		.uleb128 0xe
+ 772 0380 A7000000 		.4byte	.LASF31
+ 773 0384 A7000000 		.4byte	.LASF31
+ 774 0388 07       		.byte	0x7
+ 775 0389 39       		.byte	0x39
+ 776 038a 0E       		.uleb128 0xe
+ 777 038b DB000000 		.4byte	.LASF32
+ 778 038f DB000000 		.4byte	.LASF32
+ 779 0393 03       		.byte	0x3
+ 780 0394 92       		.byte	0x92
+ 781 0395 0E       		.uleb128 0xe
+ 782 0396 C5010000 		.4byte	.LASF33
+ 783 039a C5010000 		.4byte	.LASF33
+ 784 039e 08       		.byte	0x8
+ 785 039f 39       		.byte	0x39
+ 786 03a0 0E       		.uleb128 0xe
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 17
+
+
+ 787 03a1 00000000 		.4byte	.LASF34
+ 788 03a5 00000000 		.4byte	.LASF34
+ 789 03a9 04       		.byte	0x4
+ 790 03aa 37       		.byte	0x37
+ 791 03ab 0E       		.uleb128 0xe
+ 792 03ac 0A000000 		.4byte	.LASF35
+ 793 03b0 0A000000 		.4byte	.LASF35
+ 794 03b4 04       		.byte	0x4
+ 795 03b5 3C       		.byte	0x3c
+ 796 03b6 0E       		.uleb128 0xe
+ 797 03b7 7D020000 		.4byte	.LASF36
+ 798 03bb 7D020000 		.4byte	.LASF36
+ 799 03bf 04       		.byte	0x4
+ 800 03c0 3B       		.byte	0x3b
+ 801 03c1 0E       		.uleb128 0xe
+ 802 03c2 34030000 		.4byte	.LASF37
+ 803 03c6 34030000 		.4byte	.LASF37
+ 804 03ca 09       		.byte	0x9
+ 805 03cb 28       		.byte	0x28
+ 806 03cc 0E       		.uleb128 0xe
+ 807 03cd 80010000 		.4byte	.LASF38
+ 808 03d1 80010000 		.4byte	.LASF38
+ 809 03d5 03       		.byte	0x3
+ 810 03d6 97       		.byte	0x97
+ 811 03d7 0E       		.uleb128 0xe
+ 812 03d8 97000000 		.4byte	.LASF39
+ 813 03dc 97000000 		.4byte	.LASF39
+ 814 03e0 0A       		.byte	0xa
+ 815 03e1 18       		.byte	0x18
+ 816 03e2 0E       		.uleb128 0xe
+ 817 03e3 B5010000 		.4byte	.LASF40
+ 818 03e7 B5010000 		.4byte	.LASF40
+ 819 03eb 0B       		.byte	0xb
+ 820 03ec 18       		.byte	0x18
+ 821 03ed 0E       		.uleb128 0xe
+ 822 03ee 38020000 		.4byte	.LASF41
+ 823 03f2 38020000 		.4byte	.LASF41
+ 824 03f6 0C       		.byte	0xc
+ 825 03f7 18       		.byte	0x18
+ 826 03f8 0E       		.uleb128 0xe
+ 827 03f9 BA000000 		.4byte	.LASF42
+ 828 03fd BA000000 		.4byte	.LASF42
+ 829 0401 09       		.byte	0x9
+ 830 0402 18       		.byte	0x18
+ 831 0403 0E       		.uleb128 0xe
+ 832 0404 FD010000 		.4byte	.LASF43
+ 833 0408 FD010000 		.4byte	.LASF43
+ 834 040c 0D       		.byte	0xd
+ 835 040d 37       		.byte	0x37
+ 836 040e 0E       		.uleb128 0xe
+ 837 040f 3A010000 		.4byte	.LASF44
+ 838 0413 3A010000 		.4byte	.LASF44
+ 839 0417 05       		.byte	0x5
+ 840 0418 96       		.byte	0x96
+ 841 0419 00       		.byte	0
+ 842              		.section	.debug_abbrev,"",%progbits
+ 843              	.Ldebug_abbrev0:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 18
+
+
+ 844 0000 01       		.uleb128 0x1
+ 845 0001 11       		.uleb128 0x11
+ 846 0002 01       		.byte	0x1
+ 847 0003 25       		.uleb128 0x25
+ 848 0004 0E       		.uleb128 0xe
+ 849 0005 13       		.uleb128 0x13
+ 850 0006 0B       		.uleb128 0xb
+ 851 0007 03       		.uleb128 0x3
+ 852 0008 0E       		.uleb128 0xe
+ 853 0009 1B       		.uleb128 0x1b
+ 854 000a 0E       		.uleb128 0xe
+ 855 000b 55       		.uleb128 0x55
+ 856 000c 17       		.uleb128 0x17
+ 857 000d 11       		.uleb128 0x11
+ 858 000e 01       		.uleb128 0x1
+ 859 000f 10       		.uleb128 0x10
+ 860 0010 17       		.uleb128 0x17
+ 861 0011 00       		.byte	0
+ 862 0012 00       		.byte	0
+ 863 0013 02       		.uleb128 0x2
+ 864 0014 24       		.uleb128 0x24
+ 865 0015 00       		.byte	0
+ 866 0016 0B       		.uleb128 0xb
+ 867 0017 0B       		.uleb128 0xb
+ 868 0018 3E       		.uleb128 0x3e
+ 869 0019 0B       		.uleb128 0xb
+ 870 001a 03       		.uleb128 0x3
+ 871 001b 0E       		.uleb128 0xe
+ 872 001c 00       		.byte	0
+ 873 001d 00       		.byte	0
+ 874 001e 03       		.uleb128 0x3
+ 875 001f 24       		.uleb128 0x24
+ 876 0020 00       		.byte	0
+ 877 0021 0B       		.uleb128 0xb
+ 878 0022 0B       		.uleb128 0xb
+ 879 0023 3E       		.uleb128 0x3e
+ 880 0024 0B       		.uleb128 0xb
+ 881 0025 03       		.uleb128 0x3
+ 882 0026 08       		.uleb128 0x8
+ 883 0027 00       		.byte	0
+ 884 0028 00       		.byte	0
+ 885 0029 04       		.uleb128 0x4
+ 886 002a 16       		.uleb128 0x16
+ 887 002b 00       		.byte	0
+ 888 002c 03       		.uleb128 0x3
+ 889 002d 0E       		.uleb128 0xe
+ 890 002e 3A       		.uleb128 0x3a
+ 891 002f 0B       		.uleb128 0xb
+ 892 0030 3B       		.uleb128 0x3b
+ 893 0031 05       		.uleb128 0x5
+ 894 0032 49       		.uleb128 0x49
+ 895 0033 13       		.uleb128 0x13
+ 896 0034 00       		.byte	0
+ 897 0035 00       		.byte	0
+ 898 0036 05       		.uleb128 0x5
+ 899 0037 35       		.uleb128 0x35
+ 900 0038 00       		.byte	0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 19
+
+
+ 901 0039 49       		.uleb128 0x49
+ 902 003a 13       		.uleb128 0x13
+ 903 003b 00       		.byte	0
+ 904 003c 00       		.byte	0
+ 905 003d 06       		.uleb128 0x6
+ 906 003e 2E       		.uleb128 0x2e
+ 907 003f 01       		.byte	0x1
+ 908 0040 3F       		.uleb128 0x3f
+ 909 0041 19       		.uleb128 0x19
+ 910 0042 03       		.uleb128 0x3
+ 911 0043 0E       		.uleb128 0xe
+ 912 0044 3A       		.uleb128 0x3a
+ 913 0045 0B       		.uleb128 0xb
+ 914 0046 3B       		.uleb128 0x3b
+ 915 0047 0B       		.uleb128 0xb
+ 916 0048 27       		.uleb128 0x27
+ 917 0049 19       		.uleb128 0x19
+ 918 004a 11       		.uleb128 0x11
+ 919 004b 01       		.uleb128 0x1
+ 920 004c 12       		.uleb128 0x12
+ 921 004d 06       		.uleb128 0x6
+ 922 004e 40       		.uleb128 0x40
+ 923 004f 18       		.uleb128 0x18
+ 924 0050 9642     		.uleb128 0x2116
+ 925 0052 19       		.uleb128 0x19
+ 926 0053 01       		.uleb128 0x1
+ 927 0054 13       		.uleb128 0x13
+ 928 0055 00       		.byte	0
+ 929 0056 00       		.byte	0
+ 930 0057 07       		.uleb128 0x7
+ 931 0058 34       		.uleb128 0x34
+ 932 0059 00       		.byte	0
+ 933 005a 03       		.uleb128 0x3
+ 934 005b 0E       		.uleb128 0xe
+ 935 005c 3A       		.uleb128 0x3a
+ 936 005d 0B       		.uleb128 0xb
+ 937 005e 3B       		.uleb128 0x3b
+ 938 005f 0B       		.uleb128 0xb
+ 939 0060 49       		.uleb128 0x49
+ 940 0061 13       		.uleb128 0x13
+ 941 0062 02       		.uleb128 0x2
+ 942 0063 17       		.uleb128 0x17
+ 943 0064 00       		.byte	0
+ 944 0065 00       		.byte	0
+ 945 0066 08       		.uleb128 0x8
+ 946 0067 898201   		.uleb128 0x4109
+ 947 006a 00       		.byte	0
+ 948 006b 11       		.uleb128 0x11
+ 949 006c 01       		.uleb128 0x1
+ 950 006d 31       		.uleb128 0x31
+ 951 006e 13       		.uleb128 0x13
+ 952 006f 00       		.byte	0
+ 953 0070 00       		.byte	0
+ 954 0071 09       		.uleb128 0x9
+ 955 0072 898201   		.uleb128 0x4109
+ 956 0075 01       		.byte	0x1
+ 957 0076 11       		.uleb128 0x11
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 20
+
+
+ 958 0077 01       		.uleb128 0x1
+ 959 0078 31       		.uleb128 0x31
+ 960 0079 13       		.uleb128 0x13
+ 961 007a 01       		.uleb128 0x1
+ 962 007b 13       		.uleb128 0x13
+ 963 007c 00       		.byte	0
+ 964 007d 00       		.byte	0
+ 965 007e 0A       		.uleb128 0xa
+ 966 007f 8A8201   		.uleb128 0x410a
+ 967 0082 00       		.byte	0
+ 968 0083 02       		.uleb128 0x2
+ 969 0084 18       		.uleb128 0x18
+ 970 0085 9142     		.uleb128 0x2111
+ 971 0087 18       		.uleb128 0x18
+ 972 0088 00       		.byte	0
+ 973 0089 00       		.byte	0
+ 974 008a 0B       		.uleb128 0xb
+ 975 008b 2E       		.uleb128 0x2e
+ 976 008c 01       		.byte	0x1
+ 977 008d 3F       		.uleb128 0x3f
+ 978 008e 19       		.uleb128 0x19
+ 979 008f 03       		.uleb128 0x3
+ 980 0090 0E       		.uleb128 0xe
+ 981 0091 3A       		.uleb128 0x3a
+ 982 0092 0B       		.uleb128 0xb
+ 983 0093 3B       		.uleb128 0x3b
+ 984 0094 0B       		.uleb128 0xb
+ 985 0095 27       		.uleb128 0x27
+ 986 0096 19       		.uleb128 0x19
+ 987 0097 11       		.uleb128 0x11
+ 988 0098 01       		.uleb128 0x1
+ 989 0099 12       		.uleb128 0x12
+ 990 009a 06       		.uleb128 0x6
+ 991 009b 40       		.uleb128 0x40
+ 992 009c 18       		.uleb128 0x18
+ 993 009d 9742     		.uleb128 0x2117
+ 994 009f 19       		.uleb128 0x19
+ 995 00a0 01       		.uleb128 0x1
+ 996 00a1 13       		.uleb128 0x13
+ 997 00a2 00       		.byte	0
+ 998 00a3 00       		.byte	0
+ 999 00a4 0C       		.uleb128 0xc
+ 1000 00a5 2E       		.uleb128 0x2e
+ 1001 00a6 01       		.byte	0x1
+ 1002 00a7 3F       		.uleb128 0x3f
+ 1003 00a8 19       		.uleb128 0x19
+ 1004 00a9 03       		.uleb128 0x3
+ 1005 00aa 0E       		.uleb128 0xe
+ 1006 00ab 3A       		.uleb128 0x3a
+ 1007 00ac 0B       		.uleb128 0xb
+ 1008 00ad 3B       		.uleb128 0x3b
+ 1009 00ae 0B       		.uleb128 0xb
+ 1010 00af 11       		.uleb128 0x11
+ 1011 00b0 01       		.uleb128 0x1
+ 1012 00b1 12       		.uleb128 0x12
+ 1013 00b2 06       		.uleb128 0x6
+ 1014 00b3 40       		.uleb128 0x40
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 21
+
+
+ 1015 00b4 18       		.uleb128 0x18
+ 1016 00b5 9742     		.uleb128 0x2117
+ 1017 00b7 19       		.uleb128 0x19
+ 1018 00b8 01       		.uleb128 0x1
+ 1019 00b9 13       		.uleb128 0x13
+ 1020 00ba 00       		.byte	0
+ 1021 00bb 00       		.byte	0
+ 1022 00bc 0D       		.uleb128 0xd
+ 1023 00bd 34       		.uleb128 0x34
+ 1024 00be 00       		.byte	0
+ 1025 00bf 03       		.uleb128 0x3
+ 1026 00c0 0E       		.uleb128 0xe
+ 1027 00c1 3A       		.uleb128 0x3a
+ 1028 00c2 0B       		.uleb128 0xb
+ 1029 00c3 3B       		.uleb128 0x3b
+ 1030 00c4 0B       		.uleb128 0xb
+ 1031 00c5 49       		.uleb128 0x49
+ 1032 00c6 13       		.uleb128 0x13
+ 1033 00c7 3F       		.uleb128 0x3f
+ 1034 00c8 19       		.uleb128 0x19
+ 1035 00c9 3C       		.uleb128 0x3c
+ 1036 00ca 19       		.uleb128 0x19
+ 1037 00cb 00       		.byte	0
+ 1038 00cc 00       		.byte	0
+ 1039 00cd 0E       		.uleb128 0xe
+ 1040 00ce 2E       		.uleb128 0x2e
+ 1041 00cf 00       		.byte	0
+ 1042 00d0 3F       		.uleb128 0x3f
+ 1043 00d1 19       		.uleb128 0x19
+ 1044 00d2 3C       		.uleb128 0x3c
+ 1045 00d3 19       		.uleb128 0x19
+ 1046 00d4 6E       		.uleb128 0x6e
+ 1047 00d5 0E       		.uleb128 0xe
+ 1048 00d6 03       		.uleb128 0x3
+ 1049 00d7 0E       		.uleb128 0xe
+ 1050 00d8 3A       		.uleb128 0x3a
+ 1051 00d9 0B       		.uleb128 0xb
+ 1052 00da 3B       		.uleb128 0x3b
+ 1053 00db 0B       		.uleb128 0xb
+ 1054 00dc 00       		.byte	0
+ 1055 00dd 00       		.byte	0
+ 1056 00de 00       		.byte	0
+ 1057              		.section	.debug_loc,"",%progbits
+ 1058              	.Ldebug_loc0:
+ 1059              	.LLST0:
+ 1060 0000 0E000000 		.4byte	.LVL2
+ 1061 0004 2E000000 		.4byte	.LVL8
+ 1062 0008 0100     		.2byte	0x1
+ 1063 000a 54       		.byte	0x54
+ 1064 000b 00000000 		.4byte	0
+ 1065 000f 00000000 		.4byte	0
+ 1066              	.LLST1:
+ 1067 0013 1A000000 		.4byte	.LVL5
+ 1068 0017 23000000 		.4byte	.LVL6-1
+ 1069 001b 0100     		.2byte	0x1
+ 1070 001d 51       		.byte	0x51
+ 1071 001e 00000000 		.4byte	0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 22
+
+
+ 1072 0022 00000000 		.4byte	0
+ 1073              	.LLST2:
+ 1074 0026 0E000000 		.4byte	.LVL11
+ 1075 002a 2E000000 		.4byte	.LVL17
+ 1076 002e 0100     		.2byte	0x1
+ 1077 0030 54       		.byte	0x54
+ 1078 0031 00000000 		.4byte	0
+ 1079 0035 00000000 		.4byte	0
+ 1080              	.LLST3:
+ 1081 0039 1A000000 		.4byte	.LVL14
+ 1082 003d 23000000 		.4byte	.LVL15-1
+ 1083 0041 0100     		.2byte	0x1
+ 1084 0043 51       		.byte	0x51
+ 1085 0044 00000000 		.4byte	0
+ 1086 0048 00000000 		.4byte	0
+ 1087              	.LLST4:
+ 1088 004c 0A000000 		.4byte	.LVL21
+ 1089 0050 0C000000 		.4byte	.LVL22
+ 1090 0054 0100     		.2byte	0x1
+ 1091 0056 50       		.byte	0x50
+ 1092 0057 0C000000 		.4byte	.LVL22
+ 1093 005b 72000000 		.4byte	.LVL46
+ 1094 005f 0100     		.2byte	0x1
+ 1095 0061 57       		.byte	0x57
+ 1096 0062 00000000 		.4byte	0
+ 1097 0066 00000000 		.4byte	0
+ 1098              	.LLST5:
+ 1099 006a 12000000 		.4byte	.LVL24
+ 1100 006e 15000000 		.4byte	.LVL25-1
+ 1101 0072 0100     		.2byte	0x1
+ 1102 0074 50       		.byte	0x50
+ 1103 0075 15000000 		.4byte	.LVL25-1
+ 1104 0079 72000000 		.4byte	.LVL45
+ 1105 007d 0100     		.2byte	0x1
+ 1106 007f 56       		.byte	0x56
+ 1107 0080 00000000 		.4byte	0
+ 1108 0084 00000000 		.4byte	0
+ 1109              	.LLST6:
+ 1110 0088 1E000000 		.4byte	.LVL27
+ 1111 008c 72000000 		.4byte	.LVL44
+ 1112 0090 0100     		.2byte	0x1
+ 1113 0092 55       		.byte	0x55
+ 1114 0093 00000000 		.4byte	0
+ 1115 0097 00000000 		.4byte	0
+ 1116              	.LLST7:
+ 1117 009b 2A000000 		.4byte	.LVL30
+ 1118 009f 72000000 		.4byte	.LVL43
+ 1119 00a3 0100     		.2byte	0x1
+ 1120 00a5 54       		.byte	0x54
+ 1121 00a6 00000000 		.4byte	0
+ 1122 00aa 00000000 		.4byte	0
+ 1123              		.section	.debug_aranges,"",%progbits
+ 1124 0000 3C000000 		.4byte	0x3c
+ 1125 0004 0200     		.2byte	0x2
+ 1126 0006 00000000 		.4byte	.Ldebug_info0
+ 1127 000a 04       		.byte	0x4
+ 1128 000b 00       		.byte	0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 23
+
+
+ 1129 000c 0000     		.2byte	0
+ 1130 000e 0000     		.2byte	0
+ 1131 0010 00000000 		.4byte	.LFB33
+ 1132 0014 34000000 		.4byte	.LFE33-.LFB33
+ 1133 0018 00000000 		.4byte	.LFB34
+ 1134 001c 34000000 		.4byte	.LFE34-.LFB34
+ 1135 0020 00000000 		.4byte	.LFB35
+ 1136 0024 18000000 		.4byte	.LFE35-.LFB35
+ 1137 0028 00000000 		.4byte	.LFB36
+ 1138 002c 74000000 		.4byte	.LFE36-.LFB36
+ 1139 0030 00000000 		.4byte	.LFB37
+ 1140 0034 38000000 		.4byte	.LFE37-.LFB37
+ 1141 0038 00000000 		.4byte	0
+ 1142 003c 00000000 		.4byte	0
+ 1143              		.section	.debug_ranges,"",%progbits
+ 1144              	.Ldebug_ranges0:
+ 1145 0000 00000000 		.4byte	.LFB33
+ 1146 0004 34000000 		.4byte	.LFE33
+ 1147 0008 00000000 		.4byte	.LFB34
+ 1148 000c 34000000 		.4byte	.LFE34
+ 1149 0010 00000000 		.4byte	.LFB35
+ 1150 0014 18000000 		.4byte	.LFE35
+ 1151 0018 00000000 		.4byte	.LFB36
+ 1152 001c 74000000 		.4byte	.LFE36
+ 1153 0020 00000000 		.4byte	.LFB37
+ 1154 0024 38000000 		.4byte	.LFE37
+ 1155 0028 00000000 		.4byte	0
+ 1156 002c 00000000 		.4byte	0
+ 1157              		.section	.debug_line,"",%progbits
+ 1158              	.Ldebug_line0:
+ 1159 0000 C7010000 		.section	.debug_str,"MS",%progbits,1
+ 1159      02003F01 
+ 1159      00000201 
+ 1159      FB0E0D00 
+ 1159      01010101 
+ 1160              	.LASF34:
+ 1161 0000 7365745F 		.ascii	"set_color\000"
+ 1161      636F6C6F 
+ 1161      7200
+ 1162              	.LASF35:
+ 1163 000a 7475726E 		.ascii	"turn_off\000"
+ 1163      5F6F6666 
+ 1163      00
+ 1164              	.LASF19:
+ 1165 0013 5357525F 		.ascii	"SWR_Handler\000"
+ 1165      48616E64 
+ 1165      6C657200 
+ 1166              	.LASF3:
+ 1167 001f 73686F72 		.ascii	"short unsigned int\000"
+ 1167      7420756E 
+ 1167      7369676E 
+ 1167      65642069 
+ 1167      6E7400
+ 1168              	.LASF12:
+ 1169 0032 646F7562 		.ascii	"double\000"
+ 1169      6C6500
+ 1170              	.LASF22:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 24
+
+
+ 1171 0039 63757272 		.ascii	"current_color_left\000"
+ 1171      656E745F 
+ 1171      636F6C6F 
+ 1171      725F6C65 
+ 1171      667400
+ 1172              	.LASF47:
+ 1173 004c 433A5C55 		.ascii	"C:\\Users\\ryan\\Documents\\PSoC Creator\\Defcon_Ba"
+ 1173      73657273 
+ 1173      5C727961 
+ 1173      6E5C446F 
+ 1173      63756D65 
+ 1174 007a 6467655C 		.ascii	"dge\\Defcon_Badge.cydsn\000"
+ 1174      44656663 
+ 1174      6F6E5F42 
+ 1174      61646765 
+ 1174      2E637964 
+ 1175              	.LASF11:
+ 1176 0091 666C6F61 		.ascii	"float\000"
+ 1176      7400
+ 1177              	.LASF39:
+ 1178 0097 5357425F 		.ascii	"SWB_Int_StartEx\000"
+ 1178      496E745F 
+ 1178      53746172 
+ 1178      74457800 
+ 1179              	.LASF31:
+ 1180 00a7 5357525F 		.ascii	"SWR_ClearInterrupt\000"
+ 1180      436C6561 
+ 1180      72496E74 
+ 1180      65727275 
+ 1180      707400
+ 1181              	.LASF42:
+ 1182 00ba 44454643 		.ascii	"DEFCON_Int_StartEx\000"
+ 1182      4F4E5F49 
+ 1182      6E745F53 
+ 1182      74617274 
+ 1182      457800
+ 1183              	.LASF1:
+ 1184 00cd 756E7369 		.ascii	"unsigned char\000"
+ 1184      676E6564 
+ 1184      20636861 
+ 1184      7200
+ 1185              	.LASF32:
+ 1186 00db 50574D5F 		.ascii	"PWM_Defcon_Start\000"
+ 1186      44656663 
+ 1186      6F6E5F53 
+ 1186      74617274 
+ 1186      00
+ 1187              	.LASF25:
+ 1188 00ec 72616E64 		.ascii	"rand_num_right\000"
+ 1188      5F6E756D 
+ 1188      5F726967 
+ 1188      687400
+ 1189              	.LASF23:
+ 1190 00fb 63757272 		.ascii	"current_color_right\000"
+ 1190      656E745F 
+ 1190      636F6C6F 
+ 1190      725F7269 
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 25
+
+
+ 1190      67687400 
+ 1191              	.LASF27:
+ 1192 010f 6765745F 		.ascii	"get_color\000"
+ 1192      636F6C6F 
+ 1192      7200
+ 1193              	.LASF5:
+ 1194 0119 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1194      20756E73 
+ 1194      69676E65 
+ 1194      6420696E 
+ 1194      7400
+ 1195              	.LASF21:
+ 1196 012b 44454643 		.ascii	"DEFCON_Handler\000"
+ 1196      4F4E5F48 
+ 1196      616E646C 
+ 1196      657200
+ 1197              	.LASF44:
+ 1198 013a 7372616E 		.ascii	"srand\000"
+ 1198      6400
+ 1199              	.LASF29:
+ 1200 0140 696E6974 		.ascii	"init_led\000"
+ 1200      5F6C6564 
+ 1200      00
+ 1201              	.LASF10:
+ 1202 0149 75696E74 		.ascii	"uint32\000"
+ 1202      333200
+ 1203              	.LASF26:
+ 1204 0150 50574D5F 		.ascii	"PWM_Defcon_Stop\000"
+ 1204      44656663 
+ 1204      6F6E5F53 
+ 1204      746F7000 
+ 1205              	.LASF8:
+ 1206 0160 756E7369 		.ascii	"unsigned int\000"
+ 1206      676E6564 
+ 1206      20696E74 
+ 1206      00
+ 1207              	.LASF30:
+ 1208 016d 53574C5F 		.ascii	"SWL_ClearInterrupt\000"
+ 1208      436C6561 
+ 1208      72496E74 
+ 1208      65727275 
+ 1208      707400
+ 1209              	.LASF38:
+ 1210 0180 50574D5F 		.ascii	"PWM_Defcon_ReadStatusRegister\000"
+ 1210      44656663 
+ 1210      6F6E5F52 
+ 1210      65616453 
+ 1210      74617475 
+ 1211              	.LASF7:
+ 1212 019e 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1212      206C6F6E 
+ 1212      6720756E 
+ 1212      7369676E 
+ 1212      65642069 
+ 1213              	.LASF40:
+ 1214 01b5 53574C5F 		.ascii	"SWL_Int_StartEx\000"
+ 1214      496E745F 
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 26
+
+
+ 1214      53746172 
+ 1214      74457800 
+ 1215              	.LASF33:
+ 1216 01c5 5357425F 		.ascii	"SWB_ClearInterrupt\000"
+ 1216      436C6561 
+ 1216      72496E74 
+ 1216      65727275 
+ 1216      707400
+ 1217              	.LASF49:
+ 1218 01d8 62616467 		.ascii	"badge_state\000"
+ 1218      655F7374 
+ 1218      61746500 
+ 1219              	.LASF48:
+ 1220 01e4 656E6162 		.ascii	"enable_toggle_interrupts\000"
+ 1220      6C655F74 
+ 1220      6F67676C 
+ 1220      655F696E 
+ 1220      74657272 
+ 1221              	.LASF43:
+ 1222 01fd 74696D65 		.ascii	"time\000"
+ 1222      00
+ 1223              	.LASF24:
+ 1224 0202 72616E64 		.ascii	"rand_num_left\000"
+ 1224      5F6E756D 
+ 1224      5F6C6566 
+ 1224      7400
+ 1225              	.LASF15:
+ 1226 0210 73697A65 		.ascii	"sizetype\000"
+ 1226      74797065 
+ 1226      00
+ 1227              	.LASF46:
+ 1228 0219 746F6767 		.ascii	"togglelib.c\000"
+ 1228      6C656C69 
+ 1228      622E6300 
+ 1229              	.LASF6:
+ 1230 0225 6C6F6E67 		.ascii	"long long int\000"
+ 1230      206C6F6E 
+ 1230      6720696E 
+ 1230      7400
+ 1231              	.LASF13:
+ 1232 0233 63686172 		.ascii	"char\000"
+ 1232      00
+ 1233              	.LASF41:
+ 1234 0238 5357525F 		.ascii	"SWR_Int_StartEx\000"
+ 1234      496E745F 
+ 1234      53746172 
+ 1234      74457800 
+ 1235              	.LASF16:
+ 1236 0248 63757272 		.ascii	"current_color\000"
+ 1236      656E745F 
+ 1236      636F6C6F 
+ 1236      7200
+ 1237              	.LASF2:
+ 1238 0256 73686F72 		.ascii	"short int\000"
+ 1238      7420696E 
+ 1238      7400
+ 1239              	.LASF18:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccy39URV.s 			page 27
+
+
+ 1240 0260 53574C5F 		.ascii	"SWL_Handler\000"
+ 1240      48616E64 
+ 1240      6C657200 
+ 1241              	.LASF9:
+ 1242 026c 75696E74 		.ascii	"uint8\000"
+ 1242      3800
+ 1243              	.LASF17:
+ 1244 0272 72616E64 		.ascii	"rand_color\000"
+ 1244      5F636F6C 
+ 1244      6F7200
+ 1245              	.LASF36:
+ 1246 027d 7475726E 		.ascii	"turn_on\000"
+ 1246      5F6F6E00 
+ 1247              	.LASF4:
+ 1248 0285 6C6F6E67 		.ascii	"long int\000"
+ 1248      20696E74 
+ 1248      00
+ 1249              	.LASF14:
+ 1250 028e 6C6F6E67 		.ascii	"long double\000"
+ 1250      20646F75 
+ 1250      626C6500 
+ 1251              	.LASF0:
+ 1252 029a 7369676E 		.ascii	"signed char\000"
+ 1252      65642063 
+ 1252      68617200 
+ 1253              	.LASF45:
+ 1254 02a6 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1254      43313120 
+ 1254      352E342E 
+ 1254      31203230 
+ 1254      31363036 
+ 1255 02d9 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 1255      20726576 
+ 1255      6973696F 
+ 1255      6E203233 
+ 1255      37373135 
+ 1256 030c 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 1256      66756E63 
+ 1256      74696F6E 
+ 1256      2D736563 
+ 1256      74696F6E 
+ 1257              	.LASF37:
+ 1258 0334 44454643 		.ascii	"DEFCON_Int_ClearPending\000"
+ 1258      4F4E5F49 
+ 1258      6E745F43 
+ 1258      6C656172 
+ 1258      50656E64 
+ 1259              	.LASF20:
+ 1260 034c 5357425F 		.ascii	"SWB_Handler\000"
+ 1260      48616E64 
+ 1260      6C657200 
+ 1261              	.LASF28:
+ 1262 0358 72616E64 		.ascii	"rand\000"
+ 1262      00
+ 1263              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

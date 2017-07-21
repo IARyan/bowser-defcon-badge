@@ -1,0 +1,1965 @@
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"substitution.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.blink_char,"ax",%progbits
+  20              		.align	2
+  21              		.global	blink_char
+  22              		.code	16
+  23              		.thumb_func
+  24              		.type	blink_char, %function
+  25              	blink_char:
+  26              	.LFB32:
+  27              		.file 1 "substitution.c"
+   1:substitution.c **** /* ========================================
+   2:substitution.c ****  *
+   3:substitution.c ****  * Copyright Nullify, 2016
+   4:substitution.c ****  * All Rights Reserved
+   5:substitution.c ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:substitution.c ****  *
+   7:substitution.c ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:substitution.c ****  * WHICH IS THE PROPERTY OF NULLIY.
+   9:substitution.c ****  *
+  10:substitution.c ****  * ========================================
+  11:substitution.c **** */
+  12:substitution.c **** #include <project.h>
+  13:substitution.c **** #include <string.h>
+  14:substitution.c **** #include "lightlib.h"
+  15:substitution.c **** #include "substitution.h"
+  16:substitution.c **** #include "state.h"
+  17:substitution.c **** 
+  18:substitution.c **** 
+  19:substitution.c **** void blink_char(void) {
+  28              		.loc 1 19 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32 0000 80B5     		push	{r7, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 7, -8
+  35              		.cfi_offset 14, -4
+  36 0002 00AF     		add	r7, sp, #0
+  37              		.cfi_def_cfa_register 7
+  20:substitution.c ****     /* Verify state */
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 2
+
+
+  21:substitution.c ****     if(!verify_state(SUBSTITUTION)) {
+  38              		.loc 1 21 0
+  39 0004 0320     		movs	r0, #3
+  40 0006 FFF7FEFF 		bl	verify_state
+  41 000a 031E     		subs	r3, r0, #0
+  42 000c 10D0     		beq	.L4
+  22:substitution.c ****         return;
+  23:substitution.c ****     }
+  24:substitution.c ****     turn_on(LEFT_LED);
+  43              		.loc 1 24 0
+  44 000e 0120     		movs	r0, #1
+  45 0010 FFF7FEFF 		bl	turn_on
+  25:substitution.c ****     CyDelay(CHAR_ON_TIME);
+  46              		.loc 1 25 0
+  47 0014 FA23     		movs	r3, #250
+  48 0016 5B00     		lsls	r3, r3, #1
+  49 0018 1800     		movs	r0, r3
+  50 001a FFF7FEFF 		bl	CyDelay
+  26:substitution.c ****     turn_off(LEFT_LED);
+  51              		.loc 1 26 0
+  52 001e 0120     		movs	r0, #1
+  53 0020 FFF7FEFF 		bl	turn_off
+  27:substitution.c ****     CyDelay(CHAR_OFF_TIME);
+  54              		.loc 1 27 0
+  55 0024 FA23     		movs	r3, #250
+  56 0026 5B00     		lsls	r3, r3, #1
+  57 0028 1800     		movs	r0, r3
+  58 002a FFF7FEFF 		bl	CyDelay
+  59 002e 00E0     		b	.L1
+  60              	.L4:
+  22:substitution.c ****     }
+  61              		.loc 1 22 0
+  62 0030 C046     		nop
+  63              	.L1:
+  28:substitution.c **** }
+  64              		.loc 1 28 0
+  65 0032 BD46     		mov	sp, r7
+  66              		@ sp needed
+  67 0034 80BD     		pop	{r7, pc}
+  68              		.cfi_endproc
+  69              	.LFE32:
+  70              		.size	blink_char, .-blink_char
+  71 0036 C046     		.section	.text.new_char,"ax",%progbits
+  72              		.align	2
+  73              		.global	new_char
+  74              		.code	16
+  75              		.thumb_func
+  76              		.type	new_char, %function
+  77              	new_char:
+  78              	.LFB33:
+  29:substitution.c **** 
+  30:substitution.c **** void new_char(void) {
+  79              		.loc 1 30 0
+  80              		.cfi_startproc
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 1, uses_anonymous_args = 0
+  83 0000 80B5     		push	{r7, lr}
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 3
+
+
+  84              		.cfi_def_cfa_offset 8
+  85              		.cfi_offset 7, -8
+  86              		.cfi_offset 14, -4
+  87 0002 00AF     		add	r7, sp, #0
+  88              		.cfi_def_cfa_register 7
+  31:substitution.c ****     /* Verify state */
+  32:substitution.c ****     if(!verify_state(SUBSTITUTION)) {
+  89              		.loc 1 32 0
+  90 0004 0320     		movs	r0, #3
+  91 0006 FFF7FEFF 		bl	verify_state
+  92 000a 031E     		subs	r3, r0, #0
+  93 000c 10D0     		beq	.L8
+  33:substitution.c ****         return;
+  34:substitution.c ****     }
+  35:substitution.c ****     turn_on(RIGHT_LED);
+  94              		.loc 1 35 0
+  95 000e 0220     		movs	r0, #2
+  96 0010 FFF7FEFF 		bl	turn_on
+  36:substitution.c ****     CyDelay(CHAR_ON_TIME);
+  97              		.loc 1 36 0
+  98 0014 FA23     		movs	r3, #250
+  99 0016 5B00     		lsls	r3, r3, #1
+ 100 0018 1800     		movs	r0, r3
+ 101 001a FFF7FEFF 		bl	CyDelay
+  37:substitution.c ****     turn_off(RIGHT_LED);
+ 102              		.loc 1 37 0
+ 103 001e 0220     		movs	r0, #2
+ 104 0020 FFF7FEFF 		bl	turn_off
+  38:substitution.c ****     CyDelay(CHAR_OFF_TIME);
+ 105              		.loc 1 38 0
+ 106 0024 FA23     		movs	r3, #250
+ 107 0026 5B00     		lsls	r3, r3, #1
+ 108 0028 1800     		movs	r0, r3
+ 109 002a FFF7FEFF 		bl	CyDelay
+ 110 002e 00E0     		b	.L5
+ 111              	.L8:
+  33:substitution.c ****     }
+ 112              		.loc 1 33 0
+ 113 0030 C046     		nop
+ 114              	.L5:
+  39:substitution.c **** }
+ 115              		.loc 1 39 0
+ 116 0032 BD46     		mov	sp, r7
+ 117              		@ sp needed
+ 118 0034 80BD     		pop	{r7, pc}
+ 119              		.cfi_endproc
+ 120              	.LFE33:
+ 121              		.size	new_char, .-new_char
+ 122 0036 C046     		.section	.text.new_message_substitution,"ax",%progbits
+ 123              		.align	2
+ 124              		.global	new_message_substitution
+ 125              		.code	16
+ 126              		.thumb_func
+ 127              		.type	new_message_substitution, %function
+ 128              	new_message_substitution:
+ 129              	.LFB34:
+  40:substitution.c **** 
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 4
+
+
+  41:substitution.c **** void new_message_substitution(void) {
+ 130              		.loc 1 41 0
+ 131              		.cfi_startproc
+ 132              		@ args = 0, pretend = 0, frame = 8
+ 133              		@ frame_needed = 1, uses_anonymous_args = 0
+ 134 0000 90B5     		push	{r4, r7, lr}
+ 135              		.cfi_def_cfa_offset 12
+ 136              		.cfi_offset 4, -12
+ 137              		.cfi_offset 7, -8
+ 138              		.cfi_offset 14, -4
+ 139 0002 83B0     		sub	sp, sp, #12
+ 140              		.cfi_def_cfa_offset 24
+ 141 0004 00AF     		add	r7, sp, #0
+ 142              		.cfi_def_cfa_register 7
+  42:substitution.c ****     unsigned int i;
+  43:substitution.c ****     uint8 original_color;
+  44:substitution.c ****     original_color = get_color(LEFT_LED);
+ 143              		.loc 1 44 0
+ 144 0006 FC1C     		adds	r4, r7, #3
+ 145 0008 0120     		movs	r0, #1
+ 146 000a FFF7FEFF 		bl	get_color
+ 147 000e 0300     		movs	r3, r0
+ 148 0010 2370     		strb	r3, [r4]
+  45:substitution.c ****     set_color(LEFT_RIGHT_LED, WHITE);
+ 149              		.loc 1 45 0
+ 150 0012 0721     		movs	r1, #7
+ 151 0014 0320     		movs	r0, #3
+ 152 0016 FFF7FEFF 		bl	set_color
+  46:substitution.c ****     for (i=0; i<NEW_MESSAGE_NUMBER; i++) {
+ 153              		.loc 1 46 0
+ 154 001a 0023     		movs	r3, #0
+ 155 001c 7B60     		str	r3, [r7, #4]
+ 156 001e 13E0     		b	.L10
+ 157              	.L13:
+  47:substitution.c ****         /* Verify state */
+  48:substitution.c ****         if(!verify_state(SUBSTITUTION)) {
+ 158              		.loc 1 48 0
+ 159 0020 0320     		movs	r0, #3
+ 160 0022 FFF7FEFF 		bl	verify_state
+ 161 0026 031E     		subs	r3, r0, #0
+ 162 0028 18D0     		beq	.L14
+  49:substitution.c ****             return;
+  50:substitution.c ****         }
+  51:substitution.c ****        turn_on(LEFT_RIGHT_LED);
+ 163              		.loc 1 51 0 discriminator 2
+ 164 002a 0320     		movs	r0, #3
+ 165 002c FFF7FEFF 		bl	turn_on
+  52:substitution.c ****        CyDelay(RESET_DELAY);
+ 166              		.loc 1 52 0 discriminator 2
+ 167 0030 FA20     		movs	r0, #250
+ 168 0032 FFF7FEFF 		bl	CyDelay
+  53:substitution.c ****        turn_off(LEFT_RIGHT_LED);
+ 169              		.loc 1 53 0 discriminator 2
+ 170 0036 0320     		movs	r0, #3
+ 171 0038 FFF7FEFF 		bl	turn_off
+  54:substitution.c ****        CyDelay(RESET_DELAY);
+ 172              		.loc 1 54 0 discriminator 2
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 5
+
+
+ 173 003c FA20     		movs	r0, #250
+ 174 003e FFF7FEFF 		bl	CyDelay
+  46:substitution.c ****         /* Verify state */
+ 175              		.loc 1 46 0 discriminator 2
+ 176 0042 7B68     		ldr	r3, [r7, #4]
+ 177 0044 0133     		adds	r3, r3, #1
+ 178 0046 7B60     		str	r3, [r7, #4]
+ 179              	.L10:
+  46:substitution.c ****         /* Verify state */
+ 180              		.loc 1 46 0 is_stmt 0 discriminator 1
+ 181 0048 7B68     		ldr	r3, [r7, #4]
+ 182 004a 042B     		cmp	r3, #4
+ 183 004c E8D9     		bls	.L13
+  55:substitution.c ****     }
+  56:substitution.c ****     set_color(LEFT_RIGHT_LED, original_color);
+ 184              		.loc 1 56 0 is_stmt 1
+ 185 004e FB1C     		adds	r3, r7, #3
+ 186 0050 1B78     		ldrb	r3, [r3]
+ 187 0052 1900     		movs	r1, r3
+ 188 0054 0320     		movs	r0, #3
+ 189 0056 FFF7FEFF 		bl	set_color
+ 190 005a 00E0     		b	.L9
+ 191              	.L14:
+  49:substitution.c ****         }
+ 192              		.loc 1 49 0
+ 193 005c C046     		nop
+ 194              	.L9:
+  57:substitution.c **** }
+ 195              		.loc 1 57 0
+ 196 005e BD46     		mov	sp, r7
+ 197 0060 03B0     		add	sp, sp, #12
+ 198              		@ sp needed
+ 199 0062 90BD     		pop	{r4, r7, pc}
+ 200              		.cfi_endproc
+ 201              	.LFE34:
+ 202              		.size	new_message_substitution, .-new_message_substitution
+ 203              		.section	.text.substitution_encode,"ax",%progbits
+ 204              		.align	2
+ 205              		.global	substitution_encode
+ 206              		.code	16
+ 207              		.thumb_func
+ 208              		.type	substitution_encode, %function
+ 209              	substitution_encode:
+ 210              	.LFB35:
+  58:substitution.c **** 
+  59:substitution.c **** 
+  60:substitution.c **** void substitution_encode(char c){
+ 211              		.loc 1 60 0
+ 212              		.cfi_startproc
+ 213              		@ args = 0, pretend = 0, frame = 16
+ 214              		@ frame_needed = 1, uses_anonymous_args = 0
+ 215 0000 80B5     		push	{r7, lr}
+ 216              		.cfi_def_cfa_offset 8
+ 217              		.cfi_offset 7, -8
+ 218              		.cfi_offset 14, -4
+ 219 0002 84B0     		sub	sp, sp, #16
+ 220              		.cfi_def_cfa_offset 24
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 6
+
+
+ 221 0004 00AF     		add	r7, sp, #0
+ 222              		.cfi_def_cfa_register 7
+ 223 0006 0200     		movs	r2, r0
+ 224 0008 FB1D     		adds	r3, r7, #7
+ 225 000a 1A70     		strb	r2, [r3]
+  61:substitution.c ****     int i;
+  62:substitution.c ****     /* Verify state */
+  63:substitution.c ****     if(!verify_state(SUBSTITUTION)) {
+ 226              		.loc 1 63 0
+ 227 000c 0320     		movs	r0, #3
+ 228 000e FFF7FEFF 		bl	verify_state
+ 229 0012 031E     		subs	r3, r0, #0
+ 230 0014 00D1     		bne	.LCB171
+ 231 0016 76E1     		b	.L98	@long jump
+ 232              	.LCB171:
+  64:substitution.c ****         return;
+  65:substitution.c ****     }
+  66:substitution.c ****     switch(c) {
+ 233              		.loc 1 66 0
+ 234 0018 FB1D     		adds	r3, r7, #7
+ 235 001a 1B78     		ldrb	r3, [r3]
+ 236 001c 0A3B     		subs	r3, r3, #10
+ 237 001e 702B     		cmp	r3, #112
+ 238 0020 00D9     		bls	.LCB176
+ 239 0022 71E1     		b	.L15	@long jump
+ 240              	.LCB176:
+ 241 0024 9A00     		lsls	r2, r3, #2
+ 242 0026 BA4B     		ldr	r3, .L99
+ 243 0028 D318     		adds	r3, r2, r3
+ 244 002a 1B68     		ldr	r3, [r3]
+ 245 002c 9F46     		mov	pc, r3
+ 246              		.section	.rodata
+ 247              		.align	2
+ 248              	.L19:
+ 249 0000 08030000 		.word	.L15
+ 250 0004 08030000 		.word	.L15
+ 251 0008 08030000 		.word	.L15
+ 252 000c 08030000 		.word	.L15
+ 253 0010 08030000 		.word	.L15
+ 254 0014 08030000 		.word	.L15
+ 255 0018 08030000 		.word	.L15
+ 256 001c 08030000 		.word	.L15
+ 257 0020 08030000 		.word	.L15
+ 258 0024 08030000 		.word	.L15
+ 259 0028 08030000 		.word	.L15
+ 260 002c 08030000 		.word	.L15
+ 261 0030 08030000 		.word	.L15
+ 262 0034 08030000 		.word	.L15
+ 263 0038 08030000 		.word	.L15
+ 264 003c 08030000 		.word	.L15
+ 265 0040 08030000 		.word	.L15
+ 266 0044 08030000 		.word	.L15
+ 267 0048 08030000 		.word	.L15
+ 268 004c 08030000 		.word	.L15
+ 269 0050 08030000 		.word	.L15
+ 270 0054 08030000 		.word	.L15
+ 271 0058 08030000 		.word	.L15
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 7
+
+
+ 272 005c 08030000 		.word	.L15
+ 273 0060 08030000 		.word	.L15
+ 274 0064 08030000 		.word	.L15
+ 275 0068 08030000 		.word	.L15
+ 276 006c 08030000 		.word	.L15
+ 277 0070 08030000 		.word	.L15
+ 278 0074 08030000 		.word	.L15
+ 279 0078 08030000 		.word	.L15
+ 280 007c 08030000 		.word	.L15
+ 281 0080 08030000 		.word	.L15
+ 282 0084 08030000 		.word	.L15
+ 283 0088 08030000 		.word	.L15
+ 284 008c 08030000 		.word	.L15
+ 285 0090 08030000 		.word	.L15
+ 286 0094 08030000 		.word	.L15
+ 287 0098 08030000 		.word	.L15
+ 288 009c 08030000 		.word	.L15
+ 289 00a0 08030000 		.word	.L15
+ 290 00a4 08030000 		.word	.L15
+ 291 00a8 08030000 		.word	.L15
+ 292 00ac 08030000 		.word	.L15
+ 293 00b0 08030000 		.word	.L15
+ 294 00b4 08030000 		.word	.L15
+ 295 00b8 08030000 		.word	.L15
+ 296 00bc 08030000 		.word	.L15
+ 297 00c0 08030000 		.word	.L15
+ 298 00c4 08030000 		.word	.L15
+ 299 00c8 08030000 		.word	.L15
+ 300 00cc 08030000 		.word	.L15
+ 301 00d0 08030000 		.word	.L15
+ 302 00d4 08030000 		.word	.L15
+ 303 00d8 08030000 		.word	.L15
+ 304 00dc 2E000000 		.word	.L20
+ 305 00e0 4A000000 		.word	.L21
+ 306 00e4 66000000 		.word	.L22
+ 307 00e8 82000000 		.word	.L23
+ 308 00ec 9E000000 		.word	.L24
+ 309 00f0 BA000000 		.word	.L25
+ 310 00f4 D6000000 		.word	.L26
+ 311 00f8 F2000000 		.word	.L27
+ 312 00fc 0E010000 		.word	.L28
+ 313 0100 2A010000 		.word	.L29
+ 314 0104 46010000 		.word	.L30
+ 315 0108 62010000 		.word	.L31
+ 316 010c 7E010000 		.word	.L32
+ 317 0110 9A010000 		.word	.L33
+ 318 0114 B6010000 		.word	.L34
+ 319 0118 D2010000 		.word	.L35
+ 320 011c EE010000 		.word	.L36
+ 321 0120 0A020000 		.word	.L37
+ 322 0124 26020000 		.word	.L38
+ 323 0128 42020000 		.word	.L39
+ 324 012c 5E020000 		.word	.L40
+ 325 0130 7A020000 		.word	.L41
+ 326 0134 96020000 		.word	.L42
+ 327 0138 B2020000 		.word	.L43
+ 328 013c CE020000 		.word	.L44
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 8
+
+
+ 329 0140 EA020000 		.word	.L45
+ 330 0144 08030000 		.word	.L15
+ 331 0148 08030000 		.word	.L15
+ 332 014c 08030000 		.word	.L15
+ 333 0150 08030000 		.word	.L15
+ 334 0154 08030000 		.word	.L15
+ 335 0158 08030000 		.word	.L15
+ 336 015c 2E000000 		.word	.L20
+ 337 0160 4A000000 		.word	.L21
+ 338 0164 66000000 		.word	.L22
+ 339 0168 82000000 		.word	.L23
+ 340 016c 9E000000 		.word	.L24
+ 341 0170 BA000000 		.word	.L25
+ 342 0174 D6000000 		.word	.L26
+ 343 0178 F2000000 		.word	.L27
+ 344 017c 0E010000 		.word	.L28
+ 345 0180 2A010000 		.word	.L29
+ 346 0184 46010000 		.word	.L30
+ 347 0188 62010000 		.word	.L31
+ 348 018c 7E010000 		.word	.L32
+ 349 0190 9A010000 		.word	.L33
+ 350 0194 B6010000 		.word	.L34
+ 351 0198 D2010000 		.word	.L35
+ 352 019c EE010000 		.word	.L36
+ 353 01a0 0A020000 		.word	.L37
+ 354 01a4 26020000 		.word	.L38
+ 355 01a8 42020000 		.word	.L39
+ 356 01ac 5E020000 		.word	.L40
+ 357 01b0 7A020000 		.word	.L41
+ 358 01b4 96020000 		.word	.L42
+ 359 01b8 B2020000 		.word	.L43
+ 360 01bc CE020000 		.word	.L44
+ 361 01c0 EA020000 		.word	.L45
+ 362              		.section	.text.substitution_encode
+ 363              	.L20:
+  67:substitution.c ****       case 'A':
+  68:substitution.c ****       case 'a':
+  69:substitution.c ****         for (i=0; i<1; i++) {
+ 364              		.loc 1 69 0
+ 365 002e 0023     		movs	r3, #0
+ 366 0030 FB60     		str	r3, [r7, #12]
+ 367 0032 04E0     		b	.L46
+ 368              	.L47:
+  70:substitution.c ****          blink_char();   
+ 369              		.loc 1 70 0 discriminator 3
+ 370 0034 FFF7FEFF 		bl	blink_char
+  69:substitution.c ****          blink_char();   
+ 371              		.loc 1 69 0 discriminator 3
+ 372 0038 FB68     		ldr	r3, [r7, #12]
+ 373 003a 0133     		adds	r3, r3, #1
+ 374 003c FB60     		str	r3, [r7, #12]
+ 375              	.L46:
+  69:substitution.c ****          blink_char();   
+ 376              		.loc 1 69 0 is_stmt 0 discriminator 1
+ 377 003e FB68     		ldr	r3, [r7, #12]
+ 378 0040 002B     		cmp	r3, #0
+ 379 0042 F7DD     		ble	.L47
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 9
+
+
+  71:substitution.c ****         }
+  72:substitution.c ****         new_char();
+ 380              		.loc 1 72 0 is_stmt 1
+ 381 0044 FFF7FEFF 		bl	new_char
+  73:substitution.c ****         break;
+ 382              		.loc 1 73 0
+ 383 0048 5EE1     		b	.L15
+ 384              	.L21:
+  74:substitution.c ****       case 'B':
+  75:substitution.c ****       case 'b':
+  76:substitution.c ****         for (i=0; i<2; i++) {
+ 385              		.loc 1 76 0
+ 386 004a 0023     		movs	r3, #0
+ 387 004c FB60     		str	r3, [r7, #12]
+ 388 004e 04E0     		b	.L48
+ 389              	.L49:
+  77:substitution.c ****          blink_char();   
+ 390              		.loc 1 77 0 discriminator 3
+ 391 0050 FFF7FEFF 		bl	blink_char
+  76:substitution.c ****          blink_char();   
+ 392              		.loc 1 76 0 discriminator 3
+ 393 0054 FB68     		ldr	r3, [r7, #12]
+ 394 0056 0133     		adds	r3, r3, #1
+ 395 0058 FB60     		str	r3, [r7, #12]
+ 396              	.L48:
+  76:substitution.c ****          blink_char();   
+ 397              		.loc 1 76 0 is_stmt 0 discriminator 1
+ 398 005a FB68     		ldr	r3, [r7, #12]
+ 399 005c 012B     		cmp	r3, #1
+ 400 005e F7DD     		ble	.L49
+  78:substitution.c ****         }
+  79:substitution.c ****         new_char();
+ 401              		.loc 1 79 0 is_stmt 1
+ 402 0060 FFF7FEFF 		bl	new_char
+  80:substitution.c ****         break;
+ 403              		.loc 1 80 0
+ 404 0064 50E1     		b	.L15
+ 405              	.L22:
+  81:substitution.c ****       case 'C':
+  82:substitution.c ****       case 'c':
+  83:substitution.c ****         for (i=0; i<3; i++) {
+ 406              		.loc 1 83 0
+ 407 0066 0023     		movs	r3, #0
+ 408 0068 FB60     		str	r3, [r7, #12]
+ 409 006a 04E0     		b	.L50
+ 410              	.L51:
+  84:substitution.c ****          blink_char();   
+ 411              		.loc 1 84 0 discriminator 3
+ 412 006c FFF7FEFF 		bl	blink_char
+  83:substitution.c ****          blink_char();   
+ 413              		.loc 1 83 0 discriminator 3
+ 414 0070 FB68     		ldr	r3, [r7, #12]
+ 415 0072 0133     		adds	r3, r3, #1
+ 416 0074 FB60     		str	r3, [r7, #12]
+ 417              	.L50:
+  83:substitution.c ****          blink_char();   
+ 418              		.loc 1 83 0 is_stmt 0 discriminator 1
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 10
+
+
+ 419 0076 FB68     		ldr	r3, [r7, #12]
+ 420 0078 022B     		cmp	r3, #2
+ 421 007a F7DD     		ble	.L51
+  85:substitution.c ****         }
+  86:substitution.c ****         new_char();
+ 422              		.loc 1 86 0 is_stmt 1
+ 423 007c FFF7FEFF 		bl	new_char
+  87:substitution.c ****         break;
+ 424              		.loc 1 87 0
+ 425 0080 42E1     		b	.L15
+ 426              	.L23:
+  88:substitution.c ****       case 'D':
+  89:substitution.c ****       case 'd':
+  90:substitution.c ****         for (i=0; i<4; i++) {
+ 427              		.loc 1 90 0
+ 428 0082 0023     		movs	r3, #0
+ 429 0084 FB60     		str	r3, [r7, #12]
+ 430 0086 04E0     		b	.L52
+ 431              	.L53:
+  91:substitution.c ****          blink_char();   
+ 432              		.loc 1 91 0 discriminator 3
+ 433 0088 FFF7FEFF 		bl	blink_char
+  90:substitution.c ****          blink_char();   
+ 434              		.loc 1 90 0 discriminator 3
+ 435 008c FB68     		ldr	r3, [r7, #12]
+ 436 008e 0133     		adds	r3, r3, #1
+ 437 0090 FB60     		str	r3, [r7, #12]
+ 438              	.L52:
+  90:substitution.c ****          blink_char();   
+ 439              		.loc 1 90 0 is_stmt 0 discriminator 1
+ 440 0092 FB68     		ldr	r3, [r7, #12]
+ 441 0094 032B     		cmp	r3, #3
+ 442 0096 F7DD     		ble	.L53
+  92:substitution.c ****         }
+  93:substitution.c ****         new_char();
+ 443              		.loc 1 93 0 is_stmt 1
+ 444 0098 FFF7FEFF 		bl	new_char
+  94:substitution.c ****         break;
+ 445              		.loc 1 94 0
+ 446 009c 34E1     		b	.L15
+ 447              	.L24:
+  95:substitution.c ****        case 'E':
+  96:substitution.c ****        case 'e':
+  97:substitution.c ****         for (i=0; i<5; i++) {
+ 448              		.loc 1 97 0
+ 449 009e 0023     		movs	r3, #0
+ 450 00a0 FB60     		str	r3, [r7, #12]
+ 451 00a2 04E0     		b	.L54
+ 452              	.L55:
+  98:substitution.c ****          blink_char();   
+ 453              		.loc 1 98 0 discriminator 3
+ 454 00a4 FFF7FEFF 		bl	blink_char
+  97:substitution.c ****          blink_char();   
+ 455              		.loc 1 97 0 discriminator 3
+ 456 00a8 FB68     		ldr	r3, [r7, #12]
+ 457 00aa 0133     		adds	r3, r3, #1
+ 458 00ac FB60     		str	r3, [r7, #12]
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 11
+
+
+ 459              	.L54:
+  97:substitution.c ****          blink_char();   
+ 460              		.loc 1 97 0 is_stmt 0 discriminator 1
+ 461 00ae FB68     		ldr	r3, [r7, #12]
+ 462 00b0 042B     		cmp	r3, #4
+ 463 00b2 F7DD     		ble	.L55
+  99:substitution.c ****         }
+ 100:substitution.c ****         new_char();
+ 464              		.loc 1 100 0 is_stmt 1
+ 465 00b4 FFF7FEFF 		bl	new_char
+ 101:substitution.c ****         break;
+ 466              		.loc 1 101 0
+ 467 00b8 26E1     		b	.L15
+ 468              	.L25:
+ 102:substitution.c ****        case 'F':
+ 103:substitution.c ****        case 'f':
+ 104:substitution.c ****         for (i=0; i<6; i++) {
+ 469              		.loc 1 104 0
+ 470 00ba 0023     		movs	r3, #0
+ 471 00bc FB60     		str	r3, [r7, #12]
+ 472 00be 04E0     		b	.L56
+ 473              	.L57:
+ 105:substitution.c ****          blink_char();   
+ 474              		.loc 1 105 0 discriminator 3
+ 475 00c0 FFF7FEFF 		bl	blink_char
+ 104:substitution.c ****          blink_char();   
+ 476              		.loc 1 104 0 discriminator 3
+ 477 00c4 FB68     		ldr	r3, [r7, #12]
+ 478 00c6 0133     		adds	r3, r3, #1
+ 479 00c8 FB60     		str	r3, [r7, #12]
+ 480              	.L56:
+ 104:substitution.c ****          blink_char();   
+ 481              		.loc 1 104 0 is_stmt 0 discriminator 1
+ 482 00ca FB68     		ldr	r3, [r7, #12]
+ 483 00cc 052B     		cmp	r3, #5
+ 484 00ce F7DD     		ble	.L57
+ 106:substitution.c ****         }
+ 107:substitution.c ****         new_char();
+ 485              		.loc 1 107 0 is_stmt 1
+ 486 00d0 FFF7FEFF 		bl	new_char
+ 108:substitution.c ****         break;
+ 487              		.loc 1 108 0
+ 488 00d4 18E1     		b	.L15
+ 489              	.L26:
+ 109:substitution.c ****        case 'G':
+ 110:substitution.c ****        case 'g':
+ 111:substitution.c ****         for (i=0; i<7; i++) {
+ 490              		.loc 1 111 0
+ 491 00d6 0023     		movs	r3, #0
+ 492 00d8 FB60     		str	r3, [r7, #12]
+ 493 00da 04E0     		b	.L58
+ 494              	.L59:
+ 112:substitution.c ****          blink_char();   
+ 495              		.loc 1 112 0 discriminator 3
+ 496 00dc FFF7FEFF 		bl	blink_char
+ 111:substitution.c ****          blink_char();   
+ 497              		.loc 1 111 0 discriminator 3
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 12
+
+
+ 498 00e0 FB68     		ldr	r3, [r7, #12]
+ 499 00e2 0133     		adds	r3, r3, #1
+ 500 00e4 FB60     		str	r3, [r7, #12]
+ 501              	.L58:
+ 111:substitution.c ****          blink_char();   
+ 502              		.loc 1 111 0 is_stmt 0 discriminator 1
+ 503 00e6 FB68     		ldr	r3, [r7, #12]
+ 504 00e8 062B     		cmp	r3, #6
+ 505 00ea F7DD     		ble	.L59
+ 113:substitution.c ****         }
+ 114:substitution.c ****         new_char();
+ 506              		.loc 1 114 0 is_stmt 1
+ 507 00ec FFF7FEFF 		bl	new_char
+ 115:substitution.c ****         break;
+ 508              		.loc 1 115 0
+ 509 00f0 0AE1     		b	.L15
+ 510              	.L27:
+ 116:substitution.c ****        case 'H':
+ 117:substitution.c ****        case 'h':
+ 118:substitution.c ****         for (i=0; i<8; i++) {
+ 511              		.loc 1 118 0
+ 512 00f2 0023     		movs	r3, #0
+ 513 00f4 FB60     		str	r3, [r7, #12]
+ 514 00f6 04E0     		b	.L60
+ 515              	.L61:
+ 119:substitution.c ****          blink_char();   
+ 516              		.loc 1 119 0 discriminator 3
+ 517 00f8 FFF7FEFF 		bl	blink_char
+ 118:substitution.c ****          blink_char();   
+ 518              		.loc 1 118 0 discriminator 3
+ 519 00fc FB68     		ldr	r3, [r7, #12]
+ 520 00fe 0133     		adds	r3, r3, #1
+ 521 0100 FB60     		str	r3, [r7, #12]
+ 522              	.L60:
+ 118:substitution.c ****          blink_char();   
+ 523              		.loc 1 118 0 is_stmt 0 discriminator 1
+ 524 0102 FB68     		ldr	r3, [r7, #12]
+ 525 0104 072B     		cmp	r3, #7
+ 526 0106 F7DD     		ble	.L61
+ 120:substitution.c ****         }
+ 121:substitution.c ****         new_char();
+ 527              		.loc 1 121 0 is_stmt 1
+ 528 0108 FFF7FEFF 		bl	new_char
+ 122:substitution.c ****         break;
+ 529              		.loc 1 122 0
+ 530 010c FCE0     		b	.L15
+ 531              	.L28:
+ 123:substitution.c ****        case 'I':
+ 124:substitution.c ****        case 'i':
+ 125:substitution.c ****         for (i=0; i<9; i++) {
+ 532              		.loc 1 125 0
+ 533 010e 0023     		movs	r3, #0
+ 534 0110 FB60     		str	r3, [r7, #12]
+ 535 0112 04E0     		b	.L62
+ 536              	.L63:
+ 126:substitution.c ****          blink_char();   
+ 537              		.loc 1 126 0 discriminator 3
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 13
+
+
+ 538 0114 FFF7FEFF 		bl	blink_char
+ 125:substitution.c ****          blink_char();   
+ 539              		.loc 1 125 0 discriminator 3
+ 540 0118 FB68     		ldr	r3, [r7, #12]
+ 541 011a 0133     		adds	r3, r3, #1
+ 542 011c FB60     		str	r3, [r7, #12]
+ 543              	.L62:
+ 125:substitution.c ****          blink_char();   
+ 544              		.loc 1 125 0 is_stmt 0 discriminator 1
+ 545 011e FB68     		ldr	r3, [r7, #12]
+ 546 0120 082B     		cmp	r3, #8
+ 547 0122 F7DD     		ble	.L63
+ 127:substitution.c ****         }
+ 128:substitution.c ****         new_char();
+ 548              		.loc 1 128 0 is_stmt 1
+ 549 0124 FFF7FEFF 		bl	new_char
+ 129:substitution.c ****         break;
+ 550              		.loc 1 129 0
+ 551 0128 EEE0     		b	.L15
+ 552              	.L29:
+ 130:substitution.c ****        case 'J':
+ 131:substitution.c ****        case 'j':
+ 132:substitution.c ****         for (i=0; i<10; i++) {
+ 553              		.loc 1 132 0
+ 554 012a 0023     		movs	r3, #0
+ 555 012c FB60     		str	r3, [r7, #12]
+ 556 012e 04E0     		b	.L64
+ 557              	.L65:
+ 133:substitution.c ****          blink_char();   
+ 558              		.loc 1 133 0 discriminator 3
+ 559 0130 FFF7FEFF 		bl	blink_char
+ 132:substitution.c ****          blink_char();   
+ 560              		.loc 1 132 0 discriminator 3
+ 561 0134 FB68     		ldr	r3, [r7, #12]
+ 562 0136 0133     		adds	r3, r3, #1
+ 563 0138 FB60     		str	r3, [r7, #12]
+ 564              	.L64:
+ 132:substitution.c ****          blink_char();   
+ 565              		.loc 1 132 0 is_stmt 0 discriminator 1
+ 566 013a FB68     		ldr	r3, [r7, #12]
+ 567 013c 092B     		cmp	r3, #9
+ 568 013e F7DD     		ble	.L65
+ 134:substitution.c ****         }
+ 135:substitution.c ****         new_char();
+ 569              		.loc 1 135 0 is_stmt 1
+ 570 0140 FFF7FEFF 		bl	new_char
+ 136:substitution.c ****         break;
+ 571              		.loc 1 136 0
+ 572 0144 E0E0     		b	.L15
+ 573              	.L30:
+ 137:substitution.c ****        case 'K':
+ 138:substitution.c ****        case 'k':
+ 139:substitution.c ****         for (i=0; i<11; i++) {
+ 574              		.loc 1 139 0
+ 575 0146 0023     		movs	r3, #0
+ 576 0148 FB60     		str	r3, [r7, #12]
+ 577 014a 04E0     		b	.L66
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 14
+
+
+ 578              	.L67:
+ 140:substitution.c ****          blink_char();   
+ 579              		.loc 1 140 0 discriminator 3
+ 580 014c FFF7FEFF 		bl	blink_char
+ 139:substitution.c ****          blink_char();   
+ 581              		.loc 1 139 0 discriminator 3
+ 582 0150 FB68     		ldr	r3, [r7, #12]
+ 583 0152 0133     		adds	r3, r3, #1
+ 584 0154 FB60     		str	r3, [r7, #12]
+ 585              	.L66:
+ 139:substitution.c ****          blink_char();   
+ 586              		.loc 1 139 0 is_stmt 0 discriminator 1
+ 587 0156 FB68     		ldr	r3, [r7, #12]
+ 588 0158 0A2B     		cmp	r3, #10
+ 589 015a F7DD     		ble	.L67
+ 141:substitution.c ****         }
+ 142:substitution.c ****         new_char();
+ 590              		.loc 1 142 0 is_stmt 1
+ 591 015c FFF7FEFF 		bl	new_char
+ 143:substitution.c ****         break;
+ 592              		.loc 1 143 0
+ 593 0160 D2E0     		b	.L15
+ 594              	.L31:
+ 144:substitution.c ****        case 'L':
+ 145:substitution.c ****        case 'l':
+ 146:substitution.c ****         for (i=0; i<12; i++) {
+ 595              		.loc 1 146 0
+ 596 0162 0023     		movs	r3, #0
+ 597 0164 FB60     		str	r3, [r7, #12]
+ 598 0166 04E0     		b	.L68
+ 599              	.L69:
+ 147:substitution.c ****          blink_char();   
+ 600              		.loc 1 147 0 discriminator 3
+ 601 0168 FFF7FEFF 		bl	blink_char
+ 146:substitution.c ****          blink_char();   
+ 602              		.loc 1 146 0 discriminator 3
+ 603 016c FB68     		ldr	r3, [r7, #12]
+ 604 016e 0133     		adds	r3, r3, #1
+ 605 0170 FB60     		str	r3, [r7, #12]
+ 606              	.L68:
+ 146:substitution.c ****          blink_char();   
+ 607              		.loc 1 146 0 is_stmt 0 discriminator 1
+ 608 0172 FB68     		ldr	r3, [r7, #12]
+ 609 0174 0B2B     		cmp	r3, #11
+ 610 0176 F7DD     		ble	.L69
+ 148:substitution.c ****         }
+ 149:substitution.c ****         new_char();
+ 611              		.loc 1 149 0 is_stmt 1
+ 612 0178 FFF7FEFF 		bl	new_char
+ 150:substitution.c ****         break;
+ 613              		.loc 1 150 0
+ 614 017c C4E0     		b	.L15
+ 615              	.L32:
+ 151:substitution.c ****        case 'M':
+ 152:substitution.c ****        case 'm':
+ 153:substitution.c ****         for (i=0; i<13; i++) {
+ 616              		.loc 1 153 0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 15
+
+
+ 617 017e 0023     		movs	r3, #0
+ 618 0180 FB60     		str	r3, [r7, #12]
+ 619 0182 04E0     		b	.L70
+ 620              	.L71:
+ 154:substitution.c ****          blink_char();   
+ 621              		.loc 1 154 0 discriminator 3
+ 622 0184 FFF7FEFF 		bl	blink_char
+ 153:substitution.c ****          blink_char();   
+ 623              		.loc 1 153 0 discriminator 3
+ 624 0188 FB68     		ldr	r3, [r7, #12]
+ 625 018a 0133     		adds	r3, r3, #1
+ 626 018c FB60     		str	r3, [r7, #12]
+ 627              	.L70:
+ 153:substitution.c ****          blink_char();   
+ 628              		.loc 1 153 0 is_stmt 0 discriminator 1
+ 629 018e FB68     		ldr	r3, [r7, #12]
+ 630 0190 0C2B     		cmp	r3, #12
+ 631 0192 F7DD     		ble	.L71
+ 155:substitution.c ****         }
+ 156:substitution.c ****         new_char();
+ 632              		.loc 1 156 0 is_stmt 1
+ 633 0194 FFF7FEFF 		bl	new_char
+ 157:substitution.c ****         break;
+ 634              		.loc 1 157 0
+ 635 0198 B6E0     		b	.L15
+ 636              	.L33:
+ 158:substitution.c ****        case 'N':
+ 159:substitution.c ****        case 'n':
+ 160:substitution.c ****         for (i=0; i<14; i++) {
+ 637              		.loc 1 160 0
+ 638 019a 0023     		movs	r3, #0
+ 639 019c FB60     		str	r3, [r7, #12]
+ 640 019e 04E0     		b	.L72
+ 641              	.L73:
+ 161:substitution.c ****          blink_char();   
+ 642              		.loc 1 161 0 discriminator 3
+ 643 01a0 FFF7FEFF 		bl	blink_char
+ 160:substitution.c ****          blink_char();   
+ 644              		.loc 1 160 0 discriminator 3
+ 645 01a4 FB68     		ldr	r3, [r7, #12]
+ 646 01a6 0133     		adds	r3, r3, #1
+ 647 01a8 FB60     		str	r3, [r7, #12]
+ 648              	.L72:
+ 160:substitution.c ****          blink_char();   
+ 649              		.loc 1 160 0 is_stmt 0 discriminator 1
+ 650 01aa FB68     		ldr	r3, [r7, #12]
+ 651 01ac 0D2B     		cmp	r3, #13
+ 652 01ae F7DD     		ble	.L73
+ 162:substitution.c ****         }
+ 163:substitution.c ****         new_char();
+ 653              		.loc 1 163 0 is_stmt 1
+ 654 01b0 FFF7FEFF 		bl	new_char
+ 164:substitution.c ****         break;
+ 655              		.loc 1 164 0
+ 656 01b4 A8E0     		b	.L15
+ 657              	.L34:
+ 165:substitution.c ****        case 'O':
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 16
+
+
+ 166:substitution.c ****        case 'o':
+ 167:substitution.c ****         for (i=0; i<15; i++) {
+ 658              		.loc 1 167 0
+ 659 01b6 0023     		movs	r3, #0
+ 660 01b8 FB60     		str	r3, [r7, #12]
+ 661 01ba 04E0     		b	.L74
+ 662              	.L75:
+ 168:substitution.c ****          blink_char();   
+ 663              		.loc 1 168 0 discriminator 3
+ 664 01bc FFF7FEFF 		bl	blink_char
+ 167:substitution.c ****          blink_char();   
+ 665              		.loc 1 167 0 discriminator 3
+ 666 01c0 FB68     		ldr	r3, [r7, #12]
+ 667 01c2 0133     		adds	r3, r3, #1
+ 668 01c4 FB60     		str	r3, [r7, #12]
+ 669              	.L74:
+ 167:substitution.c ****          blink_char();   
+ 670              		.loc 1 167 0 is_stmt 0 discriminator 1
+ 671 01c6 FB68     		ldr	r3, [r7, #12]
+ 672 01c8 0E2B     		cmp	r3, #14
+ 673 01ca F7DD     		ble	.L75
+ 169:substitution.c ****         }
+ 170:substitution.c ****         new_char();
+ 674              		.loc 1 170 0 is_stmt 1
+ 675 01cc FFF7FEFF 		bl	new_char
+ 171:substitution.c ****         break;
+ 676              		.loc 1 171 0
+ 677 01d0 9AE0     		b	.L15
+ 678              	.L35:
+ 172:substitution.c ****        case 'P':
+ 173:substitution.c ****        case 'p':
+ 174:substitution.c ****         for (i=0; i<16; i++) {
+ 679              		.loc 1 174 0
+ 680 01d2 0023     		movs	r3, #0
+ 681 01d4 FB60     		str	r3, [r7, #12]
+ 682 01d6 04E0     		b	.L76
+ 683              	.L77:
+ 175:substitution.c ****          blink_char();   
+ 684              		.loc 1 175 0 discriminator 3
+ 685 01d8 FFF7FEFF 		bl	blink_char
+ 174:substitution.c ****          blink_char();   
+ 686              		.loc 1 174 0 discriminator 3
+ 687 01dc FB68     		ldr	r3, [r7, #12]
+ 688 01de 0133     		adds	r3, r3, #1
+ 689 01e0 FB60     		str	r3, [r7, #12]
+ 690              	.L76:
+ 174:substitution.c ****          blink_char();   
+ 691              		.loc 1 174 0 is_stmt 0 discriminator 1
+ 692 01e2 FB68     		ldr	r3, [r7, #12]
+ 693 01e4 0F2B     		cmp	r3, #15
+ 694 01e6 F7DD     		ble	.L77
+ 176:substitution.c ****         }
+ 177:substitution.c ****         new_char();
+ 695              		.loc 1 177 0 is_stmt 1
+ 696 01e8 FFF7FEFF 		bl	new_char
+ 178:substitution.c ****         break;
+ 697              		.loc 1 178 0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 17
+
+
+ 698 01ec 8CE0     		b	.L15
+ 699              	.L36:
+ 179:substitution.c ****        case 'Q':
+ 180:substitution.c ****        case 'q':
+ 181:substitution.c ****         for (i=0; i<17; i++) {
+ 700              		.loc 1 181 0
+ 701 01ee 0023     		movs	r3, #0
+ 702 01f0 FB60     		str	r3, [r7, #12]
+ 703 01f2 04E0     		b	.L78
+ 704              	.L79:
+ 182:substitution.c ****          blink_char();   
+ 705              		.loc 1 182 0 discriminator 3
+ 706 01f4 FFF7FEFF 		bl	blink_char
+ 181:substitution.c ****          blink_char();   
+ 707              		.loc 1 181 0 discriminator 3
+ 708 01f8 FB68     		ldr	r3, [r7, #12]
+ 709 01fa 0133     		adds	r3, r3, #1
+ 710 01fc FB60     		str	r3, [r7, #12]
+ 711              	.L78:
+ 181:substitution.c ****          blink_char();   
+ 712              		.loc 1 181 0 is_stmt 0 discriminator 1
+ 713 01fe FB68     		ldr	r3, [r7, #12]
+ 714 0200 102B     		cmp	r3, #16
+ 715 0202 F7DD     		ble	.L79
+ 183:substitution.c ****         }
+ 184:substitution.c ****         new_char();
+ 716              		.loc 1 184 0 is_stmt 1
+ 717 0204 FFF7FEFF 		bl	new_char
+ 185:substitution.c ****         break;
+ 718              		.loc 1 185 0
+ 719 0208 7EE0     		b	.L15
+ 720              	.L37:
+ 186:substitution.c ****        case 'R':
+ 187:substitution.c ****        case 'r':
+ 188:substitution.c ****         for (i=0; i<18; i++) {
+ 721              		.loc 1 188 0
+ 722 020a 0023     		movs	r3, #0
+ 723 020c FB60     		str	r3, [r7, #12]
+ 724 020e 04E0     		b	.L80
+ 725              	.L81:
+ 189:substitution.c ****          blink_char();   
+ 726              		.loc 1 189 0 discriminator 3
+ 727 0210 FFF7FEFF 		bl	blink_char
+ 188:substitution.c ****          blink_char();   
+ 728              		.loc 1 188 0 discriminator 3
+ 729 0214 FB68     		ldr	r3, [r7, #12]
+ 730 0216 0133     		adds	r3, r3, #1
+ 731 0218 FB60     		str	r3, [r7, #12]
+ 732              	.L80:
+ 188:substitution.c ****          blink_char();   
+ 733              		.loc 1 188 0 is_stmt 0 discriminator 1
+ 734 021a FB68     		ldr	r3, [r7, #12]
+ 735 021c 112B     		cmp	r3, #17
+ 736 021e F7DD     		ble	.L81
+ 190:substitution.c ****         }
+ 191:substitution.c ****         new_char();
+ 737              		.loc 1 191 0 is_stmt 1
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 18
+
+
+ 738 0220 FFF7FEFF 		bl	new_char
+ 192:substitution.c ****         break;
+ 739              		.loc 1 192 0
+ 740 0224 70E0     		b	.L15
+ 741              	.L38:
+ 193:substitution.c ****        case 'S':
+ 194:substitution.c ****        case 's':
+ 195:substitution.c ****         for (i=0; i<19; i++) {
+ 742              		.loc 1 195 0
+ 743 0226 0023     		movs	r3, #0
+ 744 0228 FB60     		str	r3, [r7, #12]
+ 745 022a 04E0     		b	.L82
+ 746              	.L83:
+ 196:substitution.c ****          blink_char();   
+ 747              		.loc 1 196 0 discriminator 3
+ 748 022c FFF7FEFF 		bl	blink_char
+ 195:substitution.c ****          blink_char();   
+ 749              		.loc 1 195 0 discriminator 3
+ 750 0230 FB68     		ldr	r3, [r7, #12]
+ 751 0232 0133     		adds	r3, r3, #1
+ 752 0234 FB60     		str	r3, [r7, #12]
+ 753              	.L82:
+ 195:substitution.c ****          blink_char();   
+ 754              		.loc 1 195 0 is_stmt 0 discriminator 1
+ 755 0236 FB68     		ldr	r3, [r7, #12]
+ 756 0238 122B     		cmp	r3, #18
+ 757 023a F7DD     		ble	.L83
+ 197:substitution.c ****         }
+ 198:substitution.c ****         new_char();
+ 758              		.loc 1 198 0 is_stmt 1
+ 759 023c FFF7FEFF 		bl	new_char
+ 199:substitution.c ****         break;
+ 760              		.loc 1 199 0
+ 761 0240 62E0     		b	.L15
+ 762              	.L39:
+ 200:substitution.c ****        case 'T':
+ 201:substitution.c ****        case 't':
+ 202:substitution.c ****         for (i=0; i<20; i++) {
+ 763              		.loc 1 202 0
+ 764 0242 0023     		movs	r3, #0
+ 765 0244 FB60     		str	r3, [r7, #12]
+ 766 0246 04E0     		b	.L84
+ 767              	.L85:
+ 203:substitution.c ****          blink_char();   
+ 768              		.loc 1 203 0 discriminator 3
+ 769 0248 FFF7FEFF 		bl	blink_char
+ 202:substitution.c ****          blink_char();   
+ 770              		.loc 1 202 0 discriminator 3
+ 771 024c FB68     		ldr	r3, [r7, #12]
+ 772 024e 0133     		adds	r3, r3, #1
+ 773 0250 FB60     		str	r3, [r7, #12]
+ 774              	.L84:
+ 202:substitution.c ****          blink_char();   
+ 775              		.loc 1 202 0 is_stmt 0 discriminator 1
+ 776 0252 FB68     		ldr	r3, [r7, #12]
+ 777 0254 132B     		cmp	r3, #19
+ 778 0256 F7DD     		ble	.L85
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 19
+
+
+ 204:substitution.c ****         }
+ 205:substitution.c ****         new_char();
+ 779              		.loc 1 205 0 is_stmt 1
+ 780 0258 FFF7FEFF 		bl	new_char
+ 206:substitution.c ****         break;
+ 781              		.loc 1 206 0
+ 782 025c 54E0     		b	.L15
+ 783              	.L40:
+ 207:substitution.c ****        case 'U':
+ 208:substitution.c ****        case 'u':
+ 209:substitution.c ****         for (i=0; i<21; i++) {
+ 784              		.loc 1 209 0
+ 785 025e 0023     		movs	r3, #0
+ 786 0260 FB60     		str	r3, [r7, #12]
+ 787 0262 04E0     		b	.L86
+ 788              	.L87:
+ 210:substitution.c ****          blink_char();   
+ 789              		.loc 1 210 0 discriminator 3
+ 790 0264 FFF7FEFF 		bl	blink_char
+ 209:substitution.c ****          blink_char();   
+ 791              		.loc 1 209 0 discriminator 3
+ 792 0268 FB68     		ldr	r3, [r7, #12]
+ 793 026a 0133     		adds	r3, r3, #1
+ 794 026c FB60     		str	r3, [r7, #12]
+ 795              	.L86:
+ 209:substitution.c ****          blink_char();   
+ 796              		.loc 1 209 0 is_stmt 0 discriminator 1
+ 797 026e FB68     		ldr	r3, [r7, #12]
+ 798 0270 142B     		cmp	r3, #20
+ 799 0272 F7DD     		ble	.L87
+ 211:substitution.c ****         }
+ 212:substitution.c ****         new_char();
+ 800              		.loc 1 212 0 is_stmt 1
+ 801 0274 FFF7FEFF 		bl	new_char
+ 213:substitution.c ****         break;
+ 802              		.loc 1 213 0
+ 803 0278 46E0     		b	.L15
+ 804              	.L41:
+ 214:substitution.c ****        case 'V':
+ 215:substitution.c ****        case 'v':
+ 216:substitution.c ****         for (i=0; i<22; i++) {
+ 805              		.loc 1 216 0
+ 806 027a 0023     		movs	r3, #0
+ 807 027c FB60     		str	r3, [r7, #12]
+ 808 027e 04E0     		b	.L88
+ 809              	.L89:
+ 217:substitution.c ****          blink_char();   
+ 810              		.loc 1 217 0 discriminator 3
+ 811 0280 FFF7FEFF 		bl	blink_char
+ 216:substitution.c ****          blink_char();   
+ 812              		.loc 1 216 0 discriminator 3
+ 813 0284 FB68     		ldr	r3, [r7, #12]
+ 814 0286 0133     		adds	r3, r3, #1
+ 815 0288 FB60     		str	r3, [r7, #12]
+ 816              	.L88:
+ 216:substitution.c ****          blink_char();   
+ 817              		.loc 1 216 0 is_stmt 0 discriminator 1
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 20
+
+
+ 818 028a FB68     		ldr	r3, [r7, #12]
+ 819 028c 152B     		cmp	r3, #21
+ 820 028e F7DD     		ble	.L89
+ 218:substitution.c ****         }
+ 219:substitution.c ****         new_char();
+ 821              		.loc 1 219 0 is_stmt 1
+ 822 0290 FFF7FEFF 		bl	new_char
+ 220:substitution.c ****         break;
+ 823              		.loc 1 220 0
+ 824 0294 38E0     		b	.L15
+ 825              	.L42:
+ 221:substitution.c ****        case 'W':
+ 222:substitution.c ****        case 'w':
+ 223:substitution.c ****         for (i=0; i<23; i++) {
+ 826              		.loc 1 223 0
+ 827 0296 0023     		movs	r3, #0
+ 828 0298 FB60     		str	r3, [r7, #12]
+ 829 029a 04E0     		b	.L90
+ 830              	.L91:
+ 224:substitution.c ****          blink_char();   
+ 831              		.loc 1 224 0 discriminator 3
+ 832 029c FFF7FEFF 		bl	blink_char
+ 223:substitution.c ****          blink_char();   
+ 833              		.loc 1 223 0 discriminator 3
+ 834 02a0 FB68     		ldr	r3, [r7, #12]
+ 835 02a2 0133     		adds	r3, r3, #1
+ 836 02a4 FB60     		str	r3, [r7, #12]
+ 837              	.L90:
+ 223:substitution.c ****          blink_char();   
+ 838              		.loc 1 223 0 is_stmt 0 discriminator 1
+ 839 02a6 FB68     		ldr	r3, [r7, #12]
+ 840 02a8 162B     		cmp	r3, #22
+ 841 02aa F7DD     		ble	.L91
+ 225:substitution.c ****         }
+ 226:substitution.c ****         new_char();
+ 842              		.loc 1 226 0 is_stmt 1
+ 843 02ac FFF7FEFF 		bl	new_char
+ 227:substitution.c ****         break;
+ 844              		.loc 1 227 0
+ 845 02b0 2AE0     		b	.L15
+ 846              	.L43:
+ 228:substitution.c ****        case 'X':
+ 229:substitution.c ****        case 'x':
+ 230:substitution.c ****         for (i=0; i<24; i++) {
+ 847              		.loc 1 230 0
+ 848 02b2 0023     		movs	r3, #0
+ 849 02b4 FB60     		str	r3, [r7, #12]
+ 850 02b6 04E0     		b	.L92
+ 851              	.L93:
+ 231:substitution.c ****          blink_char();   
+ 852              		.loc 1 231 0 discriminator 3
+ 853 02b8 FFF7FEFF 		bl	blink_char
+ 230:substitution.c ****          blink_char();   
+ 854              		.loc 1 230 0 discriminator 3
+ 855 02bc FB68     		ldr	r3, [r7, #12]
+ 856 02be 0133     		adds	r3, r3, #1
+ 857 02c0 FB60     		str	r3, [r7, #12]
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 21
+
+
+ 858              	.L92:
+ 230:substitution.c ****          blink_char();   
+ 859              		.loc 1 230 0 is_stmt 0 discriminator 1
+ 860 02c2 FB68     		ldr	r3, [r7, #12]
+ 861 02c4 172B     		cmp	r3, #23
+ 862 02c6 F7DD     		ble	.L93
+ 232:substitution.c ****         }
+ 233:substitution.c ****         new_char();
+ 863              		.loc 1 233 0 is_stmt 1
+ 864 02c8 FFF7FEFF 		bl	new_char
+ 234:substitution.c ****         break;
+ 865              		.loc 1 234 0
+ 866 02cc 1CE0     		b	.L15
+ 867              	.L44:
+ 235:substitution.c ****        case 'Y':
+ 236:substitution.c ****        case 'y':
+ 237:substitution.c ****         for (i=0; i<25; i++) {
+ 868              		.loc 1 237 0
+ 869 02ce 0023     		movs	r3, #0
+ 870 02d0 FB60     		str	r3, [r7, #12]
+ 871 02d2 04E0     		b	.L94
+ 872              	.L95:
+ 238:substitution.c ****          blink_char();   
+ 873              		.loc 1 238 0 discriminator 3
+ 874 02d4 FFF7FEFF 		bl	blink_char
+ 237:substitution.c ****          blink_char();   
+ 875              		.loc 1 237 0 discriminator 3
+ 876 02d8 FB68     		ldr	r3, [r7, #12]
+ 877 02da 0133     		adds	r3, r3, #1
+ 878 02dc FB60     		str	r3, [r7, #12]
+ 879              	.L94:
+ 237:substitution.c ****          blink_char();   
+ 880              		.loc 1 237 0 is_stmt 0 discriminator 1
+ 881 02de FB68     		ldr	r3, [r7, #12]
+ 882 02e0 182B     		cmp	r3, #24
+ 883 02e2 F7DD     		ble	.L95
+ 239:substitution.c ****         }
+ 240:substitution.c ****         new_char();
+ 884              		.loc 1 240 0 is_stmt 1
+ 885 02e4 FFF7FEFF 		bl	new_char
+ 241:substitution.c ****         break;
+ 886              		.loc 1 241 0
+ 887 02e8 0EE0     		b	.L15
+ 888              	.L45:
+ 242:substitution.c ****        case 'Z':
+ 243:substitution.c ****        case 'z':
+ 244:substitution.c ****         for (i=0; i<26; i++) {
+ 889              		.loc 1 244 0
+ 890 02ea 0023     		movs	r3, #0
+ 891 02ec FB60     		str	r3, [r7, #12]
+ 892 02ee 04E0     		b	.L96
+ 893              	.L97:
+ 245:substitution.c ****          blink_char();   
+ 894              		.loc 1 245 0 discriminator 3
+ 895 02f0 FFF7FEFF 		bl	blink_char
+ 244:substitution.c ****          blink_char();   
+ 896              		.loc 1 244 0 discriminator 3
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 22
+
+
+ 897 02f4 FB68     		ldr	r3, [r7, #12]
+ 898 02f6 0133     		adds	r3, r3, #1
+ 899 02f8 FB60     		str	r3, [r7, #12]
+ 900              	.L96:
+ 244:substitution.c ****          blink_char();   
+ 901              		.loc 1 244 0 is_stmt 0 discriminator 1
+ 902 02fa FB68     		ldr	r3, [r7, #12]
+ 903 02fc 192B     		cmp	r3, #25
+ 904 02fe F7DD     		ble	.L97
+ 246:substitution.c ****         }
+ 247:substitution.c ****         new_char();
+ 905              		.loc 1 247 0 is_stmt 1
+ 906 0300 FFF7FEFF 		bl	new_char
+ 248:substitution.c ****         break;
+ 907              		.loc 1 248 0
+ 908 0304 00E0     		b	.L15
+ 909              	.L98:
+  64:substitution.c ****     }
+ 910              		.loc 1 64 0
+ 911 0306 C046     		nop
+ 912              	.L15:
+ 249:substitution.c ****        case '\n':
+ 250:substitution.c ****         break;
+ 251:substitution.c ****    }
+ 252:substitution.c **** }
+ 913              		.loc 1 252 0
+ 914 0308 BD46     		mov	sp, r7
+ 915 030a 04B0     		add	sp, sp, #16
+ 916              		@ sp needed
+ 917 030c 80BD     		pop	{r7, pc}
+ 918              	.L100:
+ 919 030e C046     		.align	2
+ 920              	.L99:
+ 921 0310 00000000 		.word	.L19
+ 922              		.cfi_endproc
+ 923              	.LFE35:
+ 924              		.size	substitution_encode, .-substitution_encode
+ 925              		.section	.text.substitution_message,"ax",%progbits
+ 926              		.align	2
+ 927              		.global	substitution_message
+ 928              		.code	16
+ 929              		.thumb_func
+ 930              		.type	substitution_message, %function
+ 931              	substitution_message:
+ 932              	.LFB36:
+ 253:substitution.c **** 
+ 254:substitution.c **** void substitution_message(char* message) {
+ 933              		.loc 1 254 0
+ 934              		.cfi_startproc
+ 935              		@ args = 0, pretend = 0, frame = 16
+ 936              		@ frame_needed = 1, uses_anonymous_args = 0
+ 937 0000 80B5     		push	{r7, lr}
+ 938              		.cfi_def_cfa_offset 8
+ 939              		.cfi_offset 7, -8
+ 940              		.cfi_offset 14, -4
+ 941 0002 84B0     		sub	sp, sp, #16
+ 942              		.cfi_def_cfa_offset 24
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 23
+
+
+ 943 0004 00AF     		add	r7, sp, #0
+ 944              		.cfi_def_cfa_register 7
+ 945 0006 7860     		str	r0, [r7, #4]
+ 255:substitution.c ****     unsigned int i;
+ 256:substitution.c ****     
+ 257:substitution.c ****     new_message_substitution();
+ 946              		.loc 1 257 0
+ 947 0008 FFF7FEFF 		bl	new_message_substitution
+ 258:substitution.c ****     
+ 259:substitution.c ****     for (i=0; i < strlen(message); i++) {
+ 948              		.loc 1 259 0
+ 949 000c 0023     		movs	r3, #0
+ 950 000e FB60     		str	r3, [r7, #12]
+ 951 0010 0EE0     		b	.L102
+ 952              	.L105:
+ 260:substitution.c ****         /* Verify state */
+ 261:substitution.c ****         if(!verify_state(SUBSTITUTION)) {
+ 953              		.loc 1 261 0
+ 954 0012 0320     		movs	r0, #3
+ 955 0014 FFF7FEFF 		bl	verify_state
+ 956 0018 031E     		subs	r3, r0, #0
+ 957 001a 12D0     		beq	.L106
+ 262:substitution.c ****             return;
+ 263:substitution.c ****         }
+ 264:substitution.c ****         substitution_encode(message[i]);
+ 958              		.loc 1 264 0 discriminator 2
+ 959 001c 7A68     		ldr	r2, [r7, #4]
+ 960 001e FB68     		ldr	r3, [r7, #12]
+ 961 0020 D318     		adds	r3, r2, r3
+ 962 0022 1B78     		ldrb	r3, [r3]
+ 963 0024 1800     		movs	r0, r3
+ 964 0026 FFF7FEFF 		bl	substitution_encode
+ 259:substitution.c ****         /* Verify state */
+ 965              		.loc 1 259 0 discriminator 2
+ 966 002a FB68     		ldr	r3, [r7, #12]
+ 967 002c 0133     		adds	r3, r3, #1
+ 968 002e FB60     		str	r3, [r7, #12]
+ 969              	.L102:
+ 259:substitution.c ****         /* Verify state */
+ 970              		.loc 1 259 0 is_stmt 0 discriminator 1
+ 971 0030 7B68     		ldr	r3, [r7, #4]
+ 972 0032 1800     		movs	r0, r3
+ 973 0034 FFF7FEFF 		bl	strlen
+ 974 0038 0200     		movs	r2, r0
+ 975 003a FB68     		ldr	r3, [r7, #12]
+ 976 003c 9A42     		cmp	r2, r3
+ 977 003e E8D8     		bhi	.L105
+ 978 0040 00E0     		b	.L101
+ 979              	.L106:
+ 262:substitution.c ****             return;
+ 980              		.loc 1 262 0 is_stmt 1
+ 981 0042 C046     		nop
+ 982              	.L101:
+ 265:substitution.c ****     }
+ 266:substitution.c **** }
+ 983              		.loc 1 266 0
+ 984 0044 BD46     		mov	sp, r7
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 24
+
+
+ 985 0046 04B0     		add	sp, sp, #16
+ 986              		@ sp needed
+ 987 0048 80BD     		pop	{r7, pc}
+ 988              		.cfi_endproc
+ 989              	.LFE36:
+ 990              		.size	substitution_message, .-substitution_message
+ 991 004a C046     		.text
+ 992              	.Letext0:
+ 993              		.file 2 "Generated_Source\\PSoC4/cytypes.h"
+ 994              		.section	.debug_info,"",%progbits
+ 995              	.Ldebug_info0:
+ 996 0000 49010000 		.4byte	0x149
+ 997 0004 0400     		.2byte	0x4
+ 998 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 999 000a 04       		.byte	0x4
+ 1000 000b 01       		.uleb128 0x1
+ 1001 000c 35000000 		.4byte	.LASF20
+ 1002 0010 0C       		.byte	0xc
+ 1003 0011 0E000000 		.4byte	.LASF21
+ 1004 0015 E3000000 		.4byte	.LASF22
+ 1005 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1006 001d 00000000 		.4byte	0
+ 1007 0021 00000000 		.4byte	.Ldebug_line0
+ 1008 0025 02       		.uleb128 0x2
+ 1009 0026 01       		.byte	0x1
+ 1010 0027 06       		.byte	0x6
+ 1011 0028 C4010000 		.4byte	.LASF0
+ 1012 002c 02       		.uleb128 0x2
+ 1013 002d 01       		.byte	0x1
+ 1014 002e 08       		.byte	0x8
+ 1015 002f 5C010000 		.4byte	.LASF1
+ 1016 0033 02       		.uleb128 0x2
+ 1017 0034 02       		.byte	0x2
+ 1018 0035 05       		.byte	0x5
+ 1019 0036 91010000 		.4byte	.LASF2
+ 1020 003a 02       		.uleb128 0x2
+ 1021 003b 02       		.byte	0x2
+ 1022 003c 07       		.byte	0x7
+ 1023 003d B1010000 		.4byte	.LASF3
+ 1024 0041 02       		.uleb128 0x2
+ 1025 0042 04       		.byte	0x4
+ 1026 0043 05       		.byte	0x5
+ 1027 0044 6F010000 		.4byte	.LASF4
+ 1028 0048 02       		.uleb128 0x2
+ 1029 0049 04       		.byte	0x4
+ 1030 004a 07       		.byte	0x7
+ 1031 004b D1000000 		.4byte	.LASF5
+ 1032 004f 02       		.uleb128 0x2
+ 1033 0050 08       		.byte	0x8
+ 1034 0051 05       		.byte	0x5
+ 1035 0052 00000000 		.4byte	.LASF6
+ 1036 0056 02       		.uleb128 0x2
+ 1037 0057 08       		.byte	0x8
+ 1038 0058 07       		.byte	0x7
+ 1039 0059 28010000 		.4byte	.LASF7
+ 1040 005d 03       		.uleb128 0x3
+ 1041 005e 04       		.byte	0x4
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 25
+
+
+ 1042 005f 05       		.byte	0x5
+ 1043 0060 696E7400 		.ascii	"int\000"
+ 1044 0064 02       		.uleb128 0x2
+ 1045 0065 04       		.byte	0x4
+ 1046 0066 07       		.byte	0x7
+ 1047 0067 1D000000 		.4byte	.LASF8
+ 1048 006b 04       		.uleb128 0x4
+ 1049 006c CB000000 		.4byte	.LASF23
+ 1050 0070 02       		.byte	0x2
+ 1051 0071 D201     		.2byte	0x1d2
+ 1052 0073 2C000000 		.4byte	0x2c
+ 1053 0077 02       		.uleb128 0x2
+ 1054 0078 04       		.byte	0x4
+ 1055 0079 04       		.byte	0x4
+ 1056 007a DC010000 		.4byte	.LASF9
+ 1057 007e 02       		.uleb128 0x2
+ 1058 007f 08       		.byte	0x8
+ 1059 0080 04       		.byte	0x4
+ 1060 0081 AA010000 		.4byte	.LASF10
+ 1061 0085 02       		.uleb128 0x2
+ 1062 0086 01       		.byte	0x1
+ 1063 0087 08       		.byte	0x8
+ 1064 0088 6A010000 		.4byte	.LASF11
+ 1065 008c 02       		.uleb128 0x2
+ 1066 008d 08       		.byte	0x8
+ 1067 008e 04       		.byte	0x4
+ 1068 008f D0010000 		.4byte	.LASF12
+ 1069 0093 02       		.uleb128 0x2
+ 1070 0094 04       		.byte	0x4
+ 1071 0095 07       		.byte	0x7
+ 1072 0096 F7010000 		.4byte	.LASF13
+ 1073 009a 05       		.uleb128 0x5
+ 1074 009b 04       		.byte	0x4
+ 1075 009c 85000000 		.4byte	0x85
+ 1076 00a0 06       		.uleb128 0x6
+ 1077 00a1 2A000000 		.4byte	.LASF14
+ 1078 00a5 01       		.byte	0x1
+ 1079 00a6 13       		.byte	0x13
+ 1080 00a7 00000000 		.4byte	.LFB32
+ 1081 00ab 36000000 		.4byte	.LFE32-.LFB32
+ 1082 00af 01       		.uleb128 0x1
+ 1083 00b0 9C       		.byte	0x9c
+ 1084 00b1 06       		.uleb128 0x6
+ 1085 00b2 3F010000 		.4byte	.LASF15
+ 1086 00b6 01       		.byte	0x1
+ 1087 00b7 1E       		.byte	0x1e
+ 1088 00b8 00000000 		.4byte	.LFB33
+ 1089 00bc 36000000 		.4byte	.LFE33-.LFB33
+ 1090 00c0 01       		.uleb128 0x1
+ 1091 00c1 9C       		.byte	0x9c
+ 1092 00c2 07       		.uleb128 0x7
+ 1093 00c3 78010000 		.4byte	.LASF17
+ 1094 00c7 01       		.byte	0x1
+ 1095 00c8 29       		.byte	0x29
+ 1096 00c9 00000000 		.4byte	.LFB34
+ 1097 00cd 64000000 		.4byte	.LFE34-.LFB34
+ 1098 00d1 01       		.uleb128 0x1
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 26
+
+
+ 1099 00d2 9C       		.byte	0x9c
+ 1100 00d3 F2000000 		.4byte	0xf2
+ 1101 00d7 08       		.uleb128 0x8
+ 1102 00d8 6900     		.ascii	"i\000"
+ 1103 00da 01       		.byte	0x1
+ 1104 00db 2A       		.byte	0x2a
+ 1105 00dc 64000000 		.4byte	0x64
+ 1106 00e0 02       		.uleb128 0x2
+ 1107 00e1 91       		.byte	0x91
+ 1108 00e2 6C       		.sleb128 -20
+ 1109 00e3 09       		.uleb128 0x9
+ 1110 00e4 9B010000 		.4byte	.LASF16
+ 1111 00e8 01       		.byte	0x1
+ 1112 00e9 2B       		.byte	0x2b
+ 1113 00ea 6B000000 		.4byte	0x6b
+ 1114 00ee 02       		.uleb128 0x2
+ 1115 00ef 91       		.byte	0x91
+ 1116 00f0 6B       		.sleb128 -21
+ 1117 00f1 00       		.byte	0
+ 1118 00f2 07       		.uleb128 0x7
+ 1119 00f3 48010000 		.4byte	.LASF18
+ 1120 00f7 01       		.byte	0x1
+ 1121 00f8 3C       		.byte	0x3c
+ 1122 00f9 00000000 		.4byte	.LFB35
+ 1123 00fd 14030000 		.4byte	.LFE35-.LFB35
+ 1124 0101 01       		.uleb128 0x1
+ 1125 0102 9C       		.byte	0x9c
+ 1126 0103 20010000 		.4byte	0x120
+ 1127 0107 0A       		.uleb128 0xa
+ 1128 0108 6300     		.ascii	"c\000"
+ 1129 010a 01       		.byte	0x1
+ 1130 010b 3C       		.byte	0x3c
+ 1131 010c 85000000 		.4byte	0x85
+ 1132 0110 02       		.uleb128 0x2
+ 1133 0111 91       		.byte	0x91
+ 1134 0112 6F       		.sleb128 -17
+ 1135 0113 08       		.uleb128 0x8
+ 1136 0114 6900     		.ascii	"i\000"
+ 1137 0116 01       		.byte	0x1
+ 1138 0117 3D       		.byte	0x3d
+ 1139 0118 5D000000 		.4byte	0x5d
+ 1140 011c 02       		.uleb128 0x2
+ 1141 011d 91       		.byte	0x91
+ 1142 011e 74       		.sleb128 -12
+ 1143 011f 00       		.byte	0
+ 1144 0120 0B       		.uleb128 0xb
+ 1145 0121 E2010000 		.4byte	.LASF24
+ 1146 0125 01       		.byte	0x1
+ 1147 0126 FE       		.byte	0xfe
+ 1148 0127 00000000 		.4byte	.LFB36
+ 1149 012b 4A000000 		.4byte	.LFE36-.LFB36
+ 1150 012f 01       		.uleb128 0x1
+ 1151 0130 9C       		.byte	0x9c
+ 1152 0131 0C       		.uleb128 0xc
+ 1153 0132 C3000000 		.4byte	.LASF19
+ 1154 0136 01       		.byte	0x1
+ 1155 0137 FE       		.byte	0xfe
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 27
+
+
+ 1156 0138 9A000000 		.4byte	0x9a
+ 1157 013c 02       		.uleb128 0x2
+ 1158 013d 91       		.byte	0x91
+ 1159 013e 6C       		.sleb128 -20
+ 1160 013f 08       		.uleb128 0x8
+ 1161 0140 6900     		.ascii	"i\000"
+ 1162 0142 01       		.byte	0x1
+ 1163 0143 FF       		.byte	0xff
+ 1164 0144 64000000 		.4byte	0x64
+ 1165 0148 02       		.uleb128 0x2
+ 1166 0149 91       		.byte	0x91
+ 1167 014a 74       		.sleb128 -12
+ 1168 014b 00       		.byte	0
+ 1169 014c 00       		.byte	0
+ 1170              		.section	.debug_abbrev,"",%progbits
+ 1171              	.Ldebug_abbrev0:
+ 1172 0000 01       		.uleb128 0x1
+ 1173 0001 11       		.uleb128 0x11
+ 1174 0002 01       		.byte	0x1
+ 1175 0003 25       		.uleb128 0x25
+ 1176 0004 0E       		.uleb128 0xe
+ 1177 0005 13       		.uleb128 0x13
+ 1178 0006 0B       		.uleb128 0xb
+ 1179 0007 03       		.uleb128 0x3
+ 1180 0008 0E       		.uleb128 0xe
+ 1181 0009 1B       		.uleb128 0x1b
+ 1182 000a 0E       		.uleb128 0xe
+ 1183 000b 55       		.uleb128 0x55
+ 1184 000c 17       		.uleb128 0x17
+ 1185 000d 11       		.uleb128 0x11
+ 1186 000e 01       		.uleb128 0x1
+ 1187 000f 10       		.uleb128 0x10
+ 1188 0010 17       		.uleb128 0x17
+ 1189 0011 00       		.byte	0
+ 1190 0012 00       		.byte	0
+ 1191 0013 02       		.uleb128 0x2
+ 1192 0014 24       		.uleb128 0x24
+ 1193 0015 00       		.byte	0
+ 1194 0016 0B       		.uleb128 0xb
+ 1195 0017 0B       		.uleb128 0xb
+ 1196 0018 3E       		.uleb128 0x3e
+ 1197 0019 0B       		.uleb128 0xb
+ 1198 001a 03       		.uleb128 0x3
+ 1199 001b 0E       		.uleb128 0xe
+ 1200 001c 00       		.byte	0
+ 1201 001d 00       		.byte	0
+ 1202 001e 03       		.uleb128 0x3
+ 1203 001f 24       		.uleb128 0x24
+ 1204 0020 00       		.byte	0
+ 1205 0021 0B       		.uleb128 0xb
+ 1206 0022 0B       		.uleb128 0xb
+ 1207 0023 3E       		.uleb128 0x3e
+ 1208 0024 0B       		.uleb128 0xb
+ 1209 0025 03       		.uleb128 0x3
+ 1210 0026 08       		.uleb128 0x8
+ 1211 0027 00       		.byte	0
+ 1212 0028 00       		.byte	0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 28
+
+
+ 1213 0029 04       		.uleb128 0x4
+ 1214 002a 16       		.uleb128 0x16
+ 1215 002b 00       		.byte	0
+ 1216 002c 03       		.uleb128 0x3
+ 1217 002d 0E       		.uleb128 0xe
+ 1218 002e 3A       		.uleb128 0x3a
+ 1219 002f 0B       		.uleb128 0xb
+ 1220 0030 3B       		.uleb128 0x3b
+ 1221 0031 05       		.uleb128 0x5
+ 1222 0032 49       		.uleb128 0x49
+ 1223 0033 13       		.uleb128 0x13
+ 1224 0034 00       		.byte	0
+ 1225 0035 00       		.byte	0
+ 1226 0036 05       		.uleb128 0x5
+ 1227 0037 0F       		.uleb128 0xf
+ 1228 0038 00       		.byte	0
+ 1229 0039 0B       		.uleb128 0xb
+ 1230 003a 0B       		.uleb128 0xb
+ 1231 003b 49       		.uleb128 0x49
+ 1232 003c 13       		.uleb128 0x13
+ 1233 003d 00       		.byte	0
+ 1234 003e 00       		.byte	0
+ 1235 003f 06       		.uleb128 0x6
+ 1236 0040 2E       		.uleb128 0x2e
+ 1237 0041 00       		.byte	0
+ 1238 0042 3F       		.uleb128 0x3f
+ 1239 0043 19       		.uleb128 0x19
+ 1240 0044 03       		.uleb128 0x3
+ 1241 0045 0E       		.uleb128 0xe
+ 1242 0046 3A       		.uleb128 0x3a
+ 1243 0047 0B       		.uleb128 0xb
+ 1244 0048 3B       		.uleb128 0x3b
+ 1245 0049 0B       		.uleb128 0xb
+ 1246 004a 27       		.uleb128 0x27
+ 1247 004b 19       		.uleb128 0x19
+ 1248 004c 11       		.uleb128 0x11
+ 1249 004d 01       		.uleb128 0x1
+ 1250 004e 12       		.uleb128 0x12
+ 1251 004f 06       		.uleb128 0x6
+ 1252 0050 40       		.uleb128 0x40
+ 1253 0051 18       		.uleb128 0x18
+ 1254 0052 9642     		.uleb128 0x2116
+ 1255 0054 19       		.uleb128 0x19
+ 1256 0055 00       		.byte	0
+ 1257 0056 00       		.byte	0
+ 1258 0057 07       		.uleb128 0x7
+ 1259 0058 2E       		.uleb128 0x2e
+ 1260 0059 01       		.byte	0x1
+ 1261 005a 3F       		.uleb128 0x3f
+ 1262 005b 19       		.uleb128 0x19
+ 1263 005c 03       		.uleb128 0x3
+ 1264 005d 0E       		.uleb128 0xe
+ 1265 005e 3A       		.uleb128 0x3a
+ 1266 005f 0B       		.uleb128 0xb
+ 1267 0060 3B       		.uleb128 0x3b
+ 1268 0061 0B       		.uleb128 0xb
+ 1269 0062 27       		.uleb128 0x27
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 29
+
+
+ 1270 0063 19       		.uleb128 0x19
+ 1271 0064 11       		.uleb128 0x11
+ 1272 0065 01       		.uleb128 0x1
+ 1273 0066 12       		.uleb128 0x12
+ 1274 0067 06       		.uleb128 0x6
+ 1275 0068 40       		.uleb128 0x40
+ 1276 0069 18       		.uleb128 0x18
+ 1277 006a 9642     		.uleb128 0x2116
+ 1278 006c 19       		.uleb128 0x19
+ 1279 006d 01       		.uleb128 0x1
+ 1280 006e 13       		.uleb128 0x13
+ 1281 006f 00       		.byte	0
+ 1282 0070 00       		.byte	0
+ 1283 0071 08       		.uleb128 0x8
+ 1284 0072 34       		.uleb128 0x34
+ 1285 0073 00       		.byte	0
+ 1286 0074 03       		.uleb128 0x3
+ 1287 0075 08       		.uleb128 0x8
+ 1288 0076 3A       		.uleb128 0x3a
+ 1289 0077 0B       		.uleb128 0xb
+ 1290 0078 3B       		.uleb128 0x3b
+ 1291 0079 0B       		.uleb128 0xb
+ 1292 007a 49       		.uleb128 0x49
+ 1293 007b 13       		.uleb128 0x13
+ 1294 007c 02       		.uleb128 0x2
+ 1295 007d 18       		.uleb128 0x18
+ 1296 007e 00       		.byte	0
+ 1297 007f 00       		.byte	0
+ 1298 0080 09       		.uleb128 0x9
+ 1299 0081 34       		.uleb128 0x34
+ 1300 0082 00       		.byte	0
+ 1301 0083 03       		.uleb128 0x3
+ 1302 0084 0E       		.uleb128 0xe
+ 1303 0085 3A       		.uleb128 0x3a
+ 1304 0086 0B       		.uleb128 0xb
+ 1305 0087 3B       		.uleb128 0x3b
+ 1306 0088 0B       		.uleb128 0xb
+ 1307 0089 49       		.uleb128 0x49
+ 1308 008a 13       		.uleb128 0x13
+ 1309 008b 02       		.uleb128 0x2
+ 1310 008c 18       		.uleb128 0x18
+ 1311 008d 00       		.byte	0
+ 1312 008e 00       		.byte	0
+ 1313 008f 0A       		.uleb128 0xa
+ 1314 0090 05       		.uleb128 0x5
+ 1315 0091 00       		.byte	0
+ 1316 0092 03       		.uleb128 0x3
+ 1317 0093 08       		.uleb128 0x8
+ 1318 0094 3A       		.uleb128 0x3a
+ 1319 0095 0B       		.uleb128 0xb
+ 1320 0096 3B       		.uleb128 0x3b
+ 1321 0097 0B       		.uleb128 0xb
+ 1322 0098 49       		.uleb128 0x49
+ 1323 0099 13       		.uleb128 0x13
+ 1324 009a 02       		.uleb128 0x2
+ 1325 009b 18       		.uleb128 0x18
+ 1326 009c 00       		.byte	0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 30
+
+
+ 1327 009d 00       		.byte	0
+ 1328 009e 0B       		.uleb128 0xb
+ 1329 009f 2E       		.uleb128 0x2e
+ 1330 00a0 01       		.byte	0x1
+ 1331 00a1 3F       		.uleb128 0x3f
+ 1332 00a2 19       		.uleb128 0x19
+ 1333 00a3 03       		.uleb128 0x3
+ 1334 00a4 0E       		.uleb128 0xe
+ 1335 00a5 3A       		.uleb128 0x3a
+ 1336 00a6 0B       		.uleb128 0xb
+ 1337 00a7 3B       		.uleb128 0x3b
+ 1338 00a8 0B       		.uleb128 0xb
+ 1339 00a9 27       		.uleb128 0x27
+ 1340 00aa 19       		.uleb128 0x19
+ 1341 00ab 11       		.uleb128 0x11
+ 1342 00ac 01       		.uleb128 0x1
+ 1343 00ad 12       		.uleb128 0x12
+ 1344 00ae 06       		.uleb128 0x6
+ 1345 00af 40       		.uleb128 0x40
+ 1346 00b0 18       		.uleb128 0x18
+ 1347 00b1 9642     		.uleb128 0x2116
+ 1348 00b3 19       		.uleb128 0x19
+ 1349 00b4 00       		.byte	0
+ 1350 00b5 00       		.byte	0
+ 1351 00b6 0C       		.uleb128 0xc
+ 1352 00b7 05       		.uleb128 0x5
+ 1353 00b8 00       		.byte	0
+ 1354 00b9 03       		.uleb128 0x3
+ 1355 00ba 0E       		.uleb128 0xe
+ 1356 00bb 3A       		.uleb128 0x3a
+ 1357 00bc 0B       		.uleb128 0xb
+ 1358 00bd 3B       		.uleb128 0x3b
+ 1359 00be 0B       		.uleb128 0xb
+ 1360 00bf 49       		.uleb128 0x49
+ 1361 00c0 13       		.uleb128 0x13
+ 1362 00c1 02       		.uleb128 0x2
+ 1363 00c2 18       		.uleb128 0x18
+ 1364 00c3 00       		.byte	0
+ 1365 00c4 00       		.byte	0
+ 1366 00c5 00       		.byte	0
+ 1367              		.section	.debug_aranges,"",%progbits
+ 1368 0000 3C000000 		.4byte	0x3c
+ 1369 0004 0200     		.2byte	0x2
+ 1370 0006 00000000 		.4byte	.Ldebug_info0
+ 1371 000a 04       		.byte	0x4
+ 1372 000b 00       		.byte	0
+ 1373 000c 0000     		.2byte	0
+ 1374 000e 0000     		.2byte	0
+ 1375 0010 00000000 		.4byte	.LFB32
+ 1376 0014 36000000 		.4byte	.LFE32-.LFB32
+ 1377 0018 00000000 		.4byte	.LFB33
+ 1378 001c 36000000 		.4byte	.LFE33-.LFB33
+ 1379 0020 00000000 		.4byte	.LFB34
+ 1380 0024 64000000 		.4byte	.LFE34-.LFB34
+ 1381 0028 00000000 		.4byte	.LFB35
+ 1382 002c 14030000 		.4byte	.LFE35-.LFB35
+ 1383 0030 00000000 		.4byte	.LFB36
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 31
+
+
+ 1384 0034 4A000000 		.4byte	.LFE36-.LFB36
+ 1385 0038 00000000 		.4byte	0
+ 1386 003c 00000000 		.4byte	0
+ 1387              		.section	.debug_ranges,"",%progbits
+ 1388              	.Ldebug_ranges0:
+ 1389 0000 00000000 		.4byte	.LFB32
+ 1390 0004 36000000 		.4byte	.LFE32
+ 1391 0008 00000000 		.4byte	.LFB33
+ 1392 000c 36000000 		.4byte	.LFE33
+ 1393 0010 00000000 		.4byte	.LFB34
+ 1394 0014 64000000 		.4byte	.LFE34
+ 1395 0018 00000000 		.4byte	.LFB35
+ 1396 001c 14030000 		.4byte	.LFE35
+ 1397 0020 00000000 		.4byte	.LFB36
+ 1398 0024 4A000000 		.4byte	.LFE36
+ 1399 0028 00000000 		.4byte	0
+ 1400 002c 00000000 		.4byte	0
+ 1401              		.section	.debug_line,"",%progbits
+ 1402              	.Ldebug_line0:
+ 1403 0000 FE020000 		.section	.debug_str,"MS",%progbits,1
+ 1403      02004900 
+ 1403      00000201 
+ 1403      FB0E0D00 
+ 1403      01010101 
+ 1404              	.LASF6:
+ 1405 0000 6C6F6E67 		.ascii	"long long int\000"
+ 1405      206C6F6E 
+ 1405      6720696E 
+ 1405      7400
+ 1406              	.LASF21:
+ 1407 000e 73756273 		.ascii	"substitution.c\000"
+ 1407      74697475 
+ 1407      74696F6E 
+ 1407      2E6300
+ 1408              	.LASF8:
+ 1409 001d 756E7369 		.ascii	"unsigned int\000"
+ 1409      676E6564 
+ 1409      20696E74 
+ 1409      00
+ 1410              	.LASF14:
+ 1411 002a 626C696E 		.ascii	"blink_char\000"
+ 1411      6B5F6368 
+ 1411      617200
+ 1412              	.LASF20:
+ 1413 0035 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1413      43313120 
+ 1413      352E342E 
+ 1413      31203230 
+ 1413      31363036 
+ 1414 0068 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 1414      20726576 
+ 1414      6973696F 
+ 1414      6E203233 
+ 1414      37373135 
+ 1415 009b 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1415      66756E63 
+ 1415      74696F6E 
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 32
+
+
+ 1415      2D736563 
+ 1415      74696F6E 
+ 1416              	.LASF19:
+ 1417 00c3 6D657373 		.ascii	"message\000"
+ 1417      61676500 
+ 1418              	.LASF23:
+ 1419 00cb 75696E74 		.ascii	"uint8\000"
+ 1419      3800
+ 1420              	.LASF5:
+ 1421 00d1 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1421      20756E73 
+ 1421      69676E65 
+ 1421      6420696E 
+ 1421      7400
+ 1422              	.LASF22:
+ 1423 00e3 433A5C55 		.ascii	"C:\\Users\\ryan\\Documents\\PSoC Creator\\Defcon_Ba"
+ 1423      73657273 
+ 1423      5C727961 
+ 1423      6E5C446F 
+ 1423      63756D65 
+ 1424 0111 6467655C 		.ascii	"dge\\Defcon_Badge.cydsn\000"
+ 1424      44656663 
+ 1424      6F6E5F42 
+ 1424      61646765 
+ 1424      2E637964 
+ 1425              	.LASF7:
+ 1426 0128 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1426      206C6F6E 
+ 1426      6720756E 
+ 1426      7369676E 
+ 1426      65642069 
+ 1427              	.LASF15:
+ 1428 013f 6E65775F 		.ascii	"new_char\000"
+ 1428      63686172 
+ 1428      00
+ 1429              	.LASF18:
+ 1430 0148 73756273 		.ascii	"substitution_encode\000"
+ 1430      74697475 
+ 1430      74696F6E 
+ 1430      5F656E63 
+ 1430      6F646500 
+ 1431              	.LASF1:
+ 1432 015c 756E7369 		.ascii	"unsigned char\000"
+ 1432      676E6564 
+ 1432      20636861 
+ 1432      7200
+ 1433              	.LASF11:
+ 1434 016a 63686172 		.ascii	"char\000"
+ 1434      00
+ 1435              	.LASF4:
+ 1436 016f 6C6F6E67 		.ascii	"long int\000"
+ 1436      20696E74 
+ 1436      00
+ 1437              	.LASF17:
+ 1438 0178 6E65775F 		.ascii	"new_message_substitution\000"
+ 1438      6D657373 
+ 1438      6167655F 
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccgit9Xl.s 			page 33
+
+
+ 1438      73756273 
+ 1438      74697475 
+ 1439              	.LASF2:
+ 1440 0191 73686F72 		.ascii	"short int\000"
+ 1440      7420696E 
+ 1440      7400
+ 1441              	.LASF16:
+ 1442 019b 6F726967 		.ascii	"original_color\000"
+ 1442      696E616C 
+ 1442      5F636F6C 
+ 1442      6F7200
+ 1443              	.LASF10:
+ 1444 01aa 646F7562 		.ascii	"double\000"
+ 1444      6C6500
+ 1445              	.LASF3:
+ 1446 01b1 73686F72 		.ascii	"short unsigned int\000"
+ 1446      7420756E 
+ 1446      7369676E 
+ 1446      65642069 
+ 1446      6E7400
+ 1447              	.LASF0:
+ 1448 01c4 7369676E 		.ascii	"signed char\000"
+ 1448      65642063 
+ 1448      68617200 
+ 1449              	.LASF12:
+ 1450 01d0 6C6F6E67 		.ascii	"long double\000"
+ 1450      20646F75 
+ 1450      626C6500 
+ 1451              	.LASF9:
+ 1452 01dc 666C6F61 		.ascii	"float\000"
+ 1452      7400
+ 1453              	.LASF24:
+ 1454 01e2 73756273 		.ascii	"substitution_message\000"
+ 1454      74697475 
+ 1454      74696F6E 
+ 1454      5F6D6573 
+ 1454      73616765 
+ 1455              	.LASF13:
+ 1456 01f7 73697A65 		.ascii	"sizetype\000"
+ 1456      74797065 
+ 1456      00
+ 1457              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

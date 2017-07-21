@@ -1,0 +1,1950 @@
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"SWL_Int.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.SWL_Int_Start,"ax",%progbits
+  20              		.align	2
+  21              		.global	SWL_Int_Start
+  22              		.code	16
+  23              		.thumb_func
+  24              		.type	SWL_Int_Start, %function
+  25              	SWL_Int_Start:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC4\\SWL_Int.c"
+   1:Generated_Source\PSoC4/SWL_Int.c **** /*******************************************************************************
+   2:Generated_Source\PSoC4/SWL_Int.c **** * File Name: SWL_Int.c  
+   3:Generated_Source\PSoC4/SWL_Int.c **** * Version 1.70
+   4:Generated_Source\PSoC4/SWL_Int.c **** *
+   5:Generated_Source\PSoC4/SWL_Int.c **** *  Description:
+   6:Generated_Source\PSoC4/SWL_Int.c **** *   API for controlling the state of an interrupt.
+   7:Generated_Source\PSoC4/SWL_Int.c **** *
+   8:Generated_Source\PSoC4/SWL_Int.c **** *
+   9:Generated_Source\PSoC4/SWL_Int.c **** *  Note:
+  10:Generated_Source\PSoC4/SWL_Int.c **** *
+  11:Generated_Source\PSoC4/SWL_Int.c **** ********************************************************************************
+  12:Generated_Source\PSoC4/SWL_Int.c **** * Copyright 2008-2015, Cypress Semiconductor Corporation.  All rights reserved.
+  13:Generated_Source\PSoC4/SWL_Int.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  14:Generated_Source\PSoC4/SWL_Int.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  15:Generated_Source\PSoC4/SWL_Int.c **** * the software package with which this file was provided.
+  16:Generated_Source\PSoC4/SWL_Int.c **** *******************************************************************************/
+  17:Generated_Source\PSoC4/SWL_Int.c **** 
+  18:Generated_Source\PSoC4/SWL_Int.c **** 
+  19:Generated_Source\PSoC4/SWL_Int.c **** #include <cydevice_trm.h>
+  20:Generated_Source\PSoC4/SWL_Int.c **** #include <CyLib.h>
+  21:Generated_Source\PSoC4/SWL_Int.c **** #include <SWL_Int.h>
+  22:Generated_Source\PSoC4/SWL_Int.c **** 
+  23:Generated_Source\PSoC4/SWL_Int.c **** 
+  24:Generated_Source\PSoC4/SWL_Int.c **** #if !defined(SWL_Int__REMOVED) /* Check for removal by optimization */
+  25:Generated_Source\PSoC4/SWL_Int.c **** 
+  26:Generated_Source\PSoC4/SWL_Int.c **** /*******************************************************************************
+  27:Generated_Source\PSoC4/SWL_Int.c **** *  Place your includes, defines and code here 
+  28:Generated_Source\PSoC4/SWL_Int.c **** ********************************************************************************/
+  29:Generated_Source\PSoC4/SWL_Int.c **** /* `#START SWL_Int_intc` */
+  30:Generated_Source\PSoC4/SWL_Int.c **** 
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 2
+
+
+  31:Generated_Source\PSoC4/SWL_Int.c **** /* `#END` */
+  32:Generated_Source\PSoC4/SWL_Int.c **** 
+  33:Generated_Source\PSoC4/SWL_Int.c **** extern cyisraddress CyRamVectors[CYINT_IRQ_BASE + CY_NUM_INTERRUPTS];
+  34:Generated_Source\PSoC4/SWL_Int.c **** 
+  35:Generated_Source\PSoC4/SWL_Int.c **** /* Declared in startup, used to set unused interrupts to. */
+  36:Generated_Source\PSoC4/SWL_Int.c **** CY_ISR_PROTO(IntDefaultHandler);
+  37:Generated_Source\PSoC4/SWL_Int.c **** 
+  38:Generated_Source\PSoC4/SWL_Int.c **** 
+  39:Generated_Source\PSoC4/SWL_Int.c **** /*******************************************************************************
+  40:Generated_Source\PSoC4/SWL_Int.c **** * Function Name: SWL_Int_Start
+  41:Generated_Source\PSoC4/SWL_Int.c **** ********************************************************************************
+  42:Generated_Source\PSoC4/SWL_Int.c **** *
+  43:Generated_Source\PSoC4/SWL_Int.c **** * Summary:
+  44:Generated_Source\PSoC4/SWL_Int.c **** *  Set up the interrupt and enable it. This function disables the interrupt, 
+  45:Generated_Source\PSoC4/SWL_Int.c **** *  sets the default interrupt vector, sets the priority from the value in the
+  46:Generated_Source\PSoC4/SWL_Int.c **** *  Design Wide Resources Interrupt Editor, then enables the interrupt to the 
+  47:Generated_Source\PSoC4/SWL_Int.c **** *  interrupt controller.
+  48:Generated_Source\PSoC4/SWL_Int.c **** *
+  49:Generated_Source\PSoC4/SWL_Int.c **** * Parameters:  
+  50:Generated_Source\PSoC4/SWL_Int.c **** *   None
+  51:Generated_Source\PSoC4/SWL_Int.c **** *
+  52:Generated_Source\PSoC4/SWL_Int.c **** * Return:
+  53:Generated_Source\PSoC4/SWL_Int.c **** *   None
+  54:Generated_Source\PSoC4/SWL_Int.c **** *
+  55:Generated_Source\PSoC4/SWL_Int.c **** *******************************************************************************/
+  56:Generated_Source\PSoC4/SWL_Int.c **** void SWL_Int_Start(void)
+  57:Generated_Source\PSoC4/SWL_Int.c **** {
+  28              		.loc 1 57 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32 0000 80B5     		push	{r7, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 7, -8
+  35              		.cfi_offset 14, -4
+  36 0002 00AF     		add	r7, sp, #0
+  37              		.cfi_def_cfa_register 7
+  58:Generated_Source\PSoC4/SWL_Int.c ****     /* For all we know the interrupt is active. */
+  59:Generated_Source\PSoC4/SWL_Int.c ****     SWL_Int_Disable();
+  38              		.loc 1 59 0
+  39 0004 FFF7FEFF 		bl	SWL_Int_Disable
+  60:Generated_Source\PSoC4/SWL_Int.c **** 
+  61:Generated_Source\PSoC4/SWL_Int.c ****     /* Set the ISR to point to the SWL_Int Interrupt. */
+  62:Generated_Source\PSoC4/SWL_Int.c ****     SWL_Int_SetVector(&SWL_Int_Interrupt);
+  40              		.loc 1 62 0
+  41 0008 054B     		ldr	r3, .L2
+  42 000a 1800     		movs	r0, r3
+  43 000c FFF7FEFF 		bl	SWL_Int_SetVector
+  63:Generated_Source\PSoC4/SWL_Int.c **** 
+  64:Generated_Source\PSoC4/SWL_Int.c ****     /* Set the priority. */
+  65:Generated_Source\PSoC4/SWL_Int.c ****     SWL_Int_SetPriority((uint8)SWL_Int_INTC_PRIOR_NUMBER);
+  44              		.loc 1 65 0
+  45 0010 0320     		movs	r0, #3
+  46 0012 FFF7FEFF 		bl	SWL_Int_SetPriority
+  66:Generated_Source\PSoC4/SWL_Int.c **** 
+  67:Generated_Source\PSoC4/SWL_Int.c ****     /* Enable it. */
+  68:Generated_Source\PSoC4/SWL_Int.c ****     SWL_Int_Enable();
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 3
+
+
+  47              		.loc 1 68 0
+  48 0016 FFF7FEFF 		bl	SWL_Int_Enable
+  69:Generated_Source\PSoC4/SWL_Int.c **** }
+  49              		.loc 1 69 0
+  50 001a C046     		nop
+  51 001c BD46     		mov	sp, r7
+  52              		@ sp needed
+  53 001e 80BD     		pop	{r7, pc}
+  54              	.L3:
+  55              		.align	2
+  56              	.L2:
+  57 0020 00000000 		.word	SWL_Int_Interrupt
+  58              		.cfi_endproc
+  59              	.LFE0:
+  60              		.size	SWL_Int_Start, .-SWL_Int_Start
+  61              		.section	.text.SWL_Int_StartEx,"ax",%progbits
+  62              		.align	2
+  63              		.global	SWL_Int_StartEx
+  64              		.code	16
+  65              		.thumb_func
+  66              		.type	SWL_Int_StartEx, %function
+  67              	SWL_Int_StartEx:
+  68              	.LFB1:
+  70:Generated_Source\PSoC4/SWL_Int.c **** 
+  71:Generated_Source\PSoC4/SWL_Int.c **** 
+  72:Generated_Source\PSoC4/SWL_Int.c **** /*******************************************************************************
+  73:Generated_Source\PSoC4/SWL_Int.c **** * Function Name: SWL_Int_StartEx
+  74:Generated_Source\PSoC4/SWL_Int.c **** ********************************************************************************
+  75:Generated_Source\PSoC4/SWL_Int.c **** *
+  76:Generated_Source\PSoC4/SWL_Int.c **** * Summary:
+  77:Generated_Source\PSoC4/SWL_Int.c **** *  Sets up the interrupt and enables it. This function disables the interrupt,
+  78:Generated_Source\PSoC4/SWL_Int.c **** *  sets the interrupt vector based on the address passed in, sets the priority 
+  79:Generated_Source\PSoC4/SWL_Int.c **** *  from the value in the Design Wide Resources Interrupt Editor, then enables 
+  80:Generated_Source\PSoC4/SWL_Int.c **** *  the interrupt to the interrupt controller.
+  81:Generated_Source\PSoC4/SWL_Int.c **** *  
+  82:Generated_Source\PSoC4/SWL_Int.c **** *  When defining ISR functions, the CY_ISR and CY_ISR_PROTO macros should be 
+  83:Generated_Source\PSoC4/SWL_Int.c **** *  used to provide consistent definition across compilers:
+  84:Generated_Source\PSoC4/SWL_Int.c **** *  
+  85:Generated_Source\PSoC4/SWL_Int.c **** *  Function definition example:
+  86:Generated_Source\PSoC4/SWL_Int.c **** *   CY_ISR(MyISR)
+  87:Generated_Source\PSoC4/SWL_Int.c **** *   {
+  88:Generated_Source\PSoC4/SWL_Int.c **** *   }
+  89:Generated_Source\PSoC4/SWL_Int.c **** *   Function prototype example:
+  90:Generated_Source\PSoC4/SWL_Int.c **** *   CY_ISR_PROTO(MyISR);
+  91:Generated_Source\PSoC4/SWL_Int.c **** *
+  92:Generated_Source\PSoC4/SWL_Int.c **** * Parameters:  
+  93:Generated_Source\PSoC4/SWL_Int.c **** *   address: Address of the ISR to set in the interrupt vector table.
+  94:Generated_Source\PSoC4/SWL_Int.c **** *
+  95:Generated_Source\PSoC4/SWL_Int.c **** * Return:
+  96:Generated_Source\PSoC4/SWL_Int.c **** *   None
+  97:Generated_Source\PSoC4/SWL_Int.c **** *
+  98:Generated_Source\PSoC4/SWL_Int.c **** *******************************************************************************/
+  99:Generated_Source\PSoC4/SWL_Int.c **** void SWL_Int_StartEx(cyisraddress address)
+ 100:Generated_Source\PSoC4/SWL_Int.c **** {
+  69              		.loc 1 100 0
+  70              		.cfi_startproc
+  71              		@ args = 0, pretend = 0, frame = 8
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 4
+
+
+  72              		@ frame_needed = 1, uses_anonymous_args = 0
+  73 0000 80B5     		push	{r7, lr}
+  74              		.cfi_def_cfa_offset 8
+  75              		.cfi_offset 7, -8
+  76              		.cfi_offset 14, -4
+  77 0002 82B0     		sub	sp, sp, #8
+  78              		.cfi_def_cfa_offset 16
+  79 0004 00AF     		add	r7, sp, #0
+  80              		.cfi_def_cfa_register 7
+  81 0006 7860     		str	r0, [r7, #4]
+ 101:Generated_Source\PSoC4/SWL_Int.c ****     /* For all we know the interrupt is active. */
+ 102:Generated_Source\PSoC4/SWL_Int.c ****     SWL_Int_Disable();
+  82              		.loc 1 102 0
+  83 0008 FFF7FEFF 		bl	SWL_Int_Disable
+ 103:Generated_Source\PSoC4/SWL_Int.c **** 
+ 104:Generated_Source\PSoC4/SWL_Int.c ****     /* Set the ISR to point to the SWL_Int Interrupt. */
+ 105:Generated_Source\PSoC4/SWL_Int.c ****     SWL_Int_SetVector(address);
+  84              		.loc 1 105 0
+  85 000c 7B68     		ldr	r3, [r7, #4]
+  86 000e 1800     		movs	r0, r3
+  87 0010 FFF7FEFF 		bl	SWL_Int_SetVector
+ 106:Generated_Source\PSoC4/SWL_Int.c **** 
+ 107:Generated_Source\PSoC4/SWL_Int.c ****     /* Set the priority. */
+ 108:Generated_Source\PSoC4/SWL_Int.c ****     SWL_Int_SetPriority((uint8)SWL_Int_INTC_PRIOR_NUMBER);
+  88              		.loc 1 108 0
+  89 0014 0320     		movs	r0, #3
+  90 0016 FFF7FEFF 		bl	SWL_Int_SetPriority
+ 109:Generated_Source\PSoC4/SWL_Int.c **** 
+ 110:Generated_Source\PSoC4/SWL_Int.c ****     /* Enable it. */
+ 111:Generated_Source\PSoC4/SWL_Int.c ****     SWL_Int_Enable();
+  91              		.loc 1 111 0
+  92 001a FFF7FEFF 		bl	SWL_Int_Enable
+ 112:Generated_Source\PSoC4/SWL_Int.c **** }
+  93              		.loc 1 112 0
+  94 001e C046     		nop
+  95 0020 BD46     		mov	sp, r7
+  96 0022 02B0     		add	sp, sp, #8
+  97              		@ sp needed
+  98 0024 80BD     		pop	{r7, pc}
+  99              		.cfi_endproc
+ 100              	.LFE1:
+ 101              		.size	SWL_Int_StartEx, .-SWL_Int_StartEx
+ 102 0026 C046     		.section	.text.SWL_Int_Stop,"ax",%progbits
+ 103              		.align	2
+ 104              		.global	SWL_Int_Stop
+ 105              		.code	16
+ 106              		.thumb_func
+ 107              		.type	SWL_Int_Stop, %function
+ 108              	SWL_Int_Stop:
+ 109              	.LFB2:
+ 113:Generated_Source\PSoC4/SWL_Int.c **** 
+ 114:Generated_Source\PSoC4/SWL_Int.c **** 
+ 115:Generated_Source\PSoC4/SWL_Int.c **** /*******************************************************************************
+ 116:Generated_Source\PSoC4/SWL_Int.c **** * Function Name: SWL_Int_Stop
+ 117:Generated_Source\PSoC4/SWL_Int.c **** ********************************************************************************
+ 118:Generated_Source\PSoC4/SWL_Int.c **** *
+ 119:Generated_Source\PSoC4/SWL_Int.c **** * Summary:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 5
+
+
+ 120:Generated_Source\PSoC4/SWL_Int.c **** *   Disables and removes the interrupt.
+ 121:Generated_Source\PSoC4/SWL_Int.c **** *
+ 122:Generated_Source\PSoC4/SWL_Int.c **** * Parameters:  
+ 123:Generated_Source\PSoC4/SWL_Int.c **** *   None
+ 124:Generated_Source\PSoC4/SWL_Int.c **** *
+ 125:Generated_Source\PSoC4/SWL_Int.c **** * Return:
+ 126:Generated_Source\PSoC4/SWL_Int.c **** *   None
+ 127:Generated_Source\PSoC4/SWL_Int.c **** *
+ 128:Generated_Source\PSoC4/SWL_Int.c **** *******************************************************************************/
+ 129:Generated_Source\PSoC4/SWL_Int.c **** void SWL_Int_Stop(void)
+ 130:Generated_Source\PSoC4/SWL_Int.c **** {
+ 110              		.loc 1 130 0
+ 111              		.cfi_startproc
+ 112              		@ args = 0, pretend = 0, frame = 0
+ 113              		@ frame_needed = 1, uses_anonymous_args = 0
+ 114 0000 80B5     		push	{r7, lr}
+ 115              		.cfi_def_cfa_offset 8
+ 116              		.cfi_offset 7, -8
+ 117              		.cfi_offset 14, -4
+ 118 0002 00AF     		add	r7, sp, #0
+ 119              		.cfi_def_cfa_register 7
+ 131:Generated_Source\PSoC4/SWL_Int.c ****     /* Disable this interrupt. */
+ 132:Generated_Source\PSoC4/SWL_Int.c ****     SWL_Int_Disable();
+ 120              		.loc 1 132 0
+ 121 0004 FFF7FEFF 		bl	SWL_Int_Disable
+ 133:Generated_Source\PSoC4/SWL_Int.c **** 
+ 134:Generated_Source\PSoC4/SWL_Int.c ****     /* Set the ISR to point to the passive one. */
+ 135:Generated_Source\PSoC4/SWL_Int.c ****     SWL_Int_SetVector(&IntDefaultHandler);
+ 122              		.loc 1 135 0
+ 123 0008 034B     		ldr	r3, .L6
+ 124 000a 1800     		movs	r0, r3
+ 125 000c FFF7FEFF 		bl	SWL_Int_SetVector
+ 136:Generated_Source\PSoC4/SWL_Int.c **** }
+ 126              		.loc 1 136 0
+ 127 0010 C046     		nop
+ 128 0012 BD46     		mov	sp, r7
+ 129              		@ sp needed
+ 130 0014 80BD     		pop	{r7, pc}
+ 131              	.L7:
+ 132 0016 C046     		.align	2
+ 133              	.L6:
+ 134 0018 00000000 		.word	IntDefaultHandler
+ 135              		.cfi_endproc
+ 136              	.LFE2:
+ 137              		.size	SWL_Int_Stop, .-SWL_Int_Stop
+ 138              		.section	.text.SWL_Int_Interrupt,"ax",%progbits
+ 139              		.align	2
+ 140              		.global	SWL_Int_Interrupt
+ 141              		.code	16
+ 142              		.thumb_func
+ 143              		.type	SWL_Int_Interrupt, %function
+ 144              	SWL_Int_Interrupt:
+ 145              	.LFB3:
+ 137:Generated_Source\PSoC4/SWL_Int.c **** 
+ 138:Generated_Source\PSoC4/SWL_Int.c **** 
+ 139:Generated_Source\PSoC4/SWL_Int.c **** /*******************************************************************************
+ 140:Generated_Source\PSoC4/SWL_Int.c **** * Function Name: SWL_Int_Interrupt
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 6
+
+
+ 141:Generated_Source\PSoC4/SWL_Int.c **** ********************************************************************************
+ 142:Generated_Source\PSoC4/SWL_Int.c **** *
+ 143:Generated_Source\PSoC4/SWL_Int.c **** * Summary:
+ 144:Generated_Source\PSoC4/SWL_Int.c **** *   The default Interrupt Service Routine for SWL_Int.
+ 145:Generated_Source\PSoC4/SWL_Int.c **** *
+ 146:Generated_Source\PSoC4/SWL_Int.c **** *   Add custom code between the START and END comments to keep the next version
+ 147:Generated_Source\PSoC4/SWL_Int.c **** *   of this file from over-writing your code.
+ 148:Generated_Source\PSoC4/SWL_Int.c **** *
+ 149:Generated_Source\PSoC4/SWL_Int.c **** *   Note You may use either the default ISR by using this API, or you may define
+ 150:Generated_Source\PSoC4/SWL_Int.c **** *   your own separate ISR through ISR_StartEx().
+ 151:Generated_Source\PSoC4/SWL_Int.c **** *
+ 152:Generated_Source\PSoC4/SWL_Int.c **** * Parameters:  
+ 153:Generated_Source\PSoC4/SWL_Int.c **** *   None
+ 154:Generated_Source\PSoC4/SWL_Int.c **** *
+ 155:Generated_Source\PSoC4/SWL_Int.c **** * Return:
+ 156:Generated_Source\PSoC4/SWL_Int.c **** *   None
+ 157:Generated_Source\PSoC4/SWL_Int.c **** *
+ 158:Generated_Source\PSoC4/SWL_Int.c **** *******************************************************************************/
+ 159:Generated_Source\PSoC4/SWL_Int.c **** CY_ISR(SWL_Int_Interrupt)
+ 160:Generated_Source\PSoC4/SWL_Int.c **** {
+ 146              		.loc 1 160 0
+ 147              		.cfi_startproc
+ 148              		@ args = 0, pretend = 0, frame = 0
+ 149              		@ frame_needed = 1, uses_anonymous_args = 0
+ 150 0000 80B5     		push	{r7, lr}
+ 151              		.cfi_def_cfa_offset 8
+ 152              		.cfi_offset 7, -8
+ 153              		.cfi_offset 14, -4
+ 154 0002 00AF     		add	r7, sp, #0
+ 155              		.cfi_def_cfa_register 7
+ 161:Generated_Source\PSoC4/SWL_Int.c ****     #ifdef SWL_Int_INTERRUPT_INTERRUPT_CALLBACK
+ 162:Generated_Source\PSoC4/SWL_Int.c ****         SWL_Int_Interrupt_InterruptCallback();
+ 163:Generated_Source\PSoC4/SWL_Int.c ****     #endif /* SWL_Int_INTERRUPT_INTERRUPT_CALLBACK */ 
+ 164:Generated_Source\PSoC4/SWL_Int.c **** 
+ 165:Generated_Source\PSoC4/SWL_Int.c ****     /*  Place your Interrupt code here. */
+ 166:Generated_Source\PSoC4/SWL_Int.c ****     /* `#START SWL_Int_Interrupt` */
+ 167:Generated_Source\PSoC4/SWL_Int.c **** 
+ 168:Generated_Source\PSoC4/SWL_Int.c ****     /* `#END` */
+ 169:Generated_Source\PSoC4/SWL_Int.c **** }
+ 156              		.loc 1 169 0
+ 157 0004 C046     		nop
+ 158 0006 BD46     		mov	sp, r7
+ 159              		@ sp needed
+ 160 0008 80BD     		pop	{r7, pc}
+ 161              		.cfi_endproc
+ 162              	.LFE3:
+ 163              		.size	SWL_Int_Interrupt, .-SWL_Int_Interrupt
+ 164              		.section	.text.SWL_Int_SetVector,"ax",%progbits
+ 165              		.align	2
+ 166              		.global	SWL_Int_SetVector
+ 167              		.code	16
+ 168              		.thumb_func
+ 169              		.type	SWL_Int_SetVector, %function
+ 170              	SWL_Int_SetVector:
+ 171              	.LFB4:
+ 170:Generated_Source\PSoC4/SWL_Int.c **** 
+ 171:Generated_Source\PSoC4/SWL_Int.c **** 
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 7
+
+
+ 172:Generated_Source\PSoC4/SWL_Int.c **** /*******************************************************************************
+ 173:Generated_Source\PSoC4/SWL_Int.c **** * Function Name: SWL_Int_SetVector
+ 174:Generated_Source\PSoC4/SWL_Int.c **** ********************************************************************************
+ 175:Generated_Source\PSoC4/SWL_Int.c **** *
+ 176:Generated_Source\PSoC4/SWL_Int.c **** * Summary:
+ 177:Generated_Source\PSoC4/SWL_Int.c **** *   Change the ISR vector for the Interrupt. Note calling SWL_Int_Start
+ 178:Generated_Source\PSoC4/SWL_Int.c **** *   will override any effect this method would have had. To set the vector 
+ 179:Generated_Source\PSoC4/SWL_Int.c **** *   before the component has been started use SWL_Int_StartEx instead.
+ 180:Generated_Source\PSoC4/SWL_Int.c **** * 
+ 181:Generated_Source\PSoC4/SWL_Int.c **** *   When defining ISR functions, the CY_ISR and CY_ISR_PROTO macros should be 
+ 182:Generated_Source\PSoC4/SWL_Int.c **** *   used to provide consistent definition across compilers:
+ 183:Generated_Source\PSoC4/SWL_Int.c **** *
+ 184:Generated_Source\PSoC4/SWL_Int.c **** *   Function definition example:
+ 185:Generated_Source\PSoC4/SWL_Int.c **** *   CY_ISR(MyISR)
+ 186:Generated_Source\PSoC4/SWL_Int.c **** *   {
+ 187:Generated_Source\PSoC4/SWL_Int.c **** *   }
+ 188:Generated_Source\PSoC4/SWL_Int.c **** *
+ 189:Generated_Source\PSoC4/SWL_Int.c **** *   Function prototype example:
+ 190:Generated_Source\PSoC4/SWL_Int.c **** *     CY_ISR_PROTO(MyISR);
+ 191:Generated_Source\PSoC4/SWL_Int.c **** *
+ 192:Generated_Source\PSoC4/SWL_Int.c **** * Parameters:
+ 193:Generated_Source\PSoC4/SWL_Int.c **** *   address: Address of the ISR to set in the interrupt vector table.
+ 194:Generated_Source\PSoC4/SWL_Int.c **** *
+ 195:Generated_Source\PSoC4/SWL_Int.c **** * Return:
+ 196:Generated_Source\PSoC4/SWL_Int.c **** *   None
+ 197:Generated_Source\PSoC4/SWL_Int.c **** *
+ 198:Generated_Source\PSoC4/SWL_Int.c **** *******************************************************************************/
+ 199:Generated_Source\PSoC4/SWL_Int.c **** void SWL_Int_SetVector(cyisraddress address)
+ 200:Generated_Source\PSoC4/SWL_Int.c **** {
+ 172              		.loc 1 200 0
+ 173              		.cfi_startproc
+ 174              		@ args = 0, pretend = 0, frame = 8
+ 175              		@ frame_needed = 1, uses_anonymous_args = 0
+ 176 0000 80B5     		push	{r7, lr}
+ 177              		.cfi_def_cfa_offset 8
+ 178              		.cfi_offset 7, -8
+ 179              		.cfi_offset 14, -4
+ 180 0002 82B0     		sub	sp, sp, #8
+ 181              		.cfi_def_cfa_offset 16
+ 182 0004 00AF     		add	r7, sp, #0
+ 183              		.cfi_def_cfa_register 7
+ 184 0006 7860     		str	r0, [r7, #4]
+ 201:Generated_Source\PSoC4/SWL_Int.c ****     CyRamVectors[CYINT_IRQ_BASE + SWL_Int__INTC_NUMBER] = address;
+ 185              		.loc 1 201 0
+ 186 0008 034B     		ldr	r3, .L10
+ 187 000a 7A68     		ldr	r2, [r7, #4]
+ 188 000c DA64     		str	r2, [r3, #76]
+ 202:Generated_Source\PSoC4/SWL_Int.c **** }
+ 189              		.loc 1 202 0
+ 190 000e C046     		nop
+ 191 0010 BD46     		mov	sp, r7
+ 192 0012 02B0     		add	sp, sp, #8
+ 193              		@ sp needed
+ 194 0014 80BD     		pop	{r7, pc}
+ 195              	.L11:
+ 196 0016 C046     		.align	2
+ 197              	.L10:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 8
+
+
+ 198 0018 00000000 		.word	CyRamVectors
+ 199              		.cfi_endproc
+ 200              	.LFE4:
+ 201              		.size	SWL_Int_SetVector, .-SWL_Int_SetVector
+ 202              		.section	.text.SWL_Int_GetVector,"ax",%progbits
+ 203              		.align	2
+ 204              		.global	SWL_Int_GetVector
+ 205              		.code	16
+ 206              		.thumb_func
+ 207              		.type	SWL_Int_GetVector, %function
+ 208              	SWL_Int_GetVector:
+ 209              	.LFB5:
+ 203:Generated_Source\PSoC4/SWL_Int.c **** 
+ 204:Generated_Source\PSoC4/SWL_Int.c **** 
+ 205:Generated_Source\PSoC4/SWL_Int.c **** /*******************************************************************************
+ 206:Generated_Source\PSoC4/SWL_Int.c **** * Function Name: SWL_Int_GetVector
+ 207:Generated_Source\PSoC4/SWL_Int.c **** ********************************************************************************
+ 208:Generated_Source\PSoC4/SWL_Int.c **** *
+ 209:Generated_Source\PSoC4/SWL_Int.c **** * Summary:
+ 210:Generated_Source\PSoC4/SWL_Int.c **** *   Gets the "address" of the current ISR vector for the Interrupt.
+ 211:Generated_Source\PSoC4/SWL_Int.c **** *
+ 212:Generated_Source\PSoC4/SWL_Int.c **** * Parameters:
+ 213:Generated_Source\PSoC4/SWL_Int.c **** *   None
+ 214:Generated_Source\PSoC4/SWL_Int.c **** *
+ 215:Generated_Source\PSoC4/SWL_Int.c **** * Return:
+ 216:Generated_Source\PSoC4/SWL_Int.c **** *   Address of the ISR in the interrupt vector table.
+ 217:Generated_Source\PSoC4/SWL_Int.c **** *
+ 218:Generated_Source\PSoC4/SWL_Int.c **** *******************************************************************************/
+ 219:Generated_Source\PSoC4/SWL_Int.c **** cyisraddress SWL_Int_GetVector(void)
+ 220:Generated_Source\PSoC4/SWL_Int.c **** {
+ 210              		.loc 1 220 0
+ 211              		.cfi_startproc
+ 212              		@ args = 0, pretend = 0, frame = 0
+ 213              		@ frame_needed = 1, uses_anonymous_args = 0
+ 214 0000 80B5     		push	{r7, lr}
+ 215              		.cfi_def_cfa_offset 8
+ 216              		.cfi_offset 7, -8
+ 217              		.cfi_offset 14, -4
+ 218 0002 00AF     		add	r7, sp, #0
+ 219              		.cfi_def_cfa_register 7
+ 221:Generated_Source\PSoC4/SWL_Int.c ****     return CyRamVectors[CYINT_IRQ_BASE + SWL_Int__INTC_NUMBER];
+ 220              		.loc 1 221 0
+ 221 0004 024B     		ldr	r3, .L14
+ 222 0006 DB6C     		ldr	r3, [r3, #76]
+ 222:Generated_Source\PSoC4/SWL_Int.c **** }
+ 223              		.loc 1 222 0
+ 224 0008 1800     		movs	r0, r3
+ 225 000a BD46     		mov	sp, r7
+ 226              		@ sp needed
+ 227 000c 80BD     		pop	{r7, pc}
+ 228              	.L15:
+ 229 000e C046     		.align	2
+ 230              	.L14:
+ 231 0010 00000000 		.word	CyRamVectors
+ 232              		.cfi_endproc
+ 233              	.LFE5:
+ 234              		.size	SWL_Int_GetVector, .-SWL_Int_GetVector
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 9
+
+
+ 235              		.section	.text.SWL_Int_SetPriority,"ax",%progbits
+ 236              		.align	2
+ 237              		.global	SWL_Int_SetPriority
+ 238              		.code	16
+ 239              		.thumb_func
+ 240              		.type	SWL_Int_SetPriority, %function
+ 241              	SWL_Int_SetPriority:
+ 242              	.LFB6:
+ 223:Generated_Source\PSoC4/SWL_Int.c **** 
+ 224:Generated_Source\PSoC4/SWL_Int.c **** 
+ 225:Generated_Source\PSoC4/SWL_Int.c **** /*******************************************************************************
+ 226:Generated_Source\PSoC4/SWL_Int.c **** * Function Name: SWL_Int_SetPriority
+ 227:Generated_Source\PSoC4/SWL_Int.c **** ********************************************************************************
+ 228:Generated_Source\PSoC4/SWL_Int.c **** *
+ 229:Generated_Source\PSoC4/SWL_Int.c **** * Summary:
+ 230:Generated_Source\PSoC4/SWL_Int.c **** *   Sets the Priority of the Interrupt. 
+ 231:Generated_Source\PSoC4/SWL_Int.c **** *
+ 232:Generated_Source\PSoC4/SWL_Int.c **** *   Note calling SWL_Int_Start or SWL_Int_StartEx will 
+ 233:Generated_Source\PSoC4/SWL_Int.c **** *   override any effect this API would have had. This API should only be called
+ 234:Generated_Source\PSoC4/SWL_Int.c **** *   after SWL_Int_Start or SWL_Int_StartEx has been called. 
+ 235:Generated_Source\PSoC4/SWL_Int.c **** *   To set the initial priority for the component, use the Design-Wide Resources
+ 236:Generated_Source\PSoC4/SWL_Int.c **** *   Interrupt Editor.
+ 237:Generated_Source\PSoC4/SWL_Int.c **** *
+ 238:Generated_Source\PSoC4/SWL_Int.c **** *   Note This API has no effect on Non-maskable interrupt NMI).
+ 239:Generated_Source\PSoC4/SWL_Int.c **** *
+ 240:Generated_Source\PSoC4/SWL_Int.c **** * Parameters:
+ 241:Generated_Source\PSoC4/SWL_Int.c **** *   priority: Priority of the interrupt, 0 being the highest priority
+ 242:Generated_Source\PSoC4/SWL_Int.c **** *             PSoC 3 and PSoC 5LP: Priority is from 0 to 7.
+ 243:Generated_Source\PSoC4/SWL_Int.c **** *             PSoC 4: Priority is from 0 to 3.
+ 244:Generated_Source\PSoC4/SWL_Int.c **** *
+ 245:Generated_Source\PSoC4/SWL_Int.c **** * Return:
+ 246:Generated_Source\PSoC4/SWL_Int.c **** *   None
+ 247:Generated_Source\PSoC4/SWL_Int.c **** *
+ 248:Generated_Source\PSoC4/SWL_Int.c **** *******************************************************************************/
+ 249:Generated_Source\PSoC4/SWL_Int.c **** void SWL_Int_SetPriority(uint8 priority)
+ 250:Generated_Source\PSoC4/SWL_Int.c **** {
+ 243              		.loc 1 250 0
+ 244              		.cfi_startproc
+ 245              		@ args = 0, pretend = 0, frame = 16
+ 246              		@ frame_needed = 1, uses_anonymous_args = 0
+ 247 0000 90B5     		push	{r4, r7, lr}
+ 248              		.cfi_def_cfa_offset 12
+ 249              		.cfi_offset 4, -12
+ 250              		.cfi_offset 7, -8
+ 251              		.cfi_offset 14, -4
+ 252 0002 85B0     		sub	sp, sp, #20
+ 253              		.cfi_def_cfa_offset 32
+ 254 0004 00AF     		add	r7, sp, #0
+ 255              		.cfi_def_cfa_register 7
+ 256 0006 0200     		movs	r2, r0
+ 257 0008 FB1D     		adds	r3, r7, #7
+ 258 000a 1A70     		strb	r2, [r3]
+ 251:Generated_Source\PSoC4/SWL_Int.c **** 	uint8 interruptState;
+ 252:Generated_Source\PSoC4/SWL_Int.c ****     uint32 priorityOffset = ((SWL_Int__INTC_NUMBER % 4u) * 8u) + 6u;
+ 259              		.loc 1 252 0
+ 260 000c 1E23     		movs	r3, #30
+ 261 000e FB60     		str	r3, [r7, #12]
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 10
+
+
+ 253:Generated_Source\PSoC4/SWL_Int.c ****     
+ 254:Generated_Source\PSoC4/SWL_Int.c **** 	interruptState = CyEnterCriticalSection();
+ 262              		.loc 1 254 0
+ 263 0010 0B23     		movs	r3, #11
+ 264 0012 FC18     		adds	r4, r7, r3
+ 265 0014 FFF7FEFF 		bl	CyEnterCriticalSection
+ 266 0018 0300     		movs	r3, r0
+ 267 001a 2370     		strb	r3, [r4]
+ 255:Generated_Source\PSoC4/SWL_Int.c ****     *SWL_Int_INTC_PRIOR = (*SWL_Int_INTC_PRIOR & (uint32)(~SWL_Int__INTC_PRIOR_MASK)) |
+ 268              		.loc 1 255 0
+ 269 001c 0A4B     		ldr	r3, .L17
+ 270 001e 0A4A     		ldr	r2, .L17
+ 271 0020 1268     		ldr	r2, [r2]
+ 272 0022 9200     		lsls	r2, r2, #2
+ 273 0024 9108     		lsrs	r1, r2, #2
+ 256:Generated_Source\PSoC4/SWL_Int.c ****                                     ((uint32)priority << priorityOffset);
+ 274              		.loc 1 256 0
+ 275 0026 FA1D     		adds	r2, r7, #7
+ 276 0028 1078     		ldrb	r0, [r2]
+ 277 002a FA68     		ldr	r2, [r7, #12]
+ 278 002c 9040     		lsls	r0, r0, r2
+ 279 002e 0200     		movs	r2, r0
+ 255:Generated_Source\PSoC4/SWL_Int.c ****     *SWL_Int_INTC_PRIOR = (*SWL_Int_INTC_PRIOR & (uint32)(~SWL_Int__INTC_PRIOR_MASK)) |
+ 280              		.loc 1 255 0
+ 281 0030 0A43     		orrs	r2, r1
+ 282 0032 1A60     		str	r2, [r3]
+ 257:Generated_Source\PSoC4/SWL_Int.c **** 	CyExitCriticalSection(interruptState);
+ 283              		.loc 1 257 0
+ 284 0034 0B23     		movs	r3, #11
+ 285 0036 FB18     		adds	r3, r7, r3
+ 286 0038 1B78     		ldrb	r3, [r3]
+ 287 003a 1800     		movs	r0, r3
+ 288 003c FFF7FEFF 		bl	CyExitCriticalSection
+ 258:Generated_Source\PSoC4/SWL_Int.c **** }
+ 289              		.loc 1 258 0
+ 290 0040 C046     		nop
+ 291 0042 BD46     		mov	sp, r7
+ 292 0044 05B0     		add	sp, sp, #20
+ 293              		@ sp needed
+ 294 0046 90BD     		pop	{r4, r7, pc}
+ 295              	.L18:
+ 296              		.align	2
+ 297              	.L17:
+ 298 0048 00E400E0 		.word	-536812544
+ 299              		.cfi_endproc
+ 300              	.LFE6:
+ 301              		.size	SWL_Int_SetPriority, .-SWL_Int_SetPriority
+ 302              		.section	.text.SWL_Int_GetPriority,"ax",%progbits
+ 303              		.align	2
+ 304              		.global	SWL_Int_GetPriority
+ 305              		.code	16
+ 306              		.thumb_func
+ 307              		.type	SWL_Int_GetPriority, %function
+ 308              	SWL_Int_GetPriority:
+ 309              	.LFB7:
+ 259:Generated_Source\PSoC4/SWL_Int.c **** 
+ 260:Generated_Source\PSoC4/SWL_Int.c **** 
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 11
+
+
+ 261:Generated_Source\PSoC4/SWL_Int.c **** /*******************************************************************************
+ 262:Generated_Source\PSoC4/SWL_Int.c **** * Function Name: SWL_Int_GetPriority
+ 263:Generated_Source\PSoC4/SWL_Int.c **** ********************************************************************************
+ 264:Generated_Source\PSoC4/SWL_Int.c **** *
+ 265:Generated_Source\PSoC4/SWL_Int.c **** * Summary:
+ 266:Generated_Source\PSoC4/SWL_Int.c **** *   Gets the Priority of the Interrupt.
+ 267:Generated_Source\PSoC4/SWL_Int.c **** *
+ 268:Generated_Source\PSoC4/SWL_Int.c **** * Parameters:
+ 269:Generated_Source\PSoC4/SWL_Int.c **** *   None
+ 270:Generated_Source\PSoC4/SWL_Int.c **** *
+ 271:Generated_Source\PSoC4/SWL_Int.c **** * Return:
+ 272:Generated_Source\PSoC4/SWL_Int.c **** *   Priority of the interrupt, 0 being the highest priority
+ 273:Generated_Source\PSoC4/SWL_Int.c **** *    PSoC 3 and PSoC 5LP: Priority is from 0 to 7.
+ 274:Generated_Source\PSoC4/SWL_Int.c **** *    PSoC 4: Priority is from 0 to 3.
+ 275:Generated_Source\PSoC4/SWL_Int.c **** *
+ 276:Generated_Source\PSoC4/SWL_Int.c **** *******************************************************************************/
+ 277:Generated_Source\PSoC4/SWL_Int.c **** uint8 SWL_Int_GetPriority(void)
+ 278:Generated_Source\PSoC4/SWL_Int.c **** {
+ 310              		.loc 1 278 0
+ 311              		.cfi_startproc
+ 312              		@ args = 0, pretend = 0, frame = 8
+ 313              		@ frame_needed = 1, uses_anonymous_args = 0
+ 314 0000 80B5     		push	{r7, lr}
+ 315              		.cfi_def_cfa_offset 8
+ 316              		.cfi_offset 7, -8
+ 317              		.cfi_offset 14, -4
+ 318 0002 82B0     		sub	sp, sp, #8
+ 319              		.cfi_def_cfa_offset 16
+ 320 0004 00AF     		add	r7, sp, #0
+ 321              		.cfi_def_cfa_register 7
+ 279:Generated_Source\PSoC4/SWL_Int.c ****     uint32 priority;
+ 280:Generated_Source\PSoC4/SWL_Int.c **** 	uint32 priorityOffset = ((SWL_Int__INTC_NUMBER % 4u) * 8u) + 6u;
+ 322              		.loc 1 280 0
+ 323 0006 1E23     		movs	r3, #30
+ 324 0008 7B60     		str	r3, [r7, #4]
+ 281:Generated_Source\PSoC4/SWL_Int.c **** 
+ 282:Generated_Source\PSoC4/SWL_Int.c ****     priority = (*SWL_Int_INTC_PRIOR & SWL_Int__INTC_PRIOR_MASK) >> priorityOffset;
+ 325              		.loc 1 282 0
+ 326 000a 074B     		ldr	r3, .L21
+ 327 000c 1B68     		ldr	r3, [r3]
+ 328 000e 9B0F     		lsrs	r3, r3, #30
+ 329 0010 9A07     		lsls	r2, r3, #30
+ 330 0012 7B68     		ldr	r3, [r7, #4]
+ 331 0014 DA40     		lsrs	r2, r2, r3
+ 332 0016 1300     		movs	r3, r2
+ 333 0018 3B60     		str	r3, [r7]
+ 283:Generated_Source\PSoC4/SWL_Int.c **** 
+ 284:Generated_Source\PSoC4/SWL_Int.c ****     return (uint8)priority;
+ 334              		.loc 1 284 0
+ 335 001a 3B68     		ldr	r3, [r7]
+ 336 001c DBB2     		uxtb	r3, r3
+ 285:Generated_Source\PSoC4/SWL_Int.c **** }
+ 337              		.loc 1 285 0
+ 338 001e 1800     		movs	r0, r3
+ 339 0020 BD46     		mov	sp, r7
+ 340 0022 02B0     		add	sp, sp, #8
+ 341              		@ sp needed
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 12
+
+
+ 342 0024 80BD     		pop	{r7, pc}
+ 343              	.L22:
+ 344 0026 C046     		.align	2
+ 345              	.L21:
+ 346 0028 00E400E0 		.word	-536812544
+ 347              		.cfi_endproc
+ 348              	.LFE7:
+ 349              		.size	SWL_Int_GetPriority, .-SWL_Int_GetPriority
+ 350              		.section	.text.SWL_Int_Enable,"ax",%progbits
+ 351              		.align	2
+ 352              		.global	SWL_Int_Enable
+ 353              		.code	16
+ 354              		.thumb_func
+ 355              		.type	SWL_Int_Enable, %function
+ 356              	SWL_Int_Enable:
+ 357              	.LFB8:
+ 286:Generated_Source\PSoC4/SWL_Int.c **** 
+ 287:Generated_Source\PSoC4/SWL_Int.c **** 
+ 288:Generated_Source\PSoC4/SWL_Int.c **** /*******************************************************************************
+ 289:Generated_Source\PSoC4/SWL_Int.c **** * Function Name: SWL_Int_Enable
+ 290:Generated_Source\PSoC4/SWL_Int.c **** ********************************************************************************
+ 291:Generated_Source\PSoC4/SWL_Int.c **** *
+ 292:Generated_Source\PSoC4/SWL_Int.c **** * Summary:
+ 293:Generated_Source\PSoC4/SWL_Int.c **** *   Enables the interrupt to the interrupt controller. Do not call this function
+ 294:Generated_Source\PSoC4/SWL_Int.c **** *   unless ISR_Start() has been called or the functionality of the ISR_Start() 
+ 295:Generated_Source\PSoC4/SWL_Int.c **** *   function, which sets the vector and the priority, has been called.
+ 296:Generated_Source\PSoC4/SWL_Int.c **** *
+ 297:Generated_Source\PSoC4/SWL_Int.c **** * Parameters:
+ 298:Generated_Source\PSoC4/SWL_Int.c **** *   None
+ 299:Generated_Source\PSoC4/SWL_Int.c **** *
+ 300:Generated_Source\PSoC4/SWL_Int.c **** * Return:
+ 301:Generated_Source\PSoC4/SWL_Int.c **** *   None
+ 302:Generated_Source\PSoC4/SWL_Int.c **** *
+ 303:Generated_Source\PSoC4/SWL_Int.c **** *******************************************************************************/
+ 304:Generated_Source\PSoC4/SWL_Int.c **** void SWL_Int_Enable(void)
+ 305:Generated_Source\PSoC4/SWL_Int.c **** {
+ 358              		.loc 1 305 0
+ 359              		.cfi_startproc
+ 360              		@ args = 0, pretend = 0, frame = 0
+ 361              		@ frame_needed = 1, uses_anonymous_args = 0
+ 362 0000 80B5     		push	{r7, lr}
+ 363              		.cfi_def_cfa_offset 8
+ 364              		.cfi_offset 7, -8
+ 365              		.cfi_offset 14, -4
+ 366 0002 00AF     		add	r7, sp, #0
+ 367              		.cfi_def_cfa_register 7
+ 306:Generated_Source\PSoC4/SWL_Int.c ****     /* Enable the general interrupt. */
+ 307:Generated_Source\PSoC4/SWL_Int.c ****     *SWL_Int_INTC_SET_EN = SWL_Int__INTC_MASK;
+ 368              		.loc 1 307 0
+ 369 0004 024B     		ldr	r3, .L24
+ 370 0006 0822     		movs	r2, #8
+ 371 0008 1A60     		str	r2, [r3]
+ 308:Generated_Source\PSoC4/SWL_Int.c **** }
+ 372              		.loc 1 308 0
+ 373 000a C046     		nop
+ 374 000c BD46     		mov	sp, r7
+ 375              		@ sp needed
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 13
+
+
+ 376 000e 80BD     		pop	{r7, pc}
+ 377              	.L25:
+ 378              		.align	2
+ 379              	.L24:
+ 380 0010 00E100E0 		.word	-536813312
+ 381              		.cfi_endproc
+ 382              	.LFE8:
+ 383              		.size	SWL_Int_Enable, .-SWL_Int_Enable
+ 384              		.section	.text.SWL_Int_GetState,"ax",%progbits
+ 385              		.align	2
+ 386              		.global	SWL_Int_GetState
+ 387              		.code	16
+ 388              		.thumb_func
+ 389              		.type	SWL_Int_GetState, %function
+ 390              	SWL_Int_GetState:
+ 391              	.LFB9:
+ 309:Generated_Source\PSoC4/SWL_Int.c **** 
+ 310:Generated_Source\PSoC4/SWL_Int.c **** 
+ 311:Generated_Source\PSoC4/SWL_Int.c **** /*******************************************************************************
+ 312:Generated_Source\PSoC4/SWL_Int.c **** * Function Name: SWL_Int_GetState
+ 313:Generated_Source\PSoC4/SWL_Int.c **** ********************************************************************************
+ 314:Generated_Source\PSoC4/SWL_Int.c **** *
+ 315:Generated_Source\PSoC4/SWL_Int.c **** * Summary:
+ 316:Generated_Source\PSoC4/SWL_Int.c **** *   Gets the state (enabled, disabled) of the Interrupt.
+ 317:Generated_Source\PSoC4/SWL_Int.c **** *
+ 318:Generated_Source\PSoC4/SWL_Int.c **** * Parameters:
+ 319:Generated_Source\PSoC4/SWL_Int.c **** *   None
+ 320:Generated_Source\PSoC4/SWL_Int.c **** *
+ 321:Generated_Source\PSoC4/SWL_Int.c **** * Return:
+ 322:Generated_Source\PSoC4/SWL_Int.c **** *   1 if enabled, 0 if disabled.
+ 323:Generated_Source\PSoC4/SWL_Int.c **** *
+ 324:Generated_Source\PSoC4/SWL_Int.c **** *******************************************************************************/
+ 325:Generated_Source\PSoC4/SWL_Int.c **** uint8 SWL_Int_GetState(void)
+ 326:Generated_Source\PSoC4/SWL_Int.c **** {
+ 392              		.loc 1 326 0
+ 393              		.cfi_startproc
+ 394              		@ args = 0, pretend = 0, frame = 0
+ 395              		@ frame_needed = 1, uses_anonymous_args = 0
+ 396 0000 80B5     		push	{r7, lr}
+ 397              		.cfi_def_cfa_offset 8
+ 398              		.cfi_offset 7, -8
+ 399              		.cfi_offset 14, -4
+ 400 0002 00AF     		add	r7, sp, #0
+ 401              		.cfi_def_cfa_register 7
+ 327:Generated_Source\PSoC4/SWL_Int.c ****     /* Get the state of the general interrupt. */
+ 328:Generated_Source\PSoC4/SWL_Int.c ****     return ((*SWL_Int_INTC_SET_EN & (uint32)SWL_Int__INTC_MASK) != 0u) ? 1u:0u;
+ 402              		.loc 1 328 0
+ 403 0004 054B     		ldr	r3, .L30
+ 404 0006 1B68     		ldr	r3, [r3]
+ 405 0008 0822     		movs	r2, #8
+ 406 000a 1340     		ands	r3, r2
+ 407 000c 01D0     		beq	.L27
+ 408              		.loc 1 328 0 is_stmt 0 discriminator 1
+ 409 000e 0123     		movs	r3, #1
+ 410 0010 00E0     		b	.L28
+ 411              	.L27:
+ 412              		.loc 1 328 0 discriminator 2
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 14
+
+
+ 413 0012 0023     		movs	r3, #0
+ 414              	.L28:
+ 329:Generated_Source\PSoC4/SWL_Int.c **** }
+ 415              		.loc 1 329 0 is_stmt 1 discriminator 4
+ 416 0014 1800     		movs	r0, r3
+ 417 0016 BD46     		mov	sp, r7
+ 418              		@ sp needed
+ 419 0018 80BD     		pop	{r7, pc}
+ 420              	.L31:
+ 421 001a C046     		.align	2
+ 422              	.L30:
+ 423 001c 00E100E0 		.word	-536813312
+ 424              		.cfi_endproc
+ 425              	.LFE9:
+ 426              		.size	SWL_Int_GetState, .-SWL_Int_GetState
+ 427              		.section	.text.SWL_Int_Disable,"ax",%progbits
+ 428              		.align	2
+ 429              		.global	SWL_Int_Disable
+ 430              		.code	16
+ 431              		.thumb_func
+ 432              		.type	SWL_Int_Disable, %function
+ 433              	SWL_Int_Disable:
+ 434              	.LFB10:
+ 330:Generated_Source\PSoC4/SWL_Int.c **** 
+ 331:Generated_Source\PSoC4/SWL_Int.c **** 
+ 332:Generated_Source\PSoC4/SWL_Int.c **** /*******************************************************************************
+ 333:Generated_Source\PSoC4/SWL_Int.c **** * Function Name: SWL_Int_Disable
+ 334:Generated_Source\PSoC4/SWL_Int.c **** ********************************************************************************
+ 335:Generated_Source\PSoC4/SWL_Int.c **** *
+ 336:Generated_Source\PSoC4/SWL_Int.c **** * Summary:
+ 337:Generated_Source\PSoC4/SWL_Int.c **** *   Disables the Interrupt in the interrupt controller.
+ 338:Generated_Source\PSoC4/SWL_Int.c **** *
+ 339:Generated_Source\PSoC4/SWL_Int.c **** * Parameters:
+ 340:Generated_Source\PSoC4/SWL_Int.c **** *   None
+ 341:Generated_Source\PSoC4/SWL_Int.c **** *
+ 342:Generated_Source\PSoC4/SWL_Int.c **** * Return:
+ 343:Generated_Source\PSoC4/SWL_Int.c **** *   None
+ 344:Generated_Source\PSoC4/SWL_Int.c **** *
+ 345:Generated_Source\PSoC4/SWL_Int.c **** *******************************************************************************/
+ 346:Generated_Source\PSoC4/SWL_Int.c **** void SWL_Int_Disable(void)
+ 347:Generated_Source\PSoC4/SWL_Int.c **** {
+ 435              		.loc 1 347 0
+ 436              		.cfi_startproc
+ 437              		@ args = 0, pretend = 0, frame = 0
+ 438              		@ frame_needed = 1, uses_anonymous_args = 0
+ 439 0000 80B5     		push	{r7, lr}
+ 440              		.cfi_def_cfa_offset 8
+ 441              		.cfi_offset 7, -8
+ 442              		.cfi_offset 14, -4
+ 443 0002 00AF     		add	r7, sp, #0
+ 444              		.cfi_def_cfa_register 7
+ 348:Generated_Source\PSoC4/SWL_Int.c ****     /* Disable the general interrupt. */
+ 349:Generated_Source\PSoC4/SWL_Int.c ****     *SWL_Int_INTC_CLR_EN = SWL_Int__INTC_MASK;
+ 445              		.loc 1 349 0
+ 446 0004 024B     		ldr	r3, .L33
+ 447 0006 0822     		movs	r2, #8
+ 448 0008 1A60     		str	r2, [r3]
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 15
+
+
+ 350:Generated_Source\PSoC4/SWL_Int.c **** }
+ 449              		.loc 1 350 0
+ 450 000a C046     		nop
+ 451 000c BD46     		mov	sp, r7
+ 452              		@ sp needed
+ 453 000e 80BD     		pop	{r7, pc}
+ 454              	.L34:
+ 455              		.align	2
+ 456              	.L33:
+ 457 0010 80E100E0 		.word	-536813184
+ 458              		.cfi_endproc
+ 459              	.LFE10:
+ 460              		.size	SWL_Int_Disable, .-SWL_Int_Disable
+ 461              		.section	.text.SWL_Int_SetPending,"ax",%progbits
+ 462              		.align	2
+ 463              		.global	SWL_Int_SetPending
+ 464              		.code	16
+ 465              		.thumb_func
+ 466              		.type	SWL_Int_SetPending, %function
+ 467              	SWL_Int_SetPending:
+ 468              	.LFB11:
+ 351:Generated_Source\PSoC4/SWL_Int.c **** 
+ 352:Generated_Source\PSoC4/SWL_Int.c **** 
+ 353:Generated_Source\PSoC4/SWL_Int.c **** /*******************************************************************************
+ 354:Generated_Source\PSoC4/SWL_Int.c **** * Function Name: SWL_Int_SetPending
+ 355:Generated_Source\PSoC4/SWL_Int.c **** ********************************************************************************
+ 356:Generated_Source\PSoC4/SWL_Int.c **** *
+ 357:Generated_Source\PSoC4/SWL_Int.c **** * Summary:
+ 358:Generated_Source\PSoC4/SWL_Int.c **** *   Causes the Interrupt to enter the pending state, a software method of
+ 359:Generated_Source\PSoC4/SWL_Int.c **** *   generating the interrupt.
+ 360:Generated_Source\PSoC4/SWL_Int.c **** *
+ 361:Generated_Source\PSoC4/SWL_Int.c **** * Parameters:
+ 362:Generated_Source\PSoC4/SWL_Int.c **** *   None
+ 363:Generated_Source\PSoC4/SWL_Int.c **** *
+ 364:Generated_Source\PSoC4/SWL_Int.c **** * Return:
+ 365:Generated_Source\PSoC4/SWL_Int.c **** *   None
+ 366:Generated_Source\PSoC4/SWL_Int.c **** *
+ 367:Generated_Source\PSoC4/SWL_Int.c **** * Side Effects:
+ 368:Generated_Source\PSoC4/SWL_Int.c **** *   If interrupts are enabled and the interrupt is set up properly, the ISR is
+ 369:Generated_Source\PSoC4/SWL_Int.c **** *   entered (depending on the priority of this interrupt and other pending 
+ 370:Generated_Source\PSoC4/SWL_Int.c **** *   interrupts).
+ 371:Generated_Source\PSoC4/SWL_Int.c **** *
+ 372:Generated_Source\PSoC4/SWL_Int.c **** *******************************************************************************/
+ 373:Generated_Source\PSoC4/SWL_Int.c **** void SWL_Int_SetPending(void)
+ 374:Generated_Source\PSoC4/SWL_Int.c **** {
+ 469              		.loc 1 374 0
+ 470              		.cfi_startproc
+ 471              		@ args = 0, pretend = 0, frame = 0
+ 472              		@ frame_needed = 1, uses_anonymous_args = 0
+ 473 0000 80B5     		push	{r7, lr}
+ 474              		.cfi_def_cfa_offset 8
+ 475              		.cfi_offset 7, -8
+ 476              		.cfi_offset 14, -4
+ 477 0002 00AF     		add	r7, sp, #0
+ 478              		.cfi_def_cfa_register 7
+ 375:Generated_Source\PSoC4/SWL_Int.c ****     *SWL_Int_INTC_SET_PD = SWL_Int__INTC_MASK;
+ 479              		.loc 1 375 0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 16
+
+
+ 480 0004 024B     		ldr	r3, .L36
+ 481 0006 0822     		movs	r2, #8
+ 482 0008 1A60     		str	r2, [r3]
+ 376:Generated_Source\PSoC4/SWL_Int.c **** }
+ 483              		.loc 1 376 0
+ 484 000a C046     		nop
+ 485 000c BD46     		mov	sp, r7
+ 486              		@ sp needed
+ 487 000e 80BD     		pop	{r7, pc}
+ 488              	.L37:
+ 489              		.align	2
+ 490              	.L36:
+ 491 0010 00E200E0 		.word	-536813056
+ 492              		.cfi_endproc
+ 493              	.LFE11:
+ 494              		.size	SWL_Int_SetPending, .-SWL_Int_SetPending
+ 495              		.section	.text.SWL_Int_ClearPending,"ax",%progbits
+ 496              		.align	2
+ 497              		.global	SWL_Int_ClearPending
+ 498              		.code	16
+ 499              		.thumb_func
+ 500              		.type	SWL_Int_ClearPending, %function
+ 501              	SWL_Int_ClearPending:
+ 502              	.LFB12:
+ 377:Generated_Source\PSoC4/SWL_Int.c **** 
+ 378:Generated_Source\PSoC4/SWL_Int.c **** 
+ 379:Generated_Source\PSoC4/SWL_Int.c **** /*******************************************************************************
+ 380:Generated_Source\PSoC4/SWL_Int.c **** * Function Name: SWL_Int_ClearPending
+ 381:Generated_Source\PSoC4/SWL_Int.c **** ********************************************************************************
+ 382:Generated_Source\PSoC4/SWL_Int.c **** *
+ 383:Generated_Source\PSoC4/SWL_Int.c **** * Summary:
+ 384:Generated_Source\PSoC4/SWL_Int.c **** *   Clears a pending interrupt in the interrupt controller.
+ 385:Generated_Source\PSoC4/SWL_Int.c **** *
+ 386:Generated_Source\PSoC4/SWL_Int.c **** *   Note Some interrupt sources are clear-on-read and require the block 
+ 387:Generated_Source\PSoC4/SWL_Int.c **** *   interrupt/status register to be read/cleared with the appropriate block API 
+ 388:Generated_Source\PSoC4/SWL_Int.c **** *   (GPIO, UART, and so on). Otherwise the ISR will continue to remain in 
+ 389:Generated_Source\PSoC4/SWL_Int.c **** *   pending state even though the interrupt itself is cleared using this API.
+ 390:Generated_Source\PSoC4/SWL_Int.c **** *
+ 391:Generated_Source\PSoC4/SWL_Int.c **** * Parameters:
+ 392:Generated_Source\PSoC4/SWL_Int.c **** *   None
+ 393:Generated_Source\PSoC4/SWL_Int.c **** *
+ 394:Generated_Source\PSoC4/SWL_Int.c **** * Return:
+ 395:Generated_Source\PSoC4/SWL_Int.c **** *   None
+ 396:Generated_Source\PSoC4/SWL_Int.c **** *
+ 397:Generated_Source\PSoC4/SWL_Int.c **** *******************************************************************************/
+ 398:Generated_Source\PSoC4/SWL_Int.c **** void SWL_Int_ClearPending(void)
+ 399:Generated_Source\PSoC4/SWL_Int.c **** {
+ 503              		.loc 1 399 0
+ 504              		.cfi_startproc
+ 505              		@ args = 0, pretend = 0, frame = 0
+ 506              		@ frame_needed = 1, uses_anonymous_args = 0
+ 507 0000 80B5     		push	{r7, lr}
+ 508              		.cfi_def_cfa_offset 8
+ 509              		.cfi_offset 7, -8
+ 510              		.cfi_offset 14, -4
+ 511 0002 00AF     		add	r7, sp, #0
+ 512              		.cfi_def_cfa_register 7
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 17
+
+
+ 400:Generated_Source\PSoC4/SWL_Int.c ****     *SWL_Int_INTC_CLR_PD = SWL_Int__INTC_MASK;
+ 513              		.loc 1 400 0
+ 514 0004 024B     		ldr	r3, .L39
+ 515 0006 0822     		movs	r2, #8
+ 516 0008 1A60     		str	r2, [r3]
+ 401:Generated_Source\PSoC4/SWL_Int.c **** }
+ 517              		.loc 1 401 0
+ 518 000a C046     		nop
+ 519 000c BD46     		mov	sp, r7
+ 520              		@ sp needed
+ 521 000e 80BD     		pop	{r7, pc}
+ 522              	.L40:
+ 523              		.align	2
+ 524              	.L39:
+ 525 0010 80E200E0 		.word	-536812928
+ 526              		.cfi_endproc
+ 527              	.LFE12:
+ 528              		.size	SWL_Int_ClearPending, .-SWL_Int_ClearPending
+ 529              		.text
+ 530              	.Letext0:
+ 531              		.file 2 "Generated_Source\\PSoC4/cytypes.h"
+ 532              		.section	.debug_info,"",%progbits
+ 533              	.Ldebug_info0:
+ 534 0000 49020000 		.4byte	0x249
+ 535 0004 0400     		.2byte	0x4
+ 536 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 537 000a 04       		.byte	0x4
+ 538 000b 01       		.uleb128 0x1
+ 539 000c FE000000 		.4byte	.LASF34
+ 540 0010 0C       		.byte	0xc
+ 541 0011 7B020000 		.4byte	.LASF35
+ 542 0015 F4010000 		.4byte	.LASF36
+ 543 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 544 001d 00000000 		.4byte	0
+ 545 0021 00000000 		.4byte	.Ldebug_line0
+ 546 0025 02       		.uleb128 0x2
+ 547 0026 01       		.byte	0x1
+ 548 0027 06       		.byte	0x6
+ 549 0028 D0020000 		.4byte	.LASF0
+ 550 002c 02       		.uleb128 0x2
+ 551 002d 01       		.byte	0x1
+ 552 002e 08       		.byte	0x8
+ 553 002f 98000000 		.4byte	.LASF1
+ 554 0033 02       		.uleb128 0x2
+ 555 0034 02       		.byte	0x2
+ 556 0035 05       		.byte	0x5
+ 557 0036 71020000 		.4byte	.LASF2
+ 558 003a 02       		.uleb128 0x2
+ 559 003b 02       		.byte	0x2
+ 560 003c 07       		.byte	0x7
+ 561 003d 48000000 		.4byte	.LASF3
+ 562 0041 02       		.uleb128 0x2
+ 563 0042 04       		.byte	0x4
+ 564 0043 05       		.byte	0x5
+ 565 0044 AB020000 		.4byte	.LASF4
+ 566 0048 02       		.uleb128 0x2
+ 567 0049 04       		.byte	0x4
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 18
+
+
+ 568 004a 07       		.byte	0x7
+ 569 004b D4000000 		.4byte	.LASF5
+ 570 004f 02       		.uleb128 0x2
+ 571 0050 08       		.byte	0x8
+ 572 0051 05       		.byte	0x5
+ 573 0052 4F020000 		.4byte	.LASF6
+ 574 0056 02       		.uleb128 0x2
+ 575 0057 08       		.byte	0x8
+ 576 0058 07       		.byte	0x7
+ 577 0059 CD010000 		.4byte	.LASF7
+ 578 005d 03       		.uleb128 0x3
+ 579 005e 04       		.byte	0x4
+ 580 005f 05       		.byte	0x5
+ 581 0060 696E7400 		.ascii	"int\000"
+ 582 0064 02       		.uleb128 0x2
+ 583 0065 04       		.byte	0x4
+ 584 0066 07       		.byte	0x7
+ 585 0067 B8010000 		.4byte	.LASF8
+ 586 006b 04       		.uleb128 0x4
+ 587 006c E6000000 		.4byte	.LASF9
+ 588 0070 02       		.byte	0x2
+ 589 0071 D201     		.2byte	0x1d2
+ 590 0073 2C000000 		.4byte	0x2c
+ 591 0077 04       		.uleb128 0x4
+ 592 0078 B1010000 		.4byte	.LASF10
+ 593 007c 02       		.byte	0x2
+ 594 007d D401     		.2byte	0x1d4
+ 595 007f 48000000 		.4byte	0x48
+ 596 0083 02       		.uleb128 0x2
+ 597 0084 04       		.byte	0x4
+ 598 0085 04       		.byte	0x4
+ 599 0086 92000000 		.4byte	.LASF11
+ 600 008a 02       		.uleb128 0x2
+ 601 008b 08       		.byte	0x8
+ 602 008c 04       		.byte	0x4
+ 603 008d 95010000 		.4byte	.LASF12
+ 604 0091 02       		.uleb128 0x2
+ 605 0092 01       		.byte	0x1
+ 606 0093 08       		.byte	0x8
+ 607 0094 5D020000 		.4byte	.LASF13
+ 608 0098 04       		.uleb128 0x4
+ 609 0099 00000000 		.4byte	.LASF14
+ 610 009d 02       		.byte	0x2
+ 611 009e 7E02     		.2byte	0x27e
+ 612 00a0 A4000000 		.4byte	0xa4
+ 613 00a4 05       		.uleb128 0x5
+ 614 00a5 77000000 		.4byte	0x77
+ 615 00a9 04       		.uleb128 0x4
+ 616 00aa 39020000 		.4byte	.LASF15
+ 617 00ae 02       		.byte	0x2
+ 618 00af 8E02     		.2byte	0x28e
+ 619 00b1 B5000000 		.4byte	0xb5
+ 620 00b5 06       		.uleb128 0x6
+ 621 00b6 04       		.byte	0x4
+ 622 00b7 BB000000 		.4byte	0xbb
+ 623 00bb 07       		.uleb128 0x7
+ 624 00bc 02       		.uleb128 0x2
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 19
+
+
+ 625 00bd 08       		.byte	0x8
+ 626 00be 04       		.byte	0x4
+ 627 00bf C4020000 		.4byte	.LASF16
+ 628 00c3 02       		.uleb128 0x2
+ 629 00c4 04       		.byte	0x4
+ 630 00c5 07       		.byte	0x7
+ 631 00c6 46020000 		.4byte	.LASF17
+ 632 00ca 08       		.uleb128 0x8
+ 633 00cb 27000000 		.4byte	.LASF18
+ 634 00cf 01       		.byte	0x1
+ 635 00d0 38       		.byte	0x38
+ 636 00d1 00000000 		.4byte	.LFB0
+ 637 00d5 24000000 		.4byte	.LFE0-.LFB0
+ 638 00d9 01       		.uleb128 0x1
+ 639 00da 9C       		.byte	0x9c
+ 640 00db 09       		.uleb128 0x9
+ 641 00dc E4010000 		.4byte	.LASF21
+ 642 00e0 01       		.byte	0x1
+ 643 00e1 63       		.byte	0x63
+ 644 00e2 00000000 		.4byte	.LFB1
+ 645 00e6 26000000 		.4byte	.LFE1-.LFB1
+ 646 00ea 01       		.uleb128 0x1
+ 647 00eb 9C       		.byte	0x9c
+ 648 00ec FF000000 		.4byte	0xff
+ 649 00f0 0A       		.uleb128 0xa
+ 650 00f1 C5010000 		.4byte	.LASF23
+ 651 00f5 01       		.byte	0x1
+ 652 00f6 63       		.byte	0x63
+ 653 00f7 A9000000 		.4byte	0xa9
+ 654 00fb 02       		.uleb128 0x2
+ 655 00fc 91       		.byte	0x91
+ 656 00fd 74       		.sleb128 -12
+ 657 00fe 00       		.byte	0
+ 658 00ff 08       		.uleb128 0x8
+ 659 0100 A6000000 		.4byte	.LASF19
+ 660 0104 01       		.byte	0x1
+ 661 0105 81       		.byte	0x81
+ 662 0106 00000000 		.4byte	.LFB2
+ 663 010a 1C000000 		.4byte	.LFE2-.LFB2
+ 664 010e 01       		.uleb128 0x1
+ 665 010f 9C       		.byte	0x9c
+ 666 0110 0B       		.uleb128 0xb
+ 667 0111 EC000000 		.4byte	.LASF20
+ 668 0115 01       		.byte	0x1
+ 669 0116 9F       		.byte	0x9f
+ 670 0117 00000000 		.4byte	.LFB3
+ 671 011b 0A000000 		.4byte	.LFE3-.LFB3
+ 672 011f 01       		.uleb128 0x1
+ 673 0120 9C       		.byte	0x9c
+ 674 0121 0C       		.uleb128 0xc
+ 675 0122 B3000000 		.4byte	.LASF22
+ 676 0126 01       		.byte	0x1
+ 677 0127 C7       		.byte	0xc7
+ 678 0128 00000000 		.4byte	.LFB4
+ 679 012c 1C000000 		.4byte	.LFE4-.LFB4
+ 680 0130 01       		.uleb128 0x1
+ 681 0131 9C       		.byte	0x9c
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 20
+
+
+ 682 0132 45010000 		.4byte	0x145
+ 683 0136 0A       		.uleb128 0xa
+ 684 0137 C5010000 		.4byte	.LASF23
+ 685 013b 01       		.byte	0x1
+ 686 013c C7       		.byte	0xc7
+ 687 013d A9000000 		.4byte	0xa9
+ 688 0141 02       		.uleb128 0x2
+ 689 0142 91       		.byte	0x91
+ 690 0143 74       		.sleb128 -12
+ 691 0144 00       		.byte	0
+ 692 0145 0D       		.uleb128 0xd
+ 693 0146 6C000000 		.4byte	.LASF29
+ 694 014a 01       		.byte	0x1
+ 695 014b DB       		.byte	0xdb
+ 696 014c A9000000 		.4byte	0xa9
+ 697 0150 00000000 		.4byte	.LFB5
+ 698 0154 14000000 		.4byte	.LFE5-.LFB5
+ 699 0158 01       		.uleb128 0x1
+ 700 0159 9C       		.byte	0x9c
+ 701 015a 09       		.uleb128 0x9
+ 702 015b 7E000000 		.4byte	.LASF24
+ 703 015f 01       		.byte	0x1
+ 704 0160 F9       		.byte	0xf9
+ 705 0161 00000000 		.4byte	.LFB6
+ 706 0165 4C000000 		.4byte	.LFE6-.LFB6
+ 707 0169 01       		.uleb128 0x1
+ 708 016a 9C       		.byte	0x9c
+ 709 016b 9A010000 		.4byte	0x19a
+ 710 016f 0A       		.uleb128 0xa
+ 711 0170 8C010000 		.4byte	.LASF25
+ 712 0174 01       		.byte	0x1
+ 713 0175 F9       		.byte	0xf9
+ 714 0176 6B000000 		.4byte	0x6b
+ 715 017a 02       		.uleb128 0x2
+ 716 017b 91       		.byte	0x91
+ 717 017c 67       		.sleb128 -25
+ 718 017d 0E       		.uleb128 0xe
+ 719 017e C5000000 		.4byte	.LASF26
+ 720 0182 01       		.byte	0x1
+ 721 0183 FB       		.byte	0xfb
+ 722 0184 6B000000 		.4byte	0x6b
+ 723 0188 02       		.uleb128 0x2
+ 724 0189 91       		.byte	0x91
+ 725 018a 6B       		.sleb128 -21
+ 726 018b 0E       		.uleb128 0xe
+ 727 018c 9C020000 		.4byte	.LASF27
+ 728 0190 01       		.byte	0x1
+ 729 0191 FC       		.byte	0xfc
+ 730 0192 77000000 		.4byte	0x77
+ 731 0196 02       		.uleb128 0x2
+ 732 0197 91       		.byte	0x91
+ 733 0198 6C       		.sleb128 -20
+ 734 0199 00       		.byte	0
+ 735 019a 0F       		.uleb128 0xf
+ 736 019b 06000000 		.4byte	.LASF37
+ 737 019f 01       		.byte	0x1
+ 738 01a0 1501     		.2byte	0x115
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 21
+
+
+ 739 01a2 6B000000 		.4byte	0x6b
+ 740 01a6 00000000 		.4byte	.LFB7
+ 741 01aa 2C000000 		.4byte	.LFE7-.LFB7
+ 742 01ae 01       		.uleb128 0x1
+ 743 01af 9C       		.byte	0x9c
+ 744 01b0 D3010000 		.4byte	0x1d3
+ 745 01b4 10       		.uleb128 0x10
+ 746 01b5 8C010000 		.4byte	.LASF25
+ 747 01b9 01       		.byte	0x1
+ 748 01ba 1701     		.2byte	0x117
+ 749 01bc 77000000 		.4byte	0x77
+ 750 01c0 02       		.uleb128 0x2
+ 751 01c1 91       		.byte	0x91
+ 752 01c2 70       		.sleb128 -16
+ 753 01c3 10       		.uleb128 0x10
+ 754 01c4 9C020000 		.4byte	.LASF27
+ 755 01c8 01       		.byte	0x1
+ 756 01c9 1801     		.2byte	0x118
+ 757 01cb 77000000 		.4byte	0x77
+ 758 01cf 02       		.uleb128 0x2
+ 759 01d0 91       		.byte	0x91
+ 760 01d1 74       		.sleb128 -12
+ 761 01d2 00       		.byte	0
+ 762 01d3 11       		.uleb128 0x11
+ 763 01d4 62020000 		.4byte	.LASF28
+ 764 01d8 01       		.byte	0x1
+ 765 01d9 3001     		.2byte	0x130
+ 766 01db 00000000 		.4byte	.LFB8
+ 767 01df 14000000 		.4byte	.LFE8-.LFB8
+ 768 01e3 01       		.uleb128 0x1
+ 769 01e4 9C       		.byte	0x9c
+ 770 01e5 12       		.uleb128 0x12
+ 771 01e6 5B000000 		.4byte	.LASF30
+ 772 01ea 01       		.byte	0x1
+ 773 01eb 4501     		.2byte	0x145
+ 774 01ed 6B000000 		.4byte	0x6b
+ 775 01f1 00000000 		.4byte	.LFB9
+ 776 01f5 20000000 		.4byte	.LFE9-.LFB9
+ 777 01f9 01       		.uleb128 0x1
+ 778 01fa 9C       		.byte	0x9c
+ 779 01fb 11       		.uleb128 0x11
+ 780 01fc B4020000 		.4byte	.LASF31
+ 781 0200 01       		.byte	0x1
+ 782 0201 5A01     		.2byte	0x15a
+ 783 0203 00000000 		.4byte	.LFB10
+ 784 0207 14000000 		.4byte	.LFE10-.LFB10
+ 785 020b 01       		.uleb128 0x1
+ 786 020c 9C       		.byte	0x9c
+ 787 020d 11       		.uleb128 0x11
+ 788 020e 35000000 		.4byte	.LASF32
+ 789 0212 01       		.byte	0x1
+ 790 0213 7501     		.2byte	0x175
+ 791 0215 00000000 		.4byte	.LFB11
+ 792 0219 14000000 		.4byte	.LFE11-.LFB11
+ 793 021d 01       		.uleb128 0x1
+ 794 021e 9C       		.byte	0x9c
+ 795 021f 11       		.uleb128 0x11
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 22
+
+
+ 796 0220 9C010000 		.4byte	.LASF33
+ 797 0224 01       		.byte	0x1
+ 798 0225 8E01     		.2byte	0x18e
+ 799 0227 00000000 		.4byte	.LFB12
+ 800 022b 14000000 		.4byte	.LFE12-.LFB12
+ 801 022f 01       		.uleb128 0x1
+ 802 0230 9C       		.byte	0x9c
+ 803 0231 13       		.uleb128 0x13
+ 804 0232 A9000000 		.4byte	0xa9
+ 805 0236 41020000 		.4byte	0x241
+ 806 023a 14       		.uleb128 0x14
+ 807 023b C3000000 		.4byte	0xc3
+ 808 023f 2F       		.byte	0x2f
+ 809 0240 00       		.byte	0
+ 810 0241 15       		.uleb128 0x15
+ 811 0242 1A000000 		.4byte	.LASF38
+ 812 0246 01       		.byte	0x1
+ 813 0247 21       		.byte	0x21
+ 814 0248 31020000 		.4byte	0x231
+ 815 024c 00       		.byte	0
+ 816              		.section	.debug_abbrev,"",%progbits
+ 817              	.Ldebug_abbrev0:
+ 818 0000 01       		.uleb128 0x1
+ 819 0001 11       		.uleb128 0x11
+ 820 0002 01       		.byte	0x1
+ 821 0003 25       		.uleb128 0x25
+ 822 0004 0E       		.uleb128 0xe
+ 823 0005 13       		.uleb128 0x13
+ 824 0006 0B       		.uleb128 0xb
+ 825 0007 03       		.uleb128 0x3
+ 826 0008 0E       		.uleb128 0xe
+ 827 0009 1B       		.uleb128 0x1b
+ 828 000a 0E       		.uleb128 0xe
+ 829 000b 55       		.uleb128 0x55
+ 830 000c 17       		.uleb128 0x17
+ 831 000d 11       		.uleb128 0x11
+ 832 000e 01       		.uleb128 0x1
+ 833 000f 10       		.uleb128 0x10
+ 834 0010 17       		.uleb128 0x17
+ 835 0011 00       		.byte	0
+ 836 0012 00       		.byte	0
+ 837 0013 02       		.uleb128 0x2
+ 838 0014 24       		.uleb128 0x24
+ 839 0015 00       		.byte	0
+ 840 0016 0B       		.uleb128 0xb
+ 841 0017 0B       		.uleb128 0xb
+ 842 0018 3E       		.uleb128 0x3e
+ 843 0019 0B       		.uleb128 0xb
+ 844 001a 03       		.uleb128 0x3
+ 845 001b 0E       		.uleb128 0xe
+ 846 001c 00       		.byte	0
+ 847 001d 00       		.byte	0
+ 848 001e 03       		.uleb128 0x3
+ 849 001f 24       		.uleb128 0x24
+ 850 0020 00       		.byte	0
+ 851 0021 0B       		.uleb128 0xb
+ 852 0022 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 23
+
+
+ 853 0023 3E       		.uleb128 0x3e
+ 854 0024 0B       		.uleb128 0xb
+ 855 0025 03       		.uleb128 0x3
+ 856 0026 08       		.uleb128 0x8
+ 857 0027 00       		.byte	0
+ 858 0028 00       		.byte	0
+ 859 0029 04       		.uleb128 0x4
+ 860 002a 16       		.uleb128 0x16
+ 861 002b 00       		.byte	0
+ 862 002c 03       		.uleb128 0x3
+ 863 002d 0E       		.uleb128 0xe
+ 864 002e 3A       		.uleb128 0x3a
+ 865 002f 0B       		.uleb128 0xb
+ 866 0030 3B       		.uleb128 0x3b
+ 867 0031 05       		.uleb128 0x5
+ 868 0032 49       		.uleb128 0x49
+ 869 0033 13       		.uleb128 0x13
+ 870 0034 00       		.byte	0
+ 871 0035 00       		.byte	0
+ 872 0036 05       		.uleb128 0x5
+ 873 0037 35       		.uleb128 0x35
+ 874 0038 00       		.byte	0
+ 875 0039 49       		.uleb128 0x49
+ 876 003a 13       		.uleb128 0x13
+ 877 003b 00       		.byte	0
+ 878 003c 00       		.byte	0
+ 879 003d 06       		.uleb128 0x6
+ 880 003e 0F       		.uleb128 0xf
+ 881 003f 00       		.byte	0
+ 882 0040 0B       		.uleb128 0xb
+ 883 0041 0B       		.uleb128 0xb
+ 884 0042 49       		.uleb128 0x49
+ 885 0043 13       		.uleb128 0x13
+ 886 0044 00       		.byte	0
+ 887 0045 00       		.byte	0
+ 888 0046 07       		.uleb128 0x7
+ 889 0047 15       		.uleb128 0x15
+ 890 0048 00       		.byte	0
+ 891 0049 27       		.uleb128 0x27
+ 892 004a 19       		.uleb128 0x19
+ 893 004b 00       		.byte	0
+ 894 004c 00       		.byte	0
+ 895 004d 08       		.uleb128 0x8
+ 896 004e 2E       		.uleb128 0x2e
+ 897 004f 00       		.byte	0
+ 898 0050 3F       		.uleb128 0x3f
+ 899 0051 19       		.uleb128 0x19
+ 900 0052 03       		.uleb128 0x3
+ 901 0053 0E       		.uleb128 0xe
+ 902 0054 3A       		.uleb128 0x3a
+ 903 0055 0B       		.uleb128 0xb
+ 904 0056 3B       		.uleb128 0x3b
+ 905 0057 0B       		.uleb128 0xb
+ 906 0058 27       		.uleb128 0x27
+ 907 0059 19       		.uleb128 0x19
+ 908 005a 11       		.uleb128 0x11
+ 909 005b 01       		.uleb128 0x1
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 24
+
+
+ 910 005c 12       		.uleb128 0x12
+ 911 005d 06       		.uleb128 0x6
+ 912 005e 40       		.uleb128 0x40
+ 913 005f 18       		.uleb128 0x18
+ 914 0060 9642     		.uleb128 0x2116
+ 915 0062 19       		.uleb128 0x19
+ 916 0063 00       		.byte	0
+ 917 0064 00       		.byte	0
+ 918 0065 09       		.uleb128 0x9
+ 919 0066 2E       		.uleb128 0x2e
+ 920 0067 01       		.byte	0x1
+ 921 0068 3F       		.uleb128 0x3f
+ 922 0069 19       		.uleb128 0x19
+ 923 006a 03       		.uleb128 0x3
+ 924 006b 0E       		.uleb128 0xe
+ 925 006c 3A       		.uleb128 0x3a
+ 926 006d 0B       		.uleb128 0xb
+ 927 006e 3B       		.uleb128 0x3b
+ 928 006f 0B       		.uleb128 0xb
+ 929 0070 27       		.uleb128 0x27
+ 930 0071 19       		.uleb128 0x19
+ 931 0072 11       		.uleb128 0x11
+ 932 0073 01       		.uleb128 0x1
+ 933 0074 12       		.uleb128 0x12
+ 934 0075 06       		.uleb128 0x6
+ 935 0076 40       		.uleb128 0x40
+ 936 0077 18       		.uleb128 0x18
+ 937 0078 9642     		.uleb128 0x2116
+ 938 007a 19       		.uleb128 0x19
+ 939 007b 01       		.uleb128 0x1
+ 940 007c 13       		.uleb128 0x13
+ 941 007d 00       		.byte	0
+ 942 007e 00       		.byte	0
+ 943 007f 0A       		.uleb128 0xa
+ 944 0080 05       		.uleb128 0x5
+ 945 0081 00       		.byte	0
+ 946 0082 03       		.uleb128 0x3
+ 947 0083 0E       		.uleb128 0xe
+ 948 0084 3A       		.uleb128 0x3a
+ 949 0085 0B       		.uleb128 0xb
+ 950 0086 3B       		.uleb128 0x3b
+ 951 0087 0B       		.uleb128 0xb
+ 952 0088 49       		.uleb128 0x49
+ 953 0089 13       		.uleb128 0x13
+ 954 008a 02       		.uleb128 0x2
+ 955 008b 18       		.uleb128 0x18
+ 956 008c 00       		.byte	0
+ 957 008d 00       		.byte	0
+ 958 008e 0B       		.uleb128 0xb
+ 959 008f 2E       		.uleb128 0x2e
+ 960 0090 00       		.byte	0
+ 961 0091 3F       		.uleb128 0x3f
+ 962 0092 19       		.uleb128 0x19
+ 963 0093 03       		.uleb128 0x3
+ 964 0094 0E       		.uleb128 0xe
+ 965 0095 3A       		.uleb128 0x3a
+ 966 0096 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 25
+
+
+ 967 0097 3B       		.uleb128 0x3b
+ 968 0098 0B       		.uleb128 0xb
+ 969 0099 27       		.uleb128 0x27
+ 970 009a 19       		.uleb128 0x19
+ 971 009b 11       		.uleb128 0x11
+ 972 009c 01       		.uleb128 0x1
+ 973 009d 12       		.uleb128 0x12
+ 974 009e 06       		.uleb128 0x6
+ 975 009f 40       		.uleb128 0x40
+ 976 00a0 18       		.uleb128 0x18
+ 977 00a1 9742     		.uleb128 0x2117
+ 978 00a3 19       		.uleb128 0x19
+ 979 00a4 00       		.byte	0
+ 980 00a5 00       		.byte	0
+ 981 00a6 0C       		.uleb128 0xc
+ 982 00a7 2E       		.uleb128 0x2e
+ 983 00a8 01       		.byte	0x1
+ 984 00a9 3F       		.uleb128 0x3f
+ 985 00aa 19       		.uleb128 0x19
+ 986 00ab 03       		.uleb128 0x3
+ 987 00ac 0E       		.uleb128 0xe
+ 988 00ad 3A       		.uleb128 0x3a
+ 989 00ae 0B       		.uleb128 0xb
+ 990 00af 3B       		.uleb128 0x3b
+ 991 00b0 0B       		.uleb128 0xb
+ 992 00b1 27       		.uleb128 0x27
+ 993 00b2 19       		.uleb128 0x19
+ 994 00b3 11       		.uleb128 0x11
+ 995 00b4 01       		.uleb128 0x1
+ 996 00b5 12       		.uleb128 0x12
+ 997 00b6 06       		.uleb128 0x6
+ 998 00b7 40       		.uleb128 0x40
+ 999 00b8 18       		.uleb128 0x18
+ 1000 00b9 9742     		.uleb128 0x2117
+ 1001 00bb 19       		.uleb128 0x19
+ 1002 00bc 01       		.uleb128 0x1
+ 1003 00bd 13       		.uleb128 0x13
+ 1004 00be 00       		.byte	0
+ 1005 00bf 00       		.byte	0
+ 1006 00c0 0D       		.uleb128 0xd
+ 1007 00c1 2E       		.uleb128 0x2e
+ 1008 00c2 00       		.byte	0
+ 1009 00c3 3F       		.uleb128 0x3f
+ 1010 00c4 19       		.uleb128 0x19
+ 1011 00c5 03       		.uleb128 0x3
+ 1012 00c6 0E       		.uleb128 0xe
+ 1013 00c7 3A       		.uleb128 0x3a
+ 1014 00c8 0B       		.uleb128 0xb
+ 1015 00c9 3B       		.uleb128 0x3b
+ 1016 00ca 0B       		.uleb128 0xb
+ 1017 00cb 27       		.uleb128 0x27
+ 1018 00cc 19       		.uleb128 0x19
+ 1019 00cd 49       		.uleb128 0x49
+ 1020 00ce 13       		.uleb128 0x13
+ 1021 00cf 11       		.uleb128 0x11
+ 1022 00d0 01       		.uleb128 0x1
+ 1023 00d1 12       		.uleb128 0x12
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 26
+
+
+ 1024 00d2 06       		.uleb128 0x6
+ 1025 00d3 40       		.uleb128 0x40
+ 1026 00d4 18       		.uleb128 0x18
+ 1027 00d5 9742     		.uleb128 0x2117
+ 1028 00d7 19       		.uleb128 0x19
+ 1029 00d8 00       		.byte	0
+ 1030 00d9 00       		.byte	0
+ 1031 00da 0E       		.uleb128 0xe
+ 1032 00db 34       		.uleb128 0x34
+ 1033 00dc 00       		.byte	0
+ 1034 00dd 03       		.uleb128 0x3
+ 1035 00de 0E       		.uleb128 0xe
+ 1036 00df 3A       		.uleb128 0x3a
+ 1037 00e0 0B       		.uleb128 0xb
+ 1038 00e1 3B       		.uleb128 0x3b
+ 1039 00e2 0B       		.uleb128 0xb
+ 1040 00e3 49       		.uleb128 0x49
+ 1041 00e4 13       		.uleb128 0x13
+ 1042 00e5 02       		.uleb128 0x2
+ 1043 00e6 18       		.uleb128 0x18
+ 1044 00e7 00       		.byte	0
+ 1045 00e8 00       		.byte	0
+ 1046 00e9 0F       		.uleb128 0xf
+ 1047 00ea 2E       		.uleb128 0x2e
+ 1048 00eb 01       		.byte	0x1
+ 1049 00ec 3F       		.uleb128 0x3f
+ 1050 00ed 19       		.uleb128 0x19
+ 1051 00ee 03       		.uleb128 0x3
+ 1052 00ef 0E       		.uleb128 0xe
+ 1053 00f0 3A       		.uleb128 0x3a
+ 1054 00f1 0B       		.uleb128 0xb
+ 1055 00f2 3B       		.uleb128 0x3b
+ 1056 00f3 05       		.uleb128 0x5
+ 1057 00f4 27       		.uleb128 0x27
+ 1058 00f5 19       		.uleb128 0x19
+ 1059 00f6 49       		.uleb128 0x49
+ 1060 00f7 13       		.uleb128 0x13
+ 1061 00f8 11       		.uleb128 0x11
+ 1062 00f9 01       		.uleb128 0x1
+ 1063 00fa 12       		.uleb128 0x12
+ 1064 00fb 06       		.uleb128 0x6
+ 1065 00fc 40       		.uleb128 0x40
+ 1066 00fd 18       		.uleb128 0x18
+ 1067 00fe 9742     		.uleb128 0x2117
+ 1068 0100 19       		.uleb128 0x19
+ 1069 0101 01       		.uleb128 0x1
+ 1070 0102 13       		.uleb128 0x13
+ 1071 0103 00       		.byte	0
+ 1072 0104 00       		.byte	0
+ 1073 0105 10       		.uleb128 0x10
+ 1074 0106 34       		.uleb128 0x34
+ 1075 0107 00       		.byte	0
+ 1076 0108 03       		.uleb128 0x3
+ 1077 0109 0E       		.uleb128 0xe
+ 1078 010a 3A       		.uleb128 0x3a
+ 1079 010b 0B       		.uleb128 0xb
+ 1080 010c 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 27
+
+
+ 1081 010d 05       		.uleb128 0x5
+ 1082 010e 49       		.uleb128 0x49
+ 1083 010f 13       		.uleb128 0x13
+ 1084 0110 02       		.uleb128 0x2
+ 1085 0111 18       		.uleb128 0x18
+ 1086 0112 00       		.byte	0
+ 1087 0113 00       		.byte	0
+ 1088 0114 11       		.uleb128 0x11
+ 1089 0115 2E       		.uleb128 0x2e
+ 1090 0116 00       		.byte	0
+ 1091 0117 3F       		.uleb128 0x3f
+ 1092 0118 19       		.uleb128 0x19
+ 1093 0119 03       		.uleb128 0x3
+ 1094 011a 0E       		.uleb128 0xe
+ 1095 011b 3A       		.uleb128 0x3a
+ 1096 011c 0B       		.uleb128 0xb
+ 1097 011d 3B       		.uleb128 0x3b
+ 1098 011e 05       		.uleb128 0x5
+ 1099 011f 27       		.uleb128 0x27
+ 1100 0120 19       		.uleb128 0x19
+ 1101 0121 11       		.uleb128 0x11
+ 1102 0122 01       		.uleb128 0x1
+ 1103 0123 12       		.uleb128 0x12
+ 1104 0124 06       		.uleb128 0x6
+ 1105 0125 40       		.uleb128 0x40
+ 1106 0126 18       		.uleb128 0x18
+ 1107 0127 9742     		.uleb128 0x2117
+ 1108 0129 19       		.uleb128 0x19
+ 1109 012a 00       		.byte	0
+ 1110 012b 00       		.byte	0
+ 1111 012c 12       		.uleb128 0x12
+ 1112 012d 2E       		.uleb128 0x2e
+ 1113 012e 00       		.byte	0
+ 1114 012f 3F       		.uleb128 0x3f
+ 1115 0130 19       		.uleb128 0x19
+ 1116 0131 03       		.uleb128 0x3
+ 1117 0132 0E       		.uleb128 0xe
+ 1118 0133 3A       		.uleb128 0x3a
+ 1119 0134 0B       		.uleb128 0xb
+ 1120 0135 3B       		.uleb128 0x3b
+ 1121 0136 05       		.uleb128 0x5
+ 1122 0137 27       		.uleb128 0x27
+ 1123 0138 19       		.uleb128 0x19
+ 1124 0139 49       		.uleb128 0x49
+ 1125 013a 13       		.uleb128 0x13
+ 1126 013b 11       		.uleb128 0x11
+ 1127 013c 01       		.uleb128 0x1
+ 1128 013d 12       		.uleb128 0x12
+ 1129 013e 06       		.uleb128 0x6
+ 1130 013f 40       		.uleb128 0x40
+ 1131 0140 18       		.uleb128 0x18
+ 1132 0141 9742     		.uleb128 0x2117
+ 1133 0143 19       		.uleb128 0x19
+ 1134 0144 00       		.byte	0
+ 1135 0145 00       		.byte	0
+ 1136 0146 13       		.uleb128 0x13
+ 1137 0147 01       		.uleb128 0x1
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 28
+
+
+ 1138 0148 01       		.byte	0x1
+ 1139 0149 49       		.uleb128 0x49
+ 1140 014a 13       		.uleb128 0x13
+ 1141 014b 01       		.uleb128 0x1
+ 1142 014c 13       		.uleb128 0x13
+ 1143 014d 00       		.byte	0
+ 1144 014e 00       		.byte	0
+ 1145 014f 14       		.uleb128 0x14
+ 1146 0150 21       		.uleb128 0x21
+ 1147 0151 00       		.byte	0
+ 1148 0152 49       		.uleb128 0x49
+ 1149 0153 13       		.uleb128 0x13
+ 1150 0154 2F       		.uleb128 0x2f
+ 1151 0155 0B       		.uleb128 0xb
+ 1152 0156 00       		.byte	0
+ 1153 0157 00       		.byte	0
+ 1154 0158 15       		.uleb128 0x15
+ 1155 0159 34       		.uleb128 0x34
+ 1156 015a 00       		.byte	0
+ 1157 015b 03       		.uleb128 0x3
+ 1158 015c 0E       		.uleb128 0xe
+ 1159 015d 3A       		.uleb128 0x3a
+ 1160 015e 0B       		.uleb128 0xb
+ 1161 015f 3B       		.uleb128 0x3b
+ 1162 0160 0B       		.uleb128 0xb
+ 1163 0161 49       		.uleb128 0x49
+ 1164 0162 13       		.uleb128 0x13
+ 1165 0163 3F       		.uleb128 0x3f
+ 1166 0164 19       		.uleb128 0x19
+ 1167 0165 3C       		.uleb128 0x3c
+ 1168 0166 19       		.uleb128 0x19
+ 1169 0167 00       		.byte	0
+ 1170 0168 00       		.byte	0
+ 1171 0169 00       		.byte	0
+ 1172              		.section	.debug_aranges,"",%progbits
+ 1173 0000 7C000000 		.4byte	0x7c
+ 1174 0004 0200     		.2byte	0x2
+ 1175 0006 00000000 		.4byte	.Ldebug_info0
+ 1176 000a 04       		.byte	0x4
+ 1177 000b 00       		.byte	0
+ 1178 000c 0000     		.2byte	0
+ 1179 000e 0000     		.2byte	0
+ 1180 0010 00000000 		.4byte	.LFB0
+ 1181 0014 24000000 		.4byte	.LFE0-.LFB0
+ 1182 0018 00000000 		.4byte	.LFB1
+ 1183 001c 26000000 		.4byte	.LFE1-.LFB1
+ 1184 0020 00000000 		.4byte	.LFB2
+ 1185 0024 1C000000 		.4byte	.LFE2-.LFB2
+ 1186 0028 00000000 		.4byte	.LFB3
+ 1187 002c 0A000000 		.4byte	.LFE3-.LFB3
+ 1188 0030 00000000 		.4byte	.LFB4
+ 1189 0034 1C000000 		.4byte	.LFE4-.LFB4
+ 1190 0038 00000000 		.4byte	.LFB5
+ 1191 003c 14000000 		.4byte	.LFE5-.LFB5
+ 1192 0040 00000000 		.4byte	.LFB6
+ 1193 0044 4C000000 		.4byte	.LFE6-.LFB6
+ 1194 0048 00000000 		.4byte	.LFB7
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 29
+
+
+ 1195 004c 2C000000 		.4byte	.LFE7-.LFB7
+ 1196 0050 00000000 		.4byte	.LFB8
+ 1197 0054 14000000 		.4byte	.LFE8-.LFB8
+ 1198 0058 00000000 		.4byte	.LFB9
+ 1199 005c 20000000 		.4byte	.LFE9-.LFB9
+ 1200 0060 00000000 		.4byte	.LFB10
+ 1201 0064 14000000 		.4byte	.LFE10-.LFB10
+ 1202 0068 00000000 		.4byte	.LFB11
+ 1203 006c 14000000 		.4byte	.LFE11-.LFB11
+ 1204 0070 00000000 		.4byte	.LFB12
+ 1205 0074 14000000 		.4byte	.LFE12-.LFB12
+ 1206 0078 00000000 		.4byte	0
+ 1207 007c 00000000 		.4byte	0
+ 1208              		.section	.debug_ranges,"",%progbits
+ 1209              	.Ldebug_ranges0:
+ 1210 0000 00000000 		.4byte	.LFB0
+ 1211 0004 24000000 		.4byte	.LFE0
+ 1212 0008 00000000 		.4byte	.LFB1
+ 1213 000c 26000000 		.4byte	.LFE1
+ 1214 0010 00000000 		.4byte	.LFB2
+ 1215 0014 1C000000 		.4byte	.LFE2
+ 1216 0018 00000000 		.4byte	.LFB3
+ 1217 001c 0A000000 		.4byte	.LFE3
+ 1218 0020 00000000 		.4byte	.LFB4
+ 1219 0024 1C000000 		.4byte	.LFE4
+ 1220 0028 00000000 		.4byte	.LFB5
+ 1221 002c 14000000 		.4byte	.LFE5
+ 1222 0030 00000000 		.4byte	.LFB6
+ 1223 0034 4C000000 		.4byte	.LFE6
+ 1224 0038 00000000 		.4byte	.LFB7
+ 1225 003c 2C000000 		.4byte	.LFE7
+ 1226 0040 00000000 		.4byte	.LFB8
+ 1227 0044 14000000 		.4byte	.LFE8
+ 1228 0048 00000000 		.4byte	.LFB9
+ 1229 004c 20000000 		.4byte	.LFE9
+ 1230 0050 00000000 		.4byte	.LFB10
+ 1231 0054 14000000 		.4byte	.LFE10
+ 1232 0058 00000000 		.4byte	.LFB11
+ 1233 005c 14000000 		.4byte	.LFE11
+ 1234 0060 00000000 		.4byte	.LFB12
+ 1235 0064 14000000 		.4byte	.LFE12
+ 1236 0068 00000000 		.4byte	0
+ 1237 006c 00000000 		.4byte	0
+ 1238              		.section	.debug_line,"",%progbits
+ 1239              	.Ldebug_line0:
+ 1240 0000 52010000 		.section	.debug_str,"MS",%progbits,1
+ 1240      02004400 
+ 1240      00000201 
+ 1240      FB0E0D00 
+ 1240      01010101 
+ 1241              	.LASF14:
+ 1242 0000 72656733 		.ascii	"reg32\000"
+ 1242      3200
+ 1243              	.LASF37:
+ 1244 0006 53574C5F 		.ascii	"SWL_Int_GetPriority\000"
+ 1244      496E745F 
+ 1244      47657450 
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 30
+
+
+ 1244      72696F72 
+ 1244      69747900 
+ 1245              	.LASF38:
+ 1246 001a 43795261 		.ascii	"CyRamVectors\000"
+ 1246      6D566563 
+ 1246      746F7273 
+ 1246      00
+ 1247              	.LASF18:
+ 1248 0027 53574C5F 		.ascii	"SWL_Int_Start\000"
+ 1248      496E745F 
+ 1248      53746172 
+ 1248      7400
+ 1249              	.LASF32:
+ 1250 0035 53574C5F 		.ascii	"SWL_Int_SetPending\000"
+ 1250      496E745F 
+ 1250      53657450 
+ 1250      656E6469 
+ 1250      6E6700
+ 1251              	.LASF3:
+ 1252 0048 73686F72 		.ascii	"short unsigned int\000"
+ 1252      7420756E 
+ 1252      7369676E 
+ 1252      65642069 
+ 1252      6E7400
+ 1253              	.LASF30:
+ 1254 005b 53574C5F 		.ascii	"SWL_Int_GetState\000"
+ 1254      496E745F 
+ 1254      47657453 
+ 1254      74617465 
+ 1254      00
+ 1255              	.LASF29:
+ 1256 006c 53574C5F 		.ascii	"SWL_Int_GetVector\000"
+ 1256      496E745F 
+ 1256      47657456 
+ 1256      6563746F 
+ 1256      7200
+ 1257              	.LASF24:
+ 1258 007e 53574C5F 		.ascii	"SWL_Int_SetPriority\000"
+ 1258      496E745F 
+ 1258      53657450 
+ 1258      72696F72 
+ 1258      69747900 
+ 1259              	.LASF11:
+ 1260 0092 666C6F61 		.ascii	"float\000"
+ 1260      7400
+ 1261              	.LASF1:
+ 1262 0098 756E7369 		.ascii	"unsigned char\000"
+ 1262      676E6564 
+ 1262      20636861 
+ 1262      7200
+ 1263              	.LASF19:
+ 1264 00a6 53574C5F 		.ascii	"SWL_Int_Stop\000"
+ 1264      496E745F 
+ 1264      53746F70 
+ 1264      00
+ 1265              	.LASF22:
+ 1266 00b3 53574C5F 		.ascii	"SWL_Int_SetVector\000"
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 31
+
+
+ 1266      496E745F 
+ 1266      53657456 
+ 1266      6563746F 
+ 1266      7200
+ 1267              	.LASF26:
+ 1268 00c5 696E7465 		.ascii	"interruptState\000"
+ 1268      72727570 
+ 1268      74537461 
+ 1268      746500
+ 1269              	.LASF5:
+ 1270 00d4 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1270      20756E73 
+ 1270      69676E65 
+ 1270      6420696E 
+ 1270      7400
+ 1271              	.LASF9:
+ 1272 00e6 75696E74 		.ascii	"uint8\000"
+ 1272      3800
+ 1273              	.LASF20:
+ 1274 00ec 53574C5F 		.ascii	"SWL_Int_Interrupt\000"
+ 1274      496E745F 
+ 1274      496E7465 
+ 1274      72727570 
+ 1274      7400
+ 1275              	.LASF34:
+ 1276 00fe 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1276      43313120 
+ 1276      352E342E 
+ 1276      31203230 
+ 1276      31363036 
+ 1277 0131 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 1277      20726576 
+ 1277      6973696F 
+ 1277      6E203233 
+ 1277      37373135 
+ 1278 0164 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1278      66756E63 
+ 1278      74696F6E 
+ 1278      2D736563 
+ 1278      74696F6E 
+ 1279              	.LASF25:
+ 1280 018c 7072696F 		.ascii	"priority\000"
+ 1280      72697479 
+ 1280      00
+ 1281              	.LASF12:
+ 1282 0195 646F7562 		.ascii	"double\000"
+ 1282      6C6500
+ 1283              	.LASF33:
+ 1284 019c 53574C5F 		.ascii	"SWL_Int_ClearPending\000"
+ 1284      496E745F 
+ 1284      436C6561 
+ 1284      7250656E 
+ 1284      64696E67 
+ 1285              	.LASF10:
+ 1286 01b1 75696E74 		.ascii	"uint32\000"
+ 1286      333200
+ 1287              	.LASF8:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 32
+
+
+ 1288 01b8 756E7369 		.ascii	"unsigned int\000"
+ 1288      676E6564 
+ 1288      20696E74 
+ 1288      00
+ 1289              	.LASF23:
+ 1290 01c5 61646472 		.ascii	"address\000"
+ 1290      65737300 
+ 1291              	.LASF7:
+ 1292 01cd 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1292      206C6F6E 
+ 1292      6720756E 
+ 1292      7369676E 
+ 1292      65642069 
+ 1293              	.LASF21:
+ 1294 01e4 53574C5F 		.ascii	"SWL_Int_StartEx\000"
+ 1294      496E745F 
+ 1294      53746172 
+ 1294      74457800 
+ 1295              	.LASF36:
+ 1296 01f4 433A5C55 		.ascii	"C:\\Users\\ryan\\Documents\\PSoC Creator\\Defcon_Ba"
+ 1296      73657273 
+ 1296      5C727961 
+ 1296      6E5C446F 
+ 1296      63756D65 
+ 1297 0222 6467655C 		.ascii	"dge\\Defcon_Badge.cydsn\000"
+ 1297      44656663 
+ 1297      6F6E5F42 
+ 1297      61646765 
+ 1297      2E637964 
+ 1298              	.LASF15:
+ 1299 0239 63796973 		.ascii	"cyisraddress\000"
+ 1299      72616464 
+ 1299      72657373 
+ 1299      00
+ 1300              	.LASF17:
+ 1301 0246 73697A65 		.ascii	"sizetype\000"
+ 1301      74797065 
+ 1301      00
+ 1302              	.LASF6:
+ 1303 024f 6C6F6E67 		.ascii	"long long int\000"
+ 1303      206C6F6E 
+ 1303      6720696E 
+ 1303      7400
+ 1304              	.LASF13:
+ 1305 025d 63686172 		.ascii	"char\000"
+ 1305      00
+ 1306              	.LASF28:
+ 1307 0262 53574C5F 		.ascii	"SWL_Int_Enable\000"
+ 1307      496E745F 
+ 1307      456E6162 
+ 1307      6C6500
+ 1308              	.LASF2:
+ 1309 0271 73686F72 		.ascii	"short int\000"
+ 1309      7420696E 
+ 1309      7400
+ 1310              	.LASF35:
+ 1311 027b 47656E65 		.ascii	"Generated_Source\\PSoC4\\SWL_Int.c\000"
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccBuSTSm.s 			page 33
+
+
+ 1311      72617465 
+ 1311      645F536F 
+ 1311      75726365 
+ 1311      5C50536F 
+ 1312              	.LASF27:
+ 1313 029c 7072696F 		.ascii	"priorityOffset\000"
+ 1313      72697479 
+ 1313      4F666673 
+ 1313      657400
+ 1314              	.LASF4:
+ 1315 02ab 6C6F6E67 		.ascii	"long int\000"
+ 1315      20696E74 
+ 1315      00
+ 1316              	.LASF31:
+ 1317 02b4 53574C5F 		.ascii	"SWL_Int_Disable\000"
+ 1317      496E745F 
+ 1317      44697361 
+ 1317      626C6500 
+ 1318              	.LASF16:
+ 1319 02c4 6C6F6E67 		.ascii	"long double\000"
+ 1319      20646F75 
+ 1319      626C6500 
+ 1320              	.LASF0:
+ 1321 02d0 7369676E 		.ascii	"signed char\000"
+ 1321      65642063 
+ 1321      68617200 
+ 1322              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

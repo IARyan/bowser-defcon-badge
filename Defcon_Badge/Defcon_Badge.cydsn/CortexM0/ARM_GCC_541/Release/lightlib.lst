@@ -1,0 +1,2568 @@
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"lightlib.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.set_color,"ax",%progbits
+  20              		.align	1
+  21              		.global	set_color
+  22              		.code	16
+  23              		.thumb_func
+  24              		.type	set_color, %function
+  25              	set_color:
+  26              	.LFB32:
+  27              		.file 1 "lightlib.c"
+   1:lightlib.c    **** /* ========================================
+   2:lightlib.c    ****  *
+   3:lightlib.c    ****  * Copyright Nullify, 2016
+   4:lightlib.c    ****  * All Rights Reserved
+   5:lightlib.c    ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:lightlib.c    ****  *
+   7:lightlib.c    ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:lightlib.c    ****  * WHICH IS THE PROPERTY OF NULLIY.
+   9:lightlib.c    ****  *
+  10:lightlib.c    ****  * ========================================
+  11:lightlib.c    **** */
+  12:lightlib.c    **** #include <project.h>
+  13:lightlib.c    **** #include "lightlib.h"
+  14:lightlib.c    **** 
+  15:lightlib.c    **** 
+  16:lightlib.c    **** /* Allocate a structure for each led in the project */
+  17:lightlib.c    **** volatile struct RGB_LED_State Left_LED_State;
+  18:lightlib.c    **** volatile struct RGB_LED_State Right_LED_State;
+  19:lightlib.c    **** volatile struct LED_State IR_LED_State;
+  20:lightlib.c    **** volatile struct LED_State Board_LED_State;
+  21:lightlib.c    **** 
+  22:lightlib.c    **** /*
+  23:lightlib.c    ****  * Sets the color of the of the passed in led_flag.
+  24:lightlib.c    ****  */
+  25:lightlib.c    **** void set_color(uint8 led_flag, uint8 color) {
+  28              		.loc 1 25 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 2
+
+
+  33 0000 10B5     		push	{r4, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 4, -8
+  36              		.cfi_offset 14, -4
+  37              		.loc 1 25 0
+  38 0002 0C00     		movs	r4, r1
+  26:lightlib.c    ****     switch(led_flag) {
+  39              		.loc 1 26 0
+  40 0004 0228     		cmp	r0, #2
+  41 0006 08D0     		beq	.L3
+  42 0008 0328     		cmp	r0, #3
+  43 000a 03D0     		beq	.L4
+  27:lightlib.c    ****         case LEFT_LED:
+  28:lightlib.c    ****             Left_LED_State.color = color;
+  44              		.loc 1 28 0
+  45 000c 044B     		ldr	r3, .L11
+  26:lightlib.c    ****     switch(led_flag) {
+  46              		.loc 1 26 0
+  47 000e 0128     		cmp	r0, #1
+  48 0010 05D1     		bne	.L1
+  49 0012 03E0     		b	.L9
+  50              	.L4:
+  29:lightlib.c    ****         break;
+  30:lightlib.c    ****         case RIGHT_LED:
+  31:lightlib.c    ****             Right_LED_State.color = color;
+  32:lightlib.c    ****         break;
+  33:lightlib.c    ****         case LEFT_RIGHT_LED:
+  34:lightlib.c    ****             set_color(LEFT_LED, color);
+  51              		.loc 1 34 0
+  52 0014 0120     		movs	r0, #1
+  53              	.LVL1:
+  54 0016 FFF7FEFF 		bl	set_color
+  55              	.LVL2:
+  56              	.L3:
+  31:lightlib.c    ****         break;
+  57              		.loc 1 31 0
+  58 001a 024B     		ldr	r3, .L11+4
+  59              	.L9:
+  60 001c 5C70     		strb	r4, [r3, #1]
+  61              	.L1:
+  35:lightlib.c    ****             set_color(RIGHT_LED, color);
+  36:lightlib.c    ****         break;
+  37:lightlib.c    ****     }    
+  38:lightlib.c    **** }
+  62              		.loc 1 38 0
+  63              		@ sp needed
+  64 001e 10BD     		pop	{r4, pc}
+  65              	.L12:
+  66              		.align	2
+  67              	.L11:
+  68 0020 00000000 		.word	Left_LED_State
+  69 0024 00000000 		.word	Right_LED_State
+  70              		.cfi_endproc
+  71              	.LFE32:
+  72              		.size	set_color, .-set_color
+  73              		.section	.text.set_status,"ax",%progbits
+  74              		.align	1
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 3
+
+
+  75              		.global	set_status
+  76              		.code	16
+  77              		.thumb_func
+  78              		.type	set_status, %function
+  79              	set_status:
+  80              	.LFB33:
+  39:lightlib.c    **** 
+  40:lightlib.c    **** void set_status(uint8 led_flag, uint8 status) {
+  81              		.loc 1 40 0
+  82              		.cfi_startproc
+  83              		@ args = 0, pretend = 0, frame = 0
+  84              		@ frame_needed = 0, uses_anonymous_args = 0
+  85              	.LVL3:
+  41:lightlib.c    ****     switch(led_flag) {
+  86              		.loc 1 41 0
+  87 0000 0138     		subs	r0, r0, #1
+  88              	.LVL4:
+  40:lightlib.c    ****     switch(led_flag) {
+  89              		.loc 1 40 0
+  90 0002 10B5     		push	{r4, lr}
+  91              		.cfi_def_cfa_offset 8
+  92              		.cfi_offset 4, -8
+  93              		.cfi_offset 14, -4
+  40:lightlib.c    ****     switch(led_flag) {
+  94              		.loc 1 40 0
+  95 0004 0C00     		movs	r4, r1
+  96              		.loc 1 41 0
+  97 0006 0428     		cmp	r0, #4
+  98 0008 0FD8     		bhi	.L13
+  99 000a FFF7FEFF 		bl	__gnu_thumb1_case_uqi
+ 100              	.L16:
+ 101 000e 03       		.byte	(.L15-.L16)/2
+ 102 000f 08       		.byte	(.L17-.L16)/2
+ 103 0010 05       		.byte	(.L18-.L16)/2
+ 104 0011 0A       		.byte	(.L19-.L16)/2
+ 105 0012 0C       		.byte	(.L20-.L16)/2
+ 106 0013 00       		.p2align 1
+ 107              	.L15:
+  42:lightlib.c    ****         case LEFT_LED:
+  43:lightlib.c    ****             Left_LED_State.status = status;
+ 108              		.loc 1 43 0
+ 109 0014 054B     		ldr	r3, .L22
+ 110 0016 07E0     		b	.L21
+ 111              	.L18:
+  44:lightlib.c    ****         break;
+  45:lightlib.c    ****         case RIGHT_LED:
+  46:lightlib.c    ****             Right_LED_State.status = status;
+  47:lightlib.c    ****         break;
+  48:lightlib.c    ****         case LEFT_RIGHT_LED:
+  49:lightlib.c    ****             set_status(LEFT_LED, status);
+ 112              		.loc 1 49 0
+ 113 0018 0120     		movs	r0, #1
+ 114 001a FFF7FEFF 		bl	set_status
+ 115              	.LVL5:
+ 116              	.L17:
+  46:lightlib.c    ****         break;
+ 117              		.loc 1 46 0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 4
+
+
+ 118 001e 044B     		ldr	r3, .L22+4
+ 119 0020 02E0     		b	.L21
+ 120              	.LVL6:
+ 121              	.L19:
+  50:lightlib.c    ****             set_status(RIGHT_LED, status);
+  51:lightlib.c    ****         break;
+  52:lightlib.c    ****         case IR_LED:
+  53:lightlib.c    ****             IR_LED_State.status = status;
+ 122              		.loc 1 53 0
+ 123 0022 044B     		ldr	r3, .L22+8
+ 124 0024 00E0     		b	.L21
+ 125              	.L20:
+  54:lightlib.c    ****         break;
+  55:lightlib.c    ****         case BOARD_LED:
+  56:lightlib.c    ****            Board_LED_State.status = status;
+ 126              		.loc 1 56 0
+ 127 0026 044B     		ldr	r3, .L22+12
+ 128              	.LVL7:
+ 129              	.L21:
+ 130 0028 1C70     		strb	r4, [r3]
+ 131              	.L13:
+  57:lightlib.c    ****         break;
+  58:lightlib.c    ****     }    
+  59:lightlib.c    **** }
+ 132              		.loc 1 59 0
+ 133              		@ sp needed
+ 134 002a 10BD     		pop	{r4, pc}
+ 135              	.L23:
+ 136              		.align	2
+ 137              	.L22:
+ 138 002c 00000000 		.word	Left_LED_State
+ 139 0030 00000000 		.word	Right_LED_State
+ 140 0034 00000000 		.word	IR_LED_State
+ 141 0038 00000000 		.word	Board_LED_State
+ 142              		.cfi_endproc
+ 143              	.LFE33:
+ 144              		.size	set_status, .-set_status
+ 145              		.section	.text.get_color,"ax",%progbits
+ 146              		.align	1
+ 147              		.global	get_color
+ 148              		.code	16
+ 149              		.thumb_func
+ 150              		.type	get_color, %function
+ 151              	get_color:
+ 152              	.LFB34:
+  60:lightlib.c    **** 
+  61:lightlib.c    **** uint8 get_color(uint8 led_flag) {
+ 153              		.loc 1 61 0
+ 154              		.cfi_startproc
+ 155              		@ args = 0, pretend = 0, frame = 0
+ 156              		@ frame_needed = 0, uses_anonymous_args = 0
+ 157              		@ link register save eliminated.
+ 158              	.LVL8:
+  62:lightlib.c    ****     switch(led_flag) {
+ 159              		.loc 1 62 0
+ 160 0000 0128     		cmp	r0, #1
+ 161 0002 03D0     		beq	.L26
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 5
+
+
+ 162 0004 0228     		cmp	r0, #2
+ 163 0006 05D1     		bne	.L31
+  63:lightlib.c    ****         case LEFT_LED:
+  64:lightlib.c    ****             return Left_LED_State.color;
+  65:lightlib.c    ****         break;
+  66:lightlib.c    ****         case RIGHT_LED:
+  67:lightlib.c    ****             return Right_LED_State.color;
+ 164              		.loc 1 67 0
+ 165 0008 034B     		ldr	r3, .L32
+ 166 000a 00E0     		b	.L30
+ 167              	.L26:
+  64:lightlib.c    ****         break;
+ 168              		.loc 1 64 0
+ 169 000c 034B     		ldr	r3, .L32+4
+ 170              	.L30:
+ 171              		.loc 1 67 0
+ 172 000e 5878     		ldrb	r0, [r3, #1]
+ 173              	.LVL9:
+ 174 0010 C0B2     		uxtb	r0, r0
+ 175 0012 00E0     		b	.L25
+ 176              	.LVL10:
+ 177              	.L31:
+  68:lightlib.c    ****         break;
+  69:lightlib.c    ****     }
+  70:lightlib.c    ****     return -1;
+ 178              		.loc 1 70 0
+ 179 0014 FF20     		movs	r0, #255
+ 180              	.LVL11:
+ 181              	.L25:
+  71:lightlib.c    **** }
+ 182              		.loc 1 71 0
+ 183              		@ sp needed
+ 184 0016 7047     		bx	lr
+ 185              	.L33:
+ 186              		.align	2
+ 187              	.L32:
+ 188 0018 00000000 		.word	Right_LED_State
+ 189 001c 00000000 		.word	Left_LED_State
+ 190              		.cfi_endproc
+ 191              	.LFE34:
+ 192              		.size	get_color, .-get_color
+ 193              		.section	.text.get_status,"ax",%progbits
+ 194              		.align	1
+ 195              		.global	get_status
+ 196              		.code	16
+ 197              		.thumb_func
+ 198              		.type	get_status, %function
+ 199              	get_status:
+ 200              	.LFB35:
+  72:lightlib.c    **** 
+  73:lightlib.c    **** uint8 get_status(uint8 led_flag) {
+ 201              		.loc 1 73 0
+ 202              		.cfi_startproc
+ 203              		@ args = 0, pretend = 0, frame = 0
+ 204              		@ frame_needed = 0, uses_anonymous_args = 0
+ 205              	.LVL12:
+  74:lightlib.c    ****     switch(led_flag) {
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 6
+
+
+ 206              		.loc 1 74 0
+ 207 0000 0138     		subs	r0, r0, #1
+ 208              	.LVL13:
+  73:lightlib.c    ****     switch(led_flag) {
+ 209              		.loc 1 73 0
+ 210 0002 00B5     		push	{lr}
+ 211              		.cfi_def_cfa_offset 4
+ 212              		.cfi_offset 14, -4
+ 213              		.loc 1 74 0
+ 214 0004 0428     		cmp	r0, #4
+ 215 0006 0ED8     		bhi	.L41
+ 216 0008 FFF7FEFF 		bl	__gnu_thumb1_case_uqi
+ 217              	.L37:
+ 218 000c 03       		.byte	(.L36-.L37)/2
+ 219 000d 05       		.byte	(.L38-.L37)/2
+ 220 000e 0D       		.byte	(.L41-.L37)/2
+ 221 000f 07       		.byte	(.L39-.L37)/2
+ 222 0010 09       		.byte	(.L40-.L37)/2
+ 223 0011 00       		.p2align 1
+ 224              	.L36:
+  75:lightlib.c    ****         case LEFT_LED:
+  76:lightlib.c    ****             return Left_LED_State.status;
+ 225              		.loc 1 76 0
+ 226 0012 064B     		ldr	r3, .L43
+ 227 0014 04E0     		b	.L42
+ 228              	.L38:
+  77:lightlib.c    ****         break;
+  78:lightlib.c    ****         case RIGHT_LED:
+  79:lightlib.c    ****             return Right_LED_State.status;
+ 229              		.loc 1 79 0
+ 230 0016 064B     		ldr	r3, .L43+4
+ 231 0018 02E0     		b	.L42
+ 232              	.L39:
+  80:lightlib.c    ****         break;
+  81:lightlib.c    ****         case IR_LED:
+  82:lightlib.c    ****             return IR_LED_State.status;
+ 233              		.loc 1 82 0
+ 234 001a 064B     		ldr	r3, .L43+8
+ 235 001c 00E0     		b	.L42
+ 236              	.L40:
+  83:lightlib.c    ****         break;
+  84:lightlib.c    ****         case BOARD_LED:
+  85:lightlib.c    ****            return Board_LED_State.status;
+ 237              		.loc 1 85 0
+ 238 001e 064B     		ldr	r3, .L43+12
+ 239              	.L42:
+ 240 0020 1878     		ldrb	r0, [r3]
+ 241 0022 C0B2     		uxtb	r0, r0
+ 242 0024 00E0     		b	.L35
+ 243              	.L41:
+  86:lightlib.c    ****         break;
+  87:lightlib.c    ****     }  
+  88:lightlib.c    ****     return -1;
+ 244              		.loc 1 88 0
+ 245 0026 FF20     		movs	r0, #255
+ 246              	.L35:
+  89:lightlib.c    **** }
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 7
+
+
+ 247              		.loc 1 89 0
+ 248              		@ sp needed
+ 249 0028 00BD     		pop	{pc}
+ 250              	.L44:
+ 251 002a C046     		.align	2
+ 252              	.L43:
+ 253 002c 00000000 		.word	Left_LED_State
+ 254 0030 00000000 		.word	Right_LED_State
+ 255 0034 00000000 		.word	IR_LED_State
+ 256 0038 00000000 		.word	Board_LED_State
+ 257              		.cfi_endproc
+ 258              	.LFE35:
+ 259              		.size	get_status, .-get_status
+ 260              		.section	.text.turn_on,"ax",%progbits
+ 261              		.align	1
+ 262              		.global	turn_on
+ 263              		.code	16
+ 264              		.thumb_func
+ 265              		.type	turn_on, %function
+ 266              	turn_on:
+ 267              	.LFB36:
+  90:lightlib.c    **** 
+  91:lightlib.c    **** void turn_on(uint8 led_flag) {
+ 268              		.loc 1 91 0
+ 269              		.cfi_startproc
+ 270              		@ args = 0, pretend = 0, frame = 0
+ 271              		@ frame_needed = 0, uses_anonymous_args = 0
+ 272              	.LVL14:
+  92:lightlib.c    ****     switch(led_flag) {
+ 273              		.loc 1 92 0
+ 274 0000 0138     		subs	r0, r0, #1
+ 275              	.LVL15:
+  91:lightlib.c    ****     switch(led_flag) {
+ 276              		.loc 1 91 0
+ 277 0002 10B5     		push	{r4, lr}
+ 278              		.cfi_def_cfa_offset 8
+ 279              		.cfi_offset 4, -8
+ 280              		.cfi_offset 14, -4
+ 281              		.loc 1 92 0
+ 282 0004 0428     		cmp	r0, #4
+ 283 0006 58D8     		bhi	.L45
+ 284 0008 FFF7FEFF 		bl	__gnu_thumb1_case_uqi
+ 285              	.L48:
+ 286 000c 03       		.byte	(.L47-.L48)/2
+ 287 000d 28       		.byte	(.L49-.L48)/2
+ 288 000e 25       		.byte	(.L50-.L48)/2
+ 289 000f 4A       		.byte	(.L51-.L48)/2
+ 290 0010 50       		.byte	(.L52-.L48)/2
+ 291 0011 00       		.p2align 1
+ 292              	.L47:
+ 293              	.LVL16:
+ 294              	.LBB6:
+ 295              	.LBB7:
+  64:lightlib.c    ****         break;
+ 296              		.loc 1 64 0
+ 297 0012 2A4B     		ldr	r3, .L78
+ 298 0014 5878     		ldrb	r0, [r3, #1]
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 8
+
+
+ 299              	.LBE7:
+ 300              	.LBE6:
+  93:lightlib.c    ****         case LEFT_LED:
+  94:lightlib.c    ****             switch(get_color(LEFT_LED)) {
+ 301              		.loc 1 94 0
+ 302 0016 0138     		subs	r0, r0, #1
+ 303 0018 0628     		cmp	r0, #6
+ 304 001a 19D8     		bhi	.L53
+ 305 001c FFF7FEFF 		bl	__gnu_thumb1_case_uqi
+ 306              	.L55:
+ 307 0020 04       		.byte	(.L54-.L55)/2
+ 308 0021 09       		.byte	(.L71-.L55)/2
+ 309 0022 07       		.byte	(.L57-.L55)/2
+ 310 0023 15       		.byte	(.L73-.L55)/2
+ 311 0024 0D       		.byte	(.L59-.L55)/2
+ 312 0025 12       		.byte	(.L72-.L55)/2
+ 313 0026 10       		.byte	(.L61-.L55)/2
+ 314 0027 00       		.p2align 1
+ 315              	.L54:
+  95:lightlib.c    ****                 case RED:
+  96:lightlib.c    ****                     PWM_Left_LED_Red_Start();
+ 316              		.loc 1 96 0
+ 317 0028 FFF7FEFF 		bl	PWM_Left_LED_Red_Start
+ 318              	.LVL17:
+  97:lightlib.c    ****                 break;
+ 319              		.loc 1 97 0
+ 320 002c 10E0     		b	.L53
+ 321              	.L57:
+  98:lightlib.c    ****                 case BLUE:
+  99:lightlib.c    ****                     Left_LED_Blue_Write(1);
+ 100:lightlib.c    ****                 break;
+ 101:lightlib.c    ****                 case MAGENTA:
+ 102:lightlib.c    ****                     PWM_Left_LED_Red_Start();
+ 322              		.loc 1 102 0
+ 323 002e FFF7FEFF 		bl	PWM_Left_LED_Red_Start
+ 324              	.LVL18:
+ 325              	.L71:
+ 103:lightlib.c    ****                     Left_LED_Blue_Write(1);
+ 326              		.loc 1 103 0
+ 327 0032 0120     		movs	r0, #1
+ 328 0034 FFF7FEFF 		bl	Left_LED_Blue_Write
+ 329              	.LVL19:
+ 104:lightlib.c    ****                 break;
+ 330              		.loc 1 104 0
+ 331 0038 0AE0     		b	.L53
+ 332              	.L59:
+ 105:lightlib.c    ****                 case GREEN:
+ 106:lightlib.c    ****                     Left_LED_Green_Write(1);
+ 107:lightlib.c    ****                 break;
+ 108:lightlib.c    ****                 case YELLOW:
+ 109:lightlib.c    ****                     PWM_Left_LED_Red_Start();
+ 333              		.loc 1 109 0
+ 334 003a FFF7FEFF 		bl	PWM_Left_LED_Red_Start
+ 335              	.LVL20:
+ 336 003e 04E0     		b	.L73
+ 337              	.L61:
+ 110:lightlib.c    ****                     Left_LED_Green_Write(1);
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 9
+
+
+ 111:lightlib.c    ****                 break;
+ 112:lightlib.c    ****                 case CYAN:
+ 113:lightlib.c    ****                     Left_LED_Blue_Write(1);
+ 114:lightlib.c    ****                     Left_LED_Green_Write(1);
+ 115:lightlib.c    ****                 break;
+ 116:lightlib.c    ****                 case WHITE:
+ 117:lightlib.c    ****                     PWM_Left_LED_Red_Start();
+ 338              		.loc 1 117 0
+ 339 0040 FFF7FEFF 		bl	PWM_Left_LED_Red_Start
+ 340              	.LVL21:
+ 341              	.L72:
+ 118:lightlib.c    ****                     Left_LED_Blue_Write(1);
+ 342              		.loc 1 118 0
+ 343 0044 0120     		movs	r0, #1
+ 344 0046 FFF7FEFF 		bl	Left_LED_Blue_Write
+ 345              	.LVL22:
+ 346              	.L73:
+ 119:lightlib.c    ****                     Left_LED_Green_Write(1);
+ 347              		.loc 1 119 0
+ 348 004a 0120     		movs	r0, #1
+ 349 004c FFF7FEFF 		bl	Left_LED_Green_Write
+ 350              	.LVL23:
+ 351              	.L53:
+ 120:lightlib.c    ****                 break;
+ 121:lightlib.c    ****             }
+ 122:lightlib.c    ****         set_status(LEFT_LED, ON);
+ 352              		.loc 1 122 0
+ 353 0050 0121     		movs	r1, #1
+ 354 0052 0800     		movs	r0, r1
+ 355 0054 2FE0     		b	.L77
+ 356              	.L50:
+ 123:lightlib.c    ****         break;
+ 124:lightlib.c    ****         case RIGHT_LED:
+ 125:lightlib.c    ****             switch(get_color(RIGHT_LED)) {
+ 126:lightlib.c    ****                 case RED:
+ 127:lightlib.c    ****                     PWM_Right_LED_Red_Start();
+ 128:lightlib.c    ****                 break;
+ 129:lightlib.c    ****                 case BLUE:
+ 130:lightlib.c    ****                     Right_LED_Blue_Write(1);
+ 131:lightlib.c    ****                 break;
+ 132:lightlib.c    ****                 case MAGENTA:
+ 133:lightlib.c    ****                     PWM_Right_LED_Red_Start();
+ 134:lightlib.c    ****                     Right_LED_Blue_Write(1);
+ 135:lightlib.c    ****                 break;
+ 136:lightlib.c    ****                 case GREEN:
+ 137:lightlib.c    ****                     Right_LED_Green_Write(1);
+ 138:lightlib.c    ****                 break;
+ 139:lightlib.c    ****                 case YELLOW:
+ 140:lightlib.c    ****                     PWM_Right_LED_Red_Start();
+ 141:lightlib.c    ****                     Right_LED_Green_Write(1);
+ 142:lightlib.c    ****                 break;
+ 143:lightlib.c    ****                 case CYAN:
+ 144:lightlib.c    ****                     Right_LED_Blue_Write(1);
+ 145:lightlib.c    ****                     Right_LED_Green_Write(1);
+ 146:lightlib.c    ****                 break;
+ 147:lightlib.c    ****                 case WHITE:
+ 148:lightlib.c    ****                     PWM_Right_LED_Red_Start();
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 10
+
+
+ 149:lightlib.c    ****                     Right_LED_Blue_Write(1);
+ 150:lightlib.c    ****                     Right_LED_Green_Write(1);
+ 151:lightlib.c    ****                 break;
+ 152:lightlib.c    ****             }
+ 153:lightlib.c    ****         set_status(RIGHT_LED, ON);
+ 154:lightlib.c    ****         break;
+ 155:lightlib.c    ****         case LEFT_RIGHT_LED:
+ 156:lightlib.c    ****             turn_on(LEFT_LED);
+ 357              		.loc 1 156 0
+ 358 0056 0120     		movs	r0, #1
+ 359 0058 FFF7FEFF 		bl	turn_on
+ 360              	.LVL24:
+ 361              	.L49:
+ 362              	.LBB8:
+ 363              	.LBB9:
+  67:lightlib.c    ****         break;
+ 364              		.loc 1 67 0
+ 365 005c 184B     		ldr	r3, .L78+4
+ 366 005e 5878     		ldrb	r0, [r3, #1]
+ 367              	.LBE9:
+ 368              	.LBE8:
+ 125:lightlib.c    ****                 case RED:
+ 369              		.loc 1 125 0
+ 370 0060 0138     		subs	r0, r0, #1
+ 371 0062 0628     		cmp	r0, #6
+ 372 0064 19D8     		bhi	.L62
+ 373 0066 FFF7FEFF 		bl	__gnu_thumb1_case_uqi
+ 374              	.L64:
+ 375 006a 04       		.byte	(.L63-.L64)/2
+ 376 006b 09       		.byte	(.L74-.L64)/2
+ 377 006c 07       		.byte	(.L66-.L64)/2
+ 378 006d 15       		.byte	(.L76-.L64)/2
+ 379 006e 0D       		.byte	(.L68-.L64)/2
+ 380 006f 12       		.byte	(.L75-.L64)/2
+ 381 0070 10       		.byte	(.L70-.L64)/2
+ 382 0071 00       		.p2align 1
+ 383              	.L63:
+ 127:lightlib.c    ****                 break;
+ 384              		.loc 1 127 0
+ 385 0072 FFF7FEFF 		bl	PWM_Right_LED_Red_Start
+ 386              	.LVL25:
+ 128:lightlib.c    ****                 case BLUE:
+ 387              		.loc 1 128 0
+ 388 0076 10E0     		b	.L62
+ 389              	.L66:
+ 133:lightlib.c    ****                     Right_LED_Blue_Write(1);
+ 390              		.loc 1 133 0
+ 391 0078 FFF7FEFF 		bl	PWM_Right_LED_Red_Start
+ 392              	.LVL26:
+ 393              	.L74:
+ 134:lightlib.c    ****                 break;
+ 394              		.loc 1 134 0
+ 395 007c 0120     		movs	r0, #1
+ 396 007e FFF7FEFF 		bl	Right_LED_Blue_Write
+ 397              	.LVL27:
+ 135:lightlib.c    ****                 case GREEN:
+ 398              		.loc 1 135 0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 11
+
+
+ 399 0082 0AE0     		b	.L62
+ 400              	.L68:
+ 140:lightlib.c    ****                     Right_LED_Green_Write(1);
+ 401              		.loc 1 140 0
+ 402 0084 FFF7FEFF 		bl	PWM_Right_LED_Red_Start
+ 403              	.LVL28:
+ 404 0088 04E0     		b	.L76
+ 405              	.L70:
+ 148:lightlib.c    ****                     Right_LED_Blue_Write(1);
+ 406              		.loc 1 148 0
+ 407 008a FFF7FEFF 		bl	PWM_Right_LED_Red_Start
+ 408              	.LVL29:
+ 409              	.L75:
+ 149:lightlib.c    ****                     Right_LED_Green_Write(1);
+ 410              		.loc 1 149 0
+ 411 008e 0120     		movs	r0, #1
+ 412 0090 FFF7FEFF 		bl	Right_LED_Blue_Write
+ 413              	.LVL30:
+ 414              	.L76:
+ 150:lightlib.c    ****                 break;
+ 415              		.loc 1 150 0
+ 416 0094 0120     		movs	r0, #1
+ 417 0096 FFF7FEFF 		bl	Right_LED_Green_Write
+ 418              	.LVL31:
+ 419              	.L62:
+ 153:lightlib.c    ****         break;
+ 420              		.loc 1 153 0
+ 421 009a 0121     		movs	r1, #1
+ 422 009c 0220     		movs	r0, #2
+ 423 009e 0AE0     		b	.L77
+ 424              	.L51:
+ 157:lightlib.c    ****             turn_on(RIGHT_LED);
+ 158:lightlib.c    ****         break;
+ 159:lightlib.c    ****         case IR_LED:
+ 160:lightlib.c    ****             IR_LED_Write(1);
+ 425              		.loc 1 160 0
+ 426 00a0 0120     		movs	r0, #1
+ 427 00a2 FFF7FEFF 		bl	IR_LED_Write
+ 428              	.LVL32:
+ 161:lightlib.c    ****             set_status(IR_LED, ON);
+ 429              		.loc 1 161 0
+ 430 00a6 0121     		movs	r1, #1
+ 431 00a8 0420     		movs	r0, #4
+ 432 00aa 04E0     		b	.L77
+ 433              	.L52:
+ 162:lightlib.c    ****         break;
+ 163:lightlib.c    ****         case BOARD_LED:
+ 164:lightlib.c    ****             Board_LED_Write(1);
+ 434              		.loc 1 164 0
+ 435 00ac 0120     		movs	r0, #1
+ 436 00ae FFF7FEFF 		bl	Board_LED_Write
+ 437              	.LVL33:
+ 165:lightlib.c    ****             set_status(BOARD_LED, ON);
+ 438              		.loc 1 165 0
+ 439 00b2 0121     		movs	r1, #1
+ 440 00b4 0520     		movs	r0, #5
+ 441              	.L77:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 12
+
+
+ 442 00b6 FFF7FEFF 		bl	set_status
+ 443              	.LVL34:
+ 444              	.L45:
+ 166:lightlib.c    **** 
+ 167:lightlib.c    ****         break;
+ 168:lightlib.c    ****     }    
+ 169:lightlib.c    **** }
+ 445              		.loc 1 169 0
+ 446              		@ sp needed
+ 447 00ba 10BD     		pop	{r4, pc}
+ 448              	.L79:
+ 449              		.align	2
+ 450              	.L78:
+ 451 00bc 00000000 		.word	Left_LED_State
+ 452 00c0 00000000 		.word	Right_LED_State
+ 453              		.cfi_endproc
+ 454              	.LFE36:
+ 455              		.size	turn_on, .-turn_on
+ 456              		.section	.text.turn_off,"ax",%progbits
+ 457              		.align	1
+ 458              		.global	turn_off
+ 459              		.code	16
+ 460              		.thumb_func
+ 461              		.type	turn_off, %function
+ 462              	turn_off:
+ 463              	.LFB37:
+ 170:lightlib.c    **** 
+ 171:lightlib.c    **** void turn_off(uint8 led_flag) {
+ 464              		.loc 1 171 0
+ 465              		.cfi_startproc
+ 466              		@ args = 0, pretend = 0, frame = 0
+ 467              		@ frame_needed = 0, uses_anonymous_args = 0
+ 468              	.LVL35:
+ 172:lightlib.c    ****     switch(led_flag) {
+ 469              		.loc 1 172 0
+ 470 0000 0138     		subs	r0, r0, #1
+ 471              	.LVL36:
+ 171:lightlib.c    ****     switch(led_flag) {
+ 472              		.loc 1 171 0
+ 473 0002 10B5     		push	{r4, lr}
+ 474              		.cfi_def_cfa_offset 8
+ 475              		.cfi_offset 4, -8
+ 476              		.cfi_offset 14, -4
+ 477              		.loc 1 172 0
+ 478 0004 0428     		cmp	r0, #4
+ 479 0006 2AD8     		bhi	.L80
+ 480 0008 FFF7FEFF 		bl	__gnu_thumb1_case_uqi
+ 481              	.L83:
+ 482 000c 03       		.byte	(.L82-.L83)/2
+ 483 000d 11       		.byte	(.L84-.L83)/2
+ 484 000e 0E       		.byte	(.L85-.L83)/2
+ 485 000f 1C       		.byte	(.L86-.L83)/2
+ 486 0010 22       		.byte	(.L87-.L83)/2
+ 487 0011 00       		.p2align 1
+ 488              	.L82:
+ 489              	.LVL37:
+ 490              	.LBB12:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 13
+
+
+ 491              	.LBB13:
+ 173:lightlib.c    ****         case LEFT_LED:
+ 174:lightlib.c    ****             PWM_Left_LED_Red_Stop();
+ 492              		.loc 1 174 0
+ 493 0012 FFF7FEFF 		bl	PWM_Left_LED_Red_Stop
+ 494              	.LVL38:
+ 175:lightlib.c    ****             Left_LED_Blue_Write(0);
+ 495              		.loc 1 175 0
+ 496 0016 0020     		movs	r0, #0
+ 497 0018 FFF7FEFF 		bl	Left_LED_Blue_Write
+ 498              	.LVL39:
+ 176:lightlib.c    ****             Left_LED_Green_Write(0);
+ 499              		.loc 1 176 0
+ 500 001c 0020     		movs	r0, #0
+ 501 001e FFF7FEFF 		bl	Left_LED_Green_Write
+ 502              	.LVL40:
+ 177:lightlib.c    ****             set_status(LEFT_LED, OFF);
+ 503              		.loc 1 177 0
+ 504 0022 0021     		movs	r1, #0
+ 505 0024 0120     		movs	r0, #1
+ 506 0026 18E0     		b	.L88
+ 507              	.LVL41:
+ 508              	.L85:
+ 509              	.LBE13:
+ 510              	.LBE12:
+ 178:lightlib.c    ****         break;
+ 179:lightlib.c    ****         case RIGHT_LED:
+ 180:lightlib.c    ****             PWM_Right_LED_Red_Stop();
+ 181:lightlib.c    ****             Right_LED_Blue_Write(0);
+ 182:lightlib.c    ****             Right_LED_Green_Write(0);
+ 183:lightlib.c    ****             set_status(RIGHT_LED, OFF);
+ 184:lightlib.c    ****         break;
+ 185:lightlib.c    ****         case LEFT_RIGHT_LED:
+ 186:lightlib.c    ****             turn_off(LEFT_LED);
+ 511              		.loc 1 186 0
+ 512 0028 0120     		movs	r0, #1
+ 513 002a FFF7FEFF 		bl	turn_off
+ 514              	.LVL42:
+ 515              	.L84:
+ 180:lightlib.c    ****             Right_LED_Blue_Write(0);
+ 516              		.loc 1 180 0
+ 517 002e FFF7FEFF 		bl	PWM_Right_LED_Red_Stop
+ 518              	.LVL43:
+ 181:lightlib.c    ****             Right_LED_Green_Write(0);
+ 519              		.loc 1 181 0
+ 520 0032 0020     		movs	r0, #0
+ 521 0034 FFF7FEFF 		bl	Right_LED_Blue_Write
+ 522              	.LVL44:
+ 182:lightlib.c    ****             set_status(RIGHT_LED, OFF);
+ 523              		.loc 1 182 0
+ 524 0038 0020     		movs	r0, #0
+ 525 003a FFF7FEFF 		bl	Right_LED_Green_Write
+ 526              	.LVL45:
+ 183:lightlib.c    ****         break;
+ 527              		.loc 1 183 0
+ 528 003e 0021     		movs	r1, #0
+ 529 0040 0220     		movs	r0, #2
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 14
+
+
+ 530 0042 0AE0     		b	.L88
+ 531              	.L86:
+ 187:lightlib.c    ****             turn_off(RIGHT_LED);
+ 188:lightlib.c    ****         break;
+ 189:lightlib.c    ****         case IR_LED:
+ 190:lightlib.c    ****             IR_LED_Write(0);
+ 532              		.loc 1 190 0
+ 533 0044 0020     		movs	r0, #0
+ 534 0046 FFF7FEFF 		bl	IR_LED_Write
+ 535              	.LVL46:
+ 191:lightlib.c    ****             set_status(IR_LED, OFF);
+ 536              		.loc 1 191 0
+ 537 004a 0021     		movs	r1, #0
+ 538 004c 0420     		movs	r0, #4
+ 539 004e 04E0     		b	.L88
+ 540              	.L87:
+ 192:lightlib.c    ****         break;
+ 193:lightlib.c    ****         case BOARD_LED:
+ 194:lightlib.c    ****             Board_LED_Write(0);
+ 541              		.loc 1 194 0
+ 542 0050 0020     		movs	r0, #0
+ 543 0052 FFF7FEFF 		bl	Board_LED_Write
+ 544              	.LVL47:
+ 195:lightlib.c    ****            set_status(BOARD_LED, OFF);
+ 545              		.loc 1 195 0
+ 546 0056 0021     		movs	r1, #0
+ 547 0058 0520     		movs	r0, #5
+ 548              	.L88:
+ 549 005a FFF7FEFF 		bl	set_status
+ 550              	.LVL48:
+ 551              	.L80:
+ 196:lightlib.c    ****         break;
+ 197:lightlib.c    ****     }    
+ 198:lightlib.c    **** }
+ 552              		.loc 1 198 0
+ 553              		@ sp needed
+ 554 005e 10BD     		pop	{r4, pc}
+ 555              		.cfi_endproc
+ 556              	.LFE37:
+ 557              		.size	turn_off, .-turn_off
+ 558              		.section	.text.turn_on_all_led,"ax",%progbits
+ 559              		.align	1
+ 560              		.global	turn_on_all_led
+ 561              		.code	16
+ 562              		.thumb_func
+ 563              		.type	turn_on_all_led, %function
+ 564              	turn_on_all_led:
+ 565              	.LFB38:
+ 199:lightlib.c    **** 
+ 200:lightlib.c    **** void turn_on_all_led(void) {
+ 566              		.loc 1 200 0
+ 567              		.cfi_startproc
+ 568              		@ args = 0, pretend = 0, frame = 0
+ 569              		@ frame_needed = 0, uses_anonymous_args = 0
+ 570 0000 10B5     		push	{r4, lr}
+ 571              		.cfi_def_cfa_offset 8
+ 572              		.cfi_offset 4, -8
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 15
+
+
+ 573              		.cfi_offset 14, -4
+ 201:lightlib.c    ****     turn_on(LEFT_LED);
+ 574              		.loc 1 201 0
+ 575 0002 0120     		movs	r0, #1
+ 576 0004 FFF7FEFF 		bl	turn_on
+ 577              	.LVL49:
+ 202:lightlib.c    ****     turn_on(RIGHT_LED); 
+ 578              		.loc 1 202 0
+ 579 0008 0220     		movs	r0, #2
+ 580 000a FFF7FEFF 		bl	turn_on
+ 581              	.LVL50:
+ 203:lightlib.c    ****     turn_on(IR_LED); 
+ 582              		.loc 1 203 0
+ 583 000e 0420     		movs	r0, #4
+ 584 0010 FFF7FEFF 		bl	turn_on
+ 585              	.LVL51:
+ 204:lightlib.c    ****     turn_on(BOARD_LED); 
+ 586              		.loc 1 204 0
+ 587 0014 0520     		movs	r0, #5
+ 588 0016 FFF7FEFF 		bl	turn_on
+ 589              	.LVL52:
+ 205:lightlib.c    **** }
+ 590              		.loc 1 205 0
+ 591              		@ sp needed
+ 592 001a 10BD     		pop	{r4, pc}
+ 593              		.cfi_endproc
+ 594              	.LFE38:
+ 595              		.size	turn_on_all_led, .-turn_on_all_led
+ 596              		.section	.text.turn_off_all_led,"ax",%progbits
+ 597              		.align	1
+ 598              		.global	turn_off_all_led
+ 599              		.code	16
+ 600              		.thumb_func
+ 601              		.type	turn_off_all_led, %function
+ 602              	turn_off_all_led:
+ 603              	.LFB39:
+ 206:lightlib.c    **** 
+ 207:lightlib.c    **** void turn_off_all_led(void) {
+ 604              		.loc 1 207 0
+ 605              		.cfi_startproc
+ 606              		@ args = 0, pretend = 0, frame = 0
+ 607              		@ frame_needed = 0, uses_anonymous_args = 0
+ 608 0000 10B5     		push	{r4, lr}
+ 609              		.cfi_def_cfa_offset 8
+ 610              		.cfi_offset 4, -8
+ 611              		.cfi_offset 14, -4
+ 208:lightlib.c    ****     turn_off(LEFT_LED);
+ 612              		.loc 1 208 0
+ 613 0002 0120     		movs	r0, #1
+ 614 0004 FFF7FEFF 		bl	turn_off
+ 615              	.LVL53:
+ 209:lightlib.c    ****     turn_off(RIGHT_LED); 
+ 616              		.loc 1 209 0
+ 617 0008 0220     		movs	r0, #2
+ 618 000a FFF7FEFF 		bl	turn_off
+ 619              	.LVL54:
+ 210:lightlib.c    ****     turn_off(IR_LED); 
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 16
+
+
+ 620              		.loc 1 210 0
+ 621 000e 0420     		movs	r0, #4
+ 622 0010 FFF7FEFF 		bl	turn_off
+ 623              	.LVL55:
+ 211:lightlib.c    ****     turn_off(BOARD_LED); 
+ 624              		.loc 1 211 0
+ 625 0014 0520     		movs	r0, #5
+ 626 0016 FFF7FEFF 		bl	turn_off
+ 627              	.LVL56:
+ 212:lightlib.c    **** }
+ 628              		.loc 1 212 0
+ 629              		@ sp needed
+ 630 001a 10BD     		pop	{r4, pc}
+ 631              		.cfi_endproc
+ 632              	.LFE39:
+ 633              		.size	turn_off_all_led, .-turn_off_all_led
+ 634              		.section	.text.init_led,"ax",%progbits
+ 635              		.align	1
+ 636              		.global	init_led
+ 637              		.code	16
+ 638              		.thumb_func
+ 639              		.type	init_led, %function
+ 640              	init_led:
+ 641              	.LFB40:
+ 213:lightlib.c    **** 
+ 214:lightlib.c    **** void init_led(uint8 color) {
+ 642              		.loc 1 214 0
+ 643              		.cfi_startproc
+ 644              		@ args = 0, pretend = 0, frame = 0
+ 645              		@ frame_needed = 0, uses_anonymous_args = 0
+ 646              	.LVL57:
+ 647 0000 10B5     		push	{r4, lr}
+ 648              		.cfi_def_cfa_offset 8
+ 649              		.cfi_offset 4, -8
+ 650              		.cfi_offset 14, -4
+ 651              		.loc 1 214 0
+ 652 0002 0400     		movs	r4, r0
+ 215:lightlib.c    ****     /* Turn off all leds */
+ 216:lightlib.c    ****     turn_off_all_led();
+ 653              		.loc 1 216 0
+ 654 0004 FFF7FEFF 		bl	turn_off_all_led
+ 655              	.LVL58:
+ 217:lightlib.c    ****     
+ 218:lightlib.c    ****     /* Set default led color */
+ 219:lightlib.c    ****     set_color(LEFT_LED, color);
+ 656              		.loc 1 219 0
+ 657 0008 2100     		movs	r1, r4
+ 658 000a 0120     		movs	r0, #1
+ 659 000c FFF7FEFF 		bl	set_color
+ 660              	.LVL59:
+ 220:lightlib.c    ****     set_color(RIGHT_LED, color);
+ 661              		.loc 1 220 0
+ 662 0010 2100     		movs	r1, r4
+ 663 0012 0220     		movs	r0, #2
+ 664 0014 FFF7FEFF 		bl	set_color
+ 665              	.LVL60:
+ 221:lightlib.c    **** }...
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 17
+
+
+ 666              		.loc 1 221 0
+ 667              		@ sp needed
+ 668 0018 10BD     		pop	{r4, pc}
+ 669              		.cfi_endproc
+ 670              	.LFE40:
+ 671              		.size	init_led, .-init_led
+ 672              		.comm	Board_LED_State,1,1
+ 673              		.comm	IR_LED_State,1,1
+ 674              		.comm	Right_LED_State,2,1
+ 675              		.comm	Left_LED_State,2,1
+ 676              		.text
+ 677              	.Letext0:
+ 678              		.file 2 "lightlib.h"
+ 679              		.file 3 "Generated_Source\\PSoC4/PWM_Left_LED_Red.h"
+ 680              		.file 4 "Generated_Source\\PSoC4/Left_LED_Blue.h"
+ 681              		.file 5 "Generated_Source\\PSoC4/Left_LED_Green.h"
+ 682              		.file 6 "Generated_Source\\PSoC4/PWM_Right_LED_Red.h"
+ 683              		.file 7 "Generated_Source\\PSoC4/Right_LED_Blue.h"
+ 684              		.file 8 "Generated_Source\\PSoC4/Right_LED_Green.h"
+ 685              		.file 9 "Generated_Source\\PSoC4/IR_LED.h"
+ 686              		.file 10 "Generated_Source\\PSoC4/Board_LED.h"
+ 687              		.file 11 "Generated_Source\\PSoC4/cytypes.h"
+ 688              		.section	.debug_info,"",%progbits
+ 689              	.Ldebug_info0:
+ 690 0000 CC050000 		.4byte	0x5cc
+ 691 0004 0400     		.2byte	0x4
+ 692 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 693 000a 04       		.byte	0x4
+ 694 000b 01       		.uleb128 0x1
+ 695 000c 8D020000 		.4byte	.LASF39
+ 696 0010 0C       		.byte	0xc
+ 697 0011 86000000 		.4byte	.LASF40
+ 698 0015 C8000000 		.4byte	.LASF41
+ 699 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 700 001d 00000000 		.4byte	0
+ 701 0021 00000000 		.4byte	.Ldebug_line0
+ 702 0025 02       		.uleb128 0x2
+ 703 0026 01       		.byte	0x1
+ 704 0027 06       		.byte	0x6
+ 705 0028 6A020000 		.4byte	.LASF0
+ 706 002c 02       		.uleb128 0x2
+ 707 002d 01       		.byte	0x1
+ 708 002e 08       		.byte	0x8
+ 709 002f 29010000 		.4byte	.LASF1
+ 710 0033 02       		.uleb128 0x2
+ 711 0034 02       		.byte	0x2
+ 712 0035 05       		.byte	0x5
+ 713 0036 33020000 		.4byte	.LASF2
+ 714 003a 02       		.uleb128 0x2
+ 715 003b 02       		.byte	0x2
+ 716 003c 07       		.byte	0x7
+ 717 003d 73000000 		.4byte	.LASF3
+ 718 0041 02       		.uleb128 0x2
+ 719 0042 04       		.byte	0x4
+ 720 0043 05       		.byte	0x5
+ 721 0044 50020000 		.4byte	.LASF4
+ 722 0048 02       		.uleb128 0x2
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 18
+
+
+ 723 0049 04       		.byte	0x4
+ 724 004a 07       		.byte	0x7
+ 725 004b 4B010000 		.4byte	.LASF5
+ 726 004f 02       		.uleb128 0x2
+ 727 0050 08       		.byte	0x8
+ 728 0051 05       		.byte	0x5
+ 729 0052 1B020000 		.4byte	.LASF6
+ 730 0056 02       		.uleb128 0x2
+ 731 0057 08       		.byte	0x8
+ 732 0058 07       		.byte	0x7
+ 733 0059 BE010000 		.4byte	.LASF7
+ 734 005d 03       		.uleb128 0x3
+ 735 005e 04       		.byte	0x4
+ 736 005f 05       		.byte	0x5
+ 737 0060 696E7400 		.ascii	"int\000"
+ 738 0064 02       		.uleb128 0x2
+ 739 0065 04       		.byte	0x4
+ 740 0066 07       		.byte	0x7
+ 741 0067 A0010000 		.4byte	.LASF8
+ 742 006b 04       		.uleb128 0x4
+ 743 006c 6A010000 		.4byte	.LASF42
+ 744 0070 0B       		.byte	0xb
+ 745 0071 D201     		.2byte	0x1d2
+ 746 0073 2C000000 		.4byte	0x2c
+ 747 0077 02       		.uleb128 0x2
+ 748 0078 04       		.byte	0x4
+ 749 0079 04       		.byte	0x4
+ 750 007a 23010000 		.4byte	.LASF9
+ 751 007e 02       		.uleb128 0x2
+ 752 007f 08       		.byte	0x8
+ 753 0080 04       		.byte	0x4
+ 754 0081 8A010000 		.4byte	.LASF10
+ 755 0085 02       		.uleb128 0x2
+ 756 0086 01       		.byte	0x1
+ 757 0087 08       		.byte	0x8
+ 758 0088 59020000 		.4byte	.LASF11
+ 759 008c 02       		.uleb128 0x2
+ 760 008d 08       		.byte	0x8
+ 761 008e 04       		.byte	0x4
+ 762 008f 5E020000 		.4byte	.LASF12
+ 763 0093 02       		.uleb128 0x2
+ 764 0094 04       		.byte	0x4
+ 765 0095 07       		.byte	0x7
+ 766 0096 FB010000 		.4byte	.LASF13
+ 767 009a 05       		.uleb128 0x5
+ 768 009b 2F000000 		.4byte	.LASF16
+ 769 009f 02       		.byte	0x2
+ 770 00a0 02       		.byte	0x2
+ 771 00a1 26       		.byte	0x26
+ 772 00a2 BF000000 		.4byte	0xbf
+ 773 00a6 06       		.uleb128 0x6
+ 774 00a7 B1000000 		.4byte	.LASF14
+ 775 00ab 02       		.byte	0x2
+ 776 00ac 27       		.byte	0x27
+ 777 00ad 6B000000 		.4byte	0x6b
+ 778 00b1 00       		.byte	0
+ 779 00b2 06       		.uleb128 0x6
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 19
+
+
+ 780 00b3 91010000 		.4byte	.LASF15
+ 781 00b7 02       		.byte	0x2
+ 782 00b8 28       		.byte	0x28
+ 783 00b9 6B000000 		.4byte	0x6b
+ 784 00bd 01       		.byte	0x1
+ 785 00be 00       		.byte	0
+ 786 00bf 05       		.uleb128 0x5
+ 787 00c0 29020000 		.4byte	.LASF17
+ 788 00c4 01       		.byte	0x1
+ 789 00c5 02       		.byte	0x2
+ 790 00c6 2C       		.byte	0x2c
+ 791 00c7 D8000000 		.4byte	0xd8
+ 792 00cb 06       		.uleb128 0x6
+ 793 00cc B1000000 		.4byte	.LASF14
+ 794 00d0 02       		.byte	0x2
+ 795 00d1 2D       		.byte	0x2d
+ 796 00d2 6B000000 		.4byte	0x6b
+ 797 00d6 00       		.byte	0
+ 798 00d7 00       		.byte	0
+ 799 00d8 07       		.uleb128 0x7
+ 800 00d9 70010000 		.4byte	.LASF43
+ 801 00dd 01       		.byte	0x1
+ 802 00de 3D       		.byte	0x3d
+ 803 00df 6B000000 		.4byte	0x6b
+ 804 00e3 01       		.byte	0x1
+ 805 00e4 F4000000 		.4byte	0xf4
+ 806 00e8 08       		.uleb128 0x8
+ 807 00e9 19000000 		.4byte	.LASF18
+ 808 00ed 01       		.byte	0x1
+ 809 00ee 3D       		.byte	0x3d
+ 810 00ef 6B000000 		.4byte	0x6b
+ 811 00f3 00       		.byte	0
+ 812 00f4 09       		.uleb128 0x9
+ 813 00f5 55000000 		.4byte	.LASF44
+ 814 00f9 01       		.byte	0x1
+ 815 00fa AB       		.byte	0xab
+ 816 00fb 01       		.byte	0x1
+ 817 00fc 0C010000 		.4byte	0x10c
+ 818 0100 08       		.uleb128 0x8
+ 819 0101 19000000 		.4byte	.LASF18
+ 820 0105 01       		.byte	0x1
+ 821 0106 AB       		.byte	0xab
+ 822 0107 6B000000 		.4byte	0x6b
+ 823 010b 00       		.byte	0
+ 824 010c 0A       		.uleb128 0xa
+ 825 010d 0F000000 		.4byte	.LASF19
+ 826 0111 01       		.byte	0x1
+ 827 0112 19       		.byte	0x19
+ 828 0113 00000000 		.4byte	.LFB32
+ 829 0117 28000000 		.4byte	.LFE32-.LFB32
+ 830 011b 01       		.uleb128 0x1
+ 831 011c 9C       		.byte	0x9c
+ 832 011d 4F010000 		.4byte	0x14f
+ 833 0121 0B       		.uleb128 0xb
+ 834 0122 19000000 		.4byte	.LASF18
+ 835 0126 01       		.byte	0x1
+ 836 0127 19       		.byte	0x19
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 20
+
+
+ 837 0128 6B000000 		.4byte	0x6b
+ 838 012c 00000000 		.4byte	.LLST0
+ 839 0130 0B       		.uleb128 0xb
+ 840 0131 91010000 		.4byte	.LASF15
+ 841 0135 01       		.byte	0x1
+ 842 0136 19       		.byte	0x19
+ 843 0137 6B000000 		.4byte	0x6b
+ 844 013b 21000000 		.4byte	.LLST1
+ 845 013f 0C       		.uleb128 0xc
+ 846 0140 1A000000 		.4byte	.LVL2
+ 847 0144 0C010000 		.4byte	0x10c
+ 848 0148 0D       		.uleb128 0xd
+ 849 0149 01       		.uleb128 0x1
+ 850 014a 50       		.byte	0x50
+ 851 014b 01       		.uleb128 0x1
+ 852 014c 31       		.byte	0x31
+ 853 014d 00       		.byte	0
+ 854 014e 00       		.byte	0
+ 855 014f 0A       		.uleb128 0xa
+ 856 0150 91000000 		.4byte	.LASF20
+ 857 0154 01       		.byte	0x1
+ 858 0155 28       		.byte	0x28
+ 859 0156 00000000 		.4byte	.LFB33
+ 860 015a 3C000000 		.4byte	.LFE33-.LFB33
+ 861 015e 01       		.uleb128 0x1
+ 862 015f 9C       		.byte	0x9c
+ 863 0160 92010000 		.4byte	0x192
+ 864 0164 0B       		.uleb128 0xb
+ 865 0165 19000000 		.4byte	.LASF18
+ 866 0169 01       		.byte	0x1
+ 867 016a 28       		.byte	0x28
+ 868 016b 6B000000 		.4byte	0x6b
+ 869 016f 42000000 		.4byte	.LLST2
+ 870 0173 0B       		.uleb128 0xb
+ 871 0174 B1000000 		.4byte	.LASF14
+ 872 0178 01       		.byte	0x1
+ 873 0179 28       		.byte	0x28
+ 874 017a 6B000000 		.4byte	0x6b
+ 875 017e 63000000 		.4byte	.LLST3
+ 876 0182 0C       		.uleb128 0xc
+ 877 0183 1E000000 		.4byte	.LVL5
+ 878 0187 4F010000 		.4byte	0x14f
+ 879 018b 0D       		.uleb128 0xd
+ 880 018c 01       		.uleb128 0x1
+ 881 018d 50       		.byte	0x50
+ 882 018e 01       		.uleb128 0x1
+ 883 018f 31       		.byte	0x31
+ 884 0190 00       		.byte	0
+ 885 0191 00       		.byte	0
+ 886 0192 0E       		.uleb128 0xe
+ 887 0193 D8000000 		.4byte	0xd8
+ 888 0197 00000000 		.4byte	.LFB34
+ 889 019b 20000000 		.4byte	.LFE34-.LFB34
+ 890 019f 01       		.uleb128 0x1
+ 891 01a0 9C       		.byte	0x9c
+ 892 01a1 AF010000 		.4byte	0x1af
+ 893 01a5 0F       		.uleb128 0xf
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 21
+
+
+ 894 01a6 E8000000 		.4byte	0xe8
+ 895 01aa 9D000000 		.4byte	.LLST4
+ 896 01ae 00       		.byte	0
+ 897 01af 10       		.uleb128 0x10
+ 898 01b0 3D020000 		.4byte	.LASF45
+ 899 01b4 01       		.byte	0x1
+ 900 01b5 49       		.byte	0x49
+ 901 01b6 6B000000 		.4byte	0x6b
+ 902 01ba 00000000 		.4byte	.LFB35
+ 903 01be 3C000000 		.4byte	.LFE35-.LFB35
+ 904 01c2 01       		.uleb128 0x1
+ 905 01c3 9C       		.byte	0x9c
+ 906 01c4 D8010000 		.4byte	0x1d8
+ 907 01c8 0B       		.uleb128 0xb
+ 908 01c9 19000000 		.4byte	.LASF18
+ 909 01cd 01       		.byte	0x1
+ 910 01ce 49       		.byte	0x49
+ 911 01cf 6B000000 		.4byte	0x6b
+ 912 01d3 D7000000 		.4byte	.LLST5
+ 913 01d7 00       		.byte	0
+ 914 01d8 0A       		.uleb128 0xa
+ 915 01d9 48020000 		.4byte	.LASF21
+ 916 01dd 01       		.byte	0x1
+ 917 01de 5B       		.byte	0x5b
+ 918 01df 00000000 		.4byte	.LFB36
+ 919 01e3 C4000000 		.4byte	.LFE36-.LFB36
+ 920 01e7 01       		.uleb128 0x1
+ 921 01e8 9C       		.byte	0x9c
+ 922 01e9 2B030000 		.4byte	0x32b
+ 923 01ed 0B       		.uleb128 0xb
+ 924 01ee 19000000 		.4byte	.LASF18
+ 925 01f2 01       		.byte	0x1
+ 926 01f3 5B       		.byte	0x5b
+ 927 01f4 6B000000 		.4byte	0x6b
+ 928 01f8 F8000000 		.4byte	.LLST6
+ 929 01fc 11       		.uleb128 0x11
+ 930 01fd D8000000 		.4byte	0xd8
+ 931 0201 12000000 		.4byte	.LBB6
+ 932 0205 04000000 		.4byte	.LBE6-.LBB6
+ 933 0209 01       		.byte	0x1
+ 934 020a 5E       		.byte	0x5e
+ 935 020b 15020000 		.4byte	0x215
+ 936 020f 12       		.uleb128 0x12
+ 937 0210 E8000000 		.4byte	0xe8
+ 938 0214 00       		.byte	0
+ 939 0215 11       		.uleb128 0x11
+ 940 0216 D8000000 		.4byte	0xd8
+ 941 021a 5C000000 		.4byte	.LBB8
+ 942 021e 04000000 		.4byte	.LBE8-.LBB8
+ 943 0222 01       		.byte	0x1
+ 944 0223 7D       		.byte	0x7d
+ 945 0224 2E020000 		.4byte	0x22e
+ 946 0228 12       		.uleb128 0x12
+ 947 0229 E8000000 		.4byte	0xe8
+ 948 022d 00       		.byte	0
+ 949 022e 13       		.uleb128 0x13
+ 950 022f 2C000000 		.4byte	.LVL17
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 22
+
+
+ 951 0233 61050000 		.4byte	0x561
+ 952 0237 13       		.uleb128 0x13
+ 953 0238 32000000 		.4byte	.LVL18
+ 954 023c 61050000 		.4byte	0x561
+ 955 0240 14       		.uleb128 0x14
+ 956 0241 38000000 		.4byte	.LVL19
+ 957 0245 6C050000 		.4byte	0x56c
+ 958 0249 53020000 		.4byte	0x253
+ 959 024d 0D       		.uleb128 0xd
+ 960 024e 01       		.uleb128 0x1
+ 961 024f 50       		.byte	0x50
+ 962 0250 01       		.uleb128 0x1
+ 963 0251 31       		.byte	0x31
+ 964 0252 00       		.byte	0
+ 965 0253 13       		.uleb128 0x13
+ 966 0254 3E000000 		.4byte	.LVL20
+ 967 0258 61050000 		.4byte	0x561
+ 968 025c 13       		.uleb128 0x13
+ 969 025d 44000000 		.4byte	.LVL21
+ 970 0261 61050000 		.4byte	0x561
+ 971 0265 14       		.uleb128 0x14
+ 972 0266 4A000000 		.4byte	.LVL22
+ 973 026a 6C050000 		.4byte	0x56c
+ 974 026e 78020000 		.4byte	0x278
+ 975 0272 0D       		.uleb128 0xd
+ 976 0273 01       		.uleb128 0x1
+ 977 0274 50       		.byte	0x50
+ 978 0275 01       		.uleb128 0x1
+ 979 0276 31       		.byte	0x31
+ 980 0277 00       		.byte	0
+ 981 0278 14       		.uleb128 0x14
+ 982 0279 50000000 		.4byte	.LVL23
+ 983 027d 77050000 		.4byte	0x577
+ 984 0281 8B020000 		.4byte	0x28b
+ 985 0285 0D       		.uleb128 0xd
+ 986 0286 01       		.uleb128 0x1
+ 987 0287 50       		.byte	0x50
+ 988 0288 01       		.uleb128 0x1
+ 989 0289 31       		.byte	0x31
+ 990 028a 00       		.byte	0
+ 991 028b 14       		.uleb128 0x14
+ 992 028c 5C000000 		.4byte	.LVL24
+ 993 0290 D8010000 		.4byte	0x1d8
+ 994 0294 9E020000 		.4byte	0x29e
+ 995 0298 0D       		.uleb128 0xd
+ 996 0299 01       		.uleb128 0x1
+ 997 029a 50       		.byte	0x50
+ 998 029b 01       		.uleb128 0x1
+ 999 029c 31       		.byte	0x31
+ 1000 029d 00       		.byte	0
+ 1001 029e 13       		.uleb128 0x13
+ 1002 029f 76000000 		.4byte	.LVL25
+ 1003 02a3 82050000 		.4byte	0x582
+ 1004 02a7 13       		.uleb128 0x13
+ 1005 02a8 7C000000 		.4byte	.LVL26
+ 1006 02ac 82050000 		.4byte	0x582
+ 1007 02b0 14       		.uleb128 0x14
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 23
+
+
+ 1008 02b1 82000000 		.4byte	.LVL27
+ 1009 02b5 8D050000 		.4byte	0x58d
+ 1010 02b9 C3020000 		.4byte	0x2c3
+ 1011 02bd 0D       		.uleb128 0xd
+ 1012 02be 01       		.uleb128 0x1
+ 1013 02bf 50       		.byte	0x50
+ 1014 02c0 01       		.uleb128 0x1
+ 1015 02c1 31       		.byte	0x31
+ 1016 02c2 00       		.byte	0
+ 1017 02c3 13       		.uleb128 0x13
+ 1018 02c4 88000000 		.4byte	.LVL28
+ 1019 02c8 82050000 		.4byte	0x582
+ 1020 02cc 13       		.uleb128 0x13
+ 1021 02cd 8E000000 		.4byte	.LVL29
+ 1022 02d1 82050000 		.4byte	0x582
+ 1023 02d5 14       		.uleb128 0x14
+ 1024 02d6 94000000 		.4byte	.LVL30
+ 1025 02da 8D050000 		.4byte	0x58d
+ 1026 02de E8020000 		.4byte	0x2e8
+ 1027 02e2 0D       		.uleb128 0xd
+ 1028 02e3 01       		.uleb128 0x1
+ 1029 02e4 50       		.byte	0x50
+ 1030 02e5 01       		.uleb128 0x1
+ 1031 02e6 31       		.byte	0x31
+ 1032 02e7 00       		.byte	0
+ 1033 02e8 14       		.uleb128 0x14
+ 1034 02e9 9A000000 		.4byte	.LVL31
+ 1035 02ed 98050000 		.4byte	0x598
+ 1036 02f1 FB020000 		.4byte	0x2fb
+ 1037 02f5 0D       		.uleb128 0xd
+ 1038 02f6 01       		.uleb128 0x1
+ 1039 02f7 50       		.byte	0x50
+ 1040 02f8 01       		.uleb128 0x1
+ 1041 02f9 31       		.byte	0x31
+ 1042 02fa 00       		.byte	0
+ 1043 02fb 14       		.uleb128 0x14
+ 1044 02fc A6000000 		.4byte	.LVL32
+ 1045 0300 A3050000 		.4byte	0x5a3
+ 1046 0304 0E030000 		.4byte	0x30e
+ 1047 0308 0D       		.uleb128 0xd
+ 1048 0309 01       		.uleb128 0x1
+ 1049 030a 50       		.byte	0x50
+ 1050 030b 01       		.uleb128 0x1
+ 1051 030c 31       		.byte	0x31
+ 1052 030d 00       		.byte	0
+ 1053 030e 14       		.uleb128 0x14
+ 1054 030f B2000000 		.4byte	.LVL33
+ 1055 0313 AE050000 		.4byte	0x5ae
+ 1056 0317 21030000 		.4byte	0x321
+ 1057 031b 0D       		.uleb128 0xd
+ 1058 031c 01       		.uleb128 0x1
+ 1059 031d 50       		.byte	0x50
+ 1060 031e 01       		.uleb128 0x1
+ 1061 031f 31       		.byte	0x31
+ 1062 0320 00       		.byte	0
+ 1063 0321 13       		.uleb128 0x13
+ 1064 0322 BA000000 		.4byte	.LVL34
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 24
+
+
+ 1065 0326 4F010000 		.4byte	0x14f
+ 1066 032a 00       		.byte	0
+ 1067 032b 0E       		.uleb128 0xe
+ 1068 032c F4000000 		.4byte	0xf4
+ 1069 0330 00000000 		.4byte	.LFB37
+ 1070 0334 60000000 		.4byte	.LFE37-.LFB37
+ 1071 0338 01       		.uleb128 0x1
+ 1072 0339 9C       		.byte	0x9c
+ 1073 033a FB030000 		.4byte	0x3fb
+ 1074 033e 0F       		.uleb128 0xf
+ 1075 033f 00010000 		.4byte	0x100
+ 1076 0343 19010000 		.4byte	.LLST7
+ 1077 0347 15       		.uleb128 0x15
+ 1078 0348 12000000 		.4byte	.LBB12
+ 1079 034c 16000000 		.4byte	.LBE12-.LBB12
+ 1080 0350 89030000 		.4byte	0x389
+ 1081 0354 0F       		.uleb128 0xf
+ 1082 0355 00010000 		.4byte	0x100
+ 1083 0359 3A010000 		.4byte	.LLST8
+ 1084 035d 13       		.uleb128 0x13
+ 1085 035e 16000000 		.4byte	.LVL38
+ 1086 0362 B9050000 		.4byte	0x5b9
+ 1087 0366 14       		.uleb128 0x14
+ 1088 0367 1C000000 		.4byte	.LVL39
+ 1089 036b 6C050000 		.4byte	0x56c
+ 1090 036f 79030000 		.4byte	0x379
+ 1091 0373 0D       		.uleb128 0xd
+ 1092 0374 01       		.uleb128 0x1
+ 1093 0375 50       		.byte	0x50
+ 1094 0376 01       		.uleb128 0x1
+ 1095 0377 30       		.byte	0x30
+ 1096 0378 00       		.byte	0
+ 1097 0379 0C       		.uleb128 0xc
+ 1098 037a 22000000 		.4byte	.LVL40
+ 1099 037e 77050000 		.4byte	0x577
+ 1100 0382 0D       		.uleb128 0xd
+ 1101 0383 01       		.uleb128 0x1
+ 1102 0384 50       		.byte	0x50
+ 1103 0385 01       		.uleb128 0x1
+ 1104 0386 30       		.byte	0x30
+ 1105 0387 00       		.byte	0
+ 1106 0388 00       		.byte	0
+ 1107 0389 14       		.uleb128 0x14
+ 1108 038a 2E000000 		.4byte	.LVL42
+ 1109 038e F4000000 		.4byte	0xf4
+ 1110 0392 9C030000 		.4byte	0x39c
+ 1111 0396 0D       		.uleb128 0xd
+ 1112 0397 01       		.uleb128 0x1
+ 1113 0398 50       		.byte	0x50
+ 1114 0399 01       		.uleb128 0x1
+ 1115 039a 31       		.byte	0x31
+ 1116 039b 00       		.byte	0
+ 1117 039c 13       		.uleb128 0x13
+ 1118 039d 32000000 		.4byte	.LVL43
+ 1119 03a1 C4050000 		.4byte	0x5c4
+ 1120 03a5 14       		.uleb128 0x14
+ 1121 03a6 38000000 		.4byte	.LVL44
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 25
+
+
+ 1122 03aa 8D050000 		.4byte	0x58d
+ 1123 03ae B8030000 		.4byte	0x3b8
+ 1124 03b2 0D       		.uleb128 0xd
+ 1125 03b3 01       		.uleb128 0x1
+ 1126 03b4 50       		.byte	0x50
+ 1127 03b5 01       		.uleb128 0x1
+ 1128 03b6 30       		.byte	0x30
+ 1129 03b7 00       		.byte	0
+ 1130 03b8 14       		.uleb128 0x14
+ 1131 03b9 3E000000 		.4byte	.LVL45
+ 1132 03bd 98050000 		.4byte	0x598
+ 1133 03c1 CB030000 		.4byte	0x3cb
+ 1134 03c5 0D       		.uleb128 0xd
+ 1135 03c6 01       		.uleb128 0x1
+ 1136 03c7 50       		.byte	0x50
+ 1137 03c8 01       		.uleb128 0x1
+ 1138 03c9 30       		.byte	0x30
+ 1139 03ca 00       		.byte	0
+ 1140 03cb 14       		.uleb128 0x14
+ 1141 03cc 4A000000 		.4byte	.LVL46
+ 1142 03d0 A3050000 		.4byte	0x5a3
+ 1143 03d4 DE030000 		.4byte	0x3de
+ 1144 03d8 0D       		.uleb128 0xd
+ 1145 03d9 01       		.uleb128 0x1
+ 1146 03da 50       		.byte	0x50
+ 1147 03db 01       		.uleb128 0x1
+ 1148 03dc 30       		.byte	0x30
+ 1149 03dd 00       		.byte	0
+ 1150 03de 14       		.uleb128 0x14
+ 1151 03df 56000000 		.4byte	.LVL47
+ 1152 03e3 AE050000 		.4byte	0x5ae
+ 1153 03e7 F1030000 		.4byte	0x3f1
+ 1154 03eb 0D       		.uleb128 0xd
+ 1155 03ec 01       		.uleb128 0x1
+ 1156 03ed 50       		.byte	0x50
+ 1157 03ee 01       		.uleb128 0x1
+ 1158 03ef 30       		.byte	0x30
+ 1159 03f0 00       		.byte	0
+ 1160 03f1 13       		.uleb128 0x13
+ 1161 03f2 5E000000 		.4byte	.LVL48
+ 1162 03f6 4F010000 		.4byte	0x14f
+ 1163 03fa 00       		.byte	0
+ 1164 03fb 0A       		.uleb128 0xa
+ 1165 03fc 7A010000 		.4byte	.LASF22
+ 1166 0400 01       		.byte	0x1
+ 1167 0401 C8       		.byte	0xc8
+ 1168 0402 00000000 		.4byte	.LFB38
+ 1169 0406 1C000000 		.4byte	.LFE38-.LFB38
+ 1170 040a 01       		.uleb128 0x1
+ 1171 040b 9C       		.byte	0x9c
+ 1172 040c 59040000 		.4byte	0x459
+ 1173 0410 14       		.uleb128 0x14
+ 1174 0411 08000000 		.4byte	.LVL49
+ 1175 0415 D8010000 		.4byte	0x1d8
+ 1176 0419 23040000 		.4byte	0x423
+ 1177 041d 0D       		.uleb128 0xd
+ 1178 041e 01       		.uleb128 0x1
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 26
+
+
+ 1179 041f 50       		.byte	0x50
+ 1180 0420 01       		.uleb128 0x1
+ 1181 0421 31       		.byte	0x31
+ 1182 0422 00       		.byte	0
+ 1183 0423 14       		.uleb128 0x14
+ 1184 0424 0E000000 		.4byte	.LVL50
+ 1185 0428 D8010000 		.4byte	0x1d8
+ 1186 042c 36040000 		.4byte	0x436
+ 1187 0430 0D       		.uleb128 0xd
+ 1188 0431 01       		.uleb128 0x1
+ 1189 0432 50       		.byte	0x50
+ 1190 0433 01       		.uleb128 0x1
+ 1191 0434 32       		.byte	0x32
+ 1192 0435 00       		.byte	0
+ 1193 0436 14       		.uleb128 0x14
+ 1194 0437 14000000 		.4byte	.LVL51
+ 1195 043b D8010000 		.4byte	0x1d8
+ 1196 043f 49040000 		.4byte	0x449
+ 1197 0443 0D       		.uleb128 0xd
+ 1198 0444 01       		.uleb128 0x1
+ 1199 0445 50       		.byte	0x50
+ 1200 0446 01       		.uleb128 0x1
+ 1201 0447 34       		.byte	0x34
+ 1202 0448 00       		.byte	0
+ 1203 0449 0C       		.uleb128 0xc
+ 1204 044a 1A000000 		.4byte	.LVL52
+ 1205 044e D8010000 		.4byte	0x1d8
+ 1206 0452 0D       		.uleb128 0xd
+ 1207 0453 01       		.uleb128 0x1
+ 1208 0454 50       		.byte	0x50
+ 1209 0455 01       		.uleb128 0x1
+ 1210 0456 35       		.byte	0x35
+ 1211 0457 00       		.byte	0
+ 1212 0458 00       		.byte	0
+ 1213 0459 0A       		.uleb128 0xa
+ 1214 045a AD010000 		.4byte	.LASF23
+ 1215 045e 01       		.byte	0x1
+ 1216 045f CF       		.byte	0xcf
+ 1217 0460 00000000 		.4byte	.LFB39
+ 1218 0464 1C000000 		.4byte	.LFE39-.LFB39
+ 1219 0468 01       		.uleb128 0x1
+ 1220 0469 9C       		.byte	0x9c
+ 1221 046a B7040000 		.4byte	0x4b7
+ 1222 046e 14       		.uleb128 0x14
+ 1223 046f 08000000 		.4byte	.LVL53
+ 1224 0473 F4000000 		.4byte	0xf4
+ 1225 0477 81040000 		.4byte	0x481
+ 1226 047b 0D       		.uleb128 0xd
+ 1227 047c 01       		.uleb128 0x1
+ 1228 047d 50       		.byte	0x50
+ 1229 047e 01       		.uleb128 0x1
+ 1230 047f 31       		.byte	0x31
+ 1231 0480 00       		.byte	0
+ 1232 0481 14       		.uleb128 0x14
+ 1233 0482 0E000000 		.4byte	.LVL54
+ 1234 0486 F4000000 		.4byte	0xf4
+ 1235 048a 94040000 		.4byte	0x494
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 27
+
+
+ 1236 048e 0D       		.uleb128 0xd
+ 1237 048f 01       		.uleb128 0x1
+ 1238 0490 50       		.byte	0x50
+ 1239 0491 01       		.uleb128 0x1
+ 1240 0492 32       		.byte	0x32
+ 1241 0493 00       		.byte	0
+ 1242 0494 14       		.uleb128 0x14
+ 1243 0495 14000000 		.4byte	.LVL55
+ 1244 0499 F4000000 		.4byte	0xf4
+ 1245 049d A7040000 		.4byte	0x4a7
+ 1246 04a1 0D       		.uleb128 0xd
+ 1247 04a2 01       		.uleb128 0x1
+ 1248 04a3 50       		.byte	0x50
+ 1249 04a4 01       		.uleb128 0x1
+ 1250 04a5 34       		.byte	0x34
+ 1251 04a6 00       		.byte	0
+ 1252 04a7 0C       		.uleb128 0xc
+ 1253 04a8 1A000000 		.4byte	.LVL56
+ 1254 04ac F4000000 		.4byte	0xf4
+ 1255 04b0 0D       		.uleb128 0xd
+ 1256 04b1 01       		.uleb128 0x1
+ 1257 04b2 50       		.byte	0x50
+ 1258 04b3 01       		.uleb128 0x1
+ 1259 04b4 35       		.byte	0x35
+ 1260 04b5 00       		.byte	0
+ 1261 04b6 00       		.byte	0
+ 1262 04b7 0A       		.uleb128 0xa
+ 1263 04b8 97010000 		.4byte	.LASF24
+ 1264 04bc 01       		.byte	0x1
+ 1265 04bd D6       		.byte	0xd6
+ 1266 04be 00000000 		.4byte	.LFB40
+ 1267 04c2 1A000000 		.4byte	.LFE40-.LFB40
+ 1268 04c6 01       		.uleb128 0x1
+ 1269 04c7 9C       		.byte	0x9c
+ 1270 04c8 13050000 		.4byte	0x513
+ 1271 04cc 0B       		.uleb128 0xb
+ 1272 04cd 91010000 		.4byte	.LASF15
+ 1273 04d1 01       		.byte	0x1
+ 1274 04d2 D6       		.byte	0xd6
+ 1275 04d3 6B000000 		.4byte	0x6b
+ 1276 04d7 4E010000 		.4byte	.LLST9
+ 1277 04db 13       		.uleb128 0x13
+ 1278 04dc 08000000 		.4byte	.LVL58
+ 1279 04e0 59040000 		.4byte	0x459
+ 1280 04e4 14       		.uleb128 0x14
+ 1281 04e5 10000000 		.4byte	.LVL59
+ 1282 04e9 0C010000 		.4byte	0x10c
+ 1283 04ed FD040000 		.4byte	0x4fd
+ 1284 04f1 0D       		.uleb128 0xd
+ 1285 04f2 01       		.uleb128 0x1
+ 1286 04f3 50       		.byte	0x50
+ 1287 04f4 01       		.uleb128 0x1
+ 1288 04f5 31       		.byte	0x31
+ 1289 04f6 0D       		.uleb128 0xd
+ 1290 04f7 01       		.uleb128 0x1
+ 1291 04f8 51       		.byte	0x51
+ 1292 04f9 02       		.uleb128 0x2
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 28
+
+
+ 1293 04fa 74       		.byte	0x74
+ 1294 04fb 00       		.sleb128 0
+ 1295 04fc 00       		.byte	0
+ 1296 04fd 0C       		.uleb128 0xc
+ 1297 04fe 18000000 		.4byte	.LVL60
+ 1298 0502 0C010000 		.4byte	0x10c
+ 1299 0506 0D       		.uleb128 0xd
+ 1300 0507 01       		.uleb128 0x1
+ 1301 0508 50       		.byte	0x50
+ 1302 0509 01       		.uleb128 0x1
+ 1303 050a 32       		.byte	0x32
+ 1304 050b 0D       		.uleb128 0xd
+ 1305 050c 01       		.uleb128 0x1
+ 1306 050d 51       		.byte	0x51
+ 1307 050e 02       		.uleb128 0x2
+ 1308 050f 74       		.byte	0x74
+ 1309 0510 00       		.sleb128 0
+ 1310 0511 00       		.byte	0
+ 1311 0512 00       		.byte	0
+ 1312 0513 16       		.uleb128 0x16
+ 1313 0514 00000000 		.4byte	.LASF25
+ 1314 0518 01       		.byte	0x1
+ 1315 0519 11       		.byte	0x11
+ 1316 051a 24050000 		.4byte	0x524
+ 1317 051e 05       		.uleb128 0x5
+ 1318 051f 03       		.byte	0x3
+ 1319 0520 00000000 		.4byte	Left_LED_State
+ 1320 0524 17       		.uleb128 0x17
+ 1321 0525 9A000000 		.4byte	0x9a
+ 1322 0529 16       		.uleb128 0x16
+ 1323 052a B8000000 		.4byte	.LASF26
+ 1324 052e 01       		.byte	0x1
+ 1325 052f 12       		.byte	0x12
+ 1326 0530 24050000 		.4byte	0x524
+ 1327 0534 05       		.uleb128 0x5
+ 1328 0535 03       		.byte	0x3
+ 1329 0536 00000000 		.4byte	Right_LED_State
+ 1330 053a 16       		.uleb128 0x16
+ 1331 053b 22000000 		.4byte	.LASF27
+ 1332 053f 01       		.byte	0x1
+ 1333 0540 13       		.byte	0x13
+ 1334 0541 4B050000 		.4byte	0x54b
+ 1335 0545 05       		.uleb128 0x5
+ 1336 0546 03       		.byte	0x3
+ 1337 0547 00000000 		.4byte	IR_LED_State
+ 1338 054b 17       		.uleb128 0x17
+ 1339 054c BF000000 		.4byte	0xbf
+ 1340 0550 16       		.uleb128 0x16
+ 1341 0551 D5010000 		.4byte	.LASF28
+ 1342 0555 01       		.byte	0x1
+ 1343 0556 14       		.byte	0x14
+ 1344 0557 4B050000 		.4byte	0x54b
+ 1345 055b 05       		.uleb128 0x5
+ 1346 055c 03       		.byte	0x3
+ 1347 055d 00000000 		.4byte	Board_LED_State
+ 1348 0561 18       		.uleb128 0x18
+ 1349 0562 76020000 		.4byte	.LASF29
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 29
+
+
+ 1350 0566 76020000 		.4byte	.LASF29
+ 1351 056a 03       		.byte	0x3
+ 1352 056b 92       		.byte	0x92
+ 1353 056c 18       		.uleb128 0x18
+ 1354 056d 37010000 		.4byte	.LASF30
+ 1355 0571 37010000 		.4byte	.LASF30
+ 1356 0575 04       		.byte	0x4
+ 1357 0576 33       		.byte	0x33
+ 1358 0577 18       		.uleb128 0x18
+ 1359 0578 9C000000 		.4byte	.LASF31
+ 1360 057c 9C000000 		.4byte	.LASF31
+ 1361 0580 05       		.byte	0x5
+ 1362 0581 33       		.byte	0x33
+ 1363 0582 18       		.uleb128 0x18
+ 1364 0583 3D000000 		.4byte	.LASF32
+ 1365 0587 3D000000 		.4byte	.LASF32
+ 1366 058b 06       		.byte	0x6
+ 1367 058c 92       		.byte	0x92
+ 1368 058d 18       		.uleb128 0x18
+ 1369 058e 5E000000 		.4byte	.LASF33
+ 1370 0592 5E000000 		.4byte	.LASF33
+ 1371 0596 07       		.byte	0x7
+ 1372 0597 33       		.byte	0x33
+ 1373 0598 18       		.uleb128 0x18
+ 1374 0599 E5010000 		.4byte	.LASF34
+ 1375 059d E5010000 		.4byte	.LASF34
+ 1376 05a1 08       		.byte	0x8
+ 1377 05a2 33       		.byte	0x33
+ 1378 05a3 18       		.uleb128 0x18
+ 1379 05a4 5D010000 		.4byte	.LASF35
+ 1380 05a8 5D010000 		.4byte	.LASF35
+ 1381 05ac 09       		.byte	0x9
+ 1382 05ad 33       		.byte	0x33
+ 1383 05ae 18       		.uleb128 0x18
+ 1384 05af 1B030000 		.4byte	.LASF36
+ 1385 05b3 1B030000 		.4byte	.LASF36
+ 1386 05b7 0A       		.byte	0xa
+ 1387 05b8 33       		.byte	0x33
+ 1388 05b9 18       		.uleb128 0x18
+ 1389 05ba 0D010000 		.4byte	.LASF37
+ 1390 05be 0D010000 		.4byte	.LASF37
+ 1391 05c2 03       		.byte	0x3
+ 1392 05c3 93       		.byte	0x93
+ 1393 05c4 18       		.uleb128 0x18
+ 1394 05c5 04020000 		.4byte	.LASF38
+ 1395 05c9 04020000 		.4byte	.LASF38
+ 1396 05cd 06       		.byte	0x6
+ 1397 05ce 93       		.byte	0x93
+ 1398 05cf 00       		.byte	0
+ 1399              		.section	.debug_abbrev,"",%progbits
+ 1400              	.Ldebug_abbrev0:
+ 1401 0000 01       		.uleb128 0x1
+ 1402 0001 11       		.uleb128 0x11
+ 1403 0002 01       		.byte	0x1
+ 1404 0003 25       		.uleb128 0x25
+ 1405 0004 0E       		.uleb128 0xe
+ 1406 0005 13       		.uleb128 0x13
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 30
+
+
+ 1407 0006 0B       		.uleb128 0xb
+ 1408 0007 03       		.uleb128 0x3
+ 1409 0008 0E       		.uleb128 0xe
+ 1410 0009 1B       		.uleb128 0x1b
+ 1411 000a 0E       		.uleb128 0xe
+ 1412 000b 55       		.uleb128 0x55
+ 1413 000c 17       		.uleb128 0x17
+ 1414 000d 11       		.uleb128 0x11
+ 1415 000e 01       		.uleb128 0x1
+ 1416 000f 10       		.uleb128 0x10
+ 1417 0010 17       		.uleb128 0x17
+ 1418 0011 00       		.byte	0
+ 1419 0012 00       		.byte	0
+ 1420 0013 02       		.uleb128 0x2
+ 1421 0014 24       		.uleb128 0x24
+ 1422 0015 00       		.byte	0
+ 1423 0016 0B       		.uleb128 0xb
+ 1424 0017 0B       		.uleb128 0xb
+ 1425 0018 3E       		.uleb128 0x3e
+ 1426 0019 0B       		.uleb128 0xb
+ 1427 001a 03       		.uleb128 0x3
+ 1428 001b 0E       		.uleb128 0xe
+ 1429 001c 00       		.byte	0
+ 1430 001d 00       		.byte	0
+ 1431 001e 03       		.uleb128 0x3
+ 1432 001f 24       		.uleb128 0x24
+ 1433 0020 00       		.byte	0
+ 1434 0021 0B       		.uleb128 0xb
+ 1435 0022 0B       		.uleb128 0xb
+ 1436 0023 3E       		.uleb128 0x3e
+ 1437 0024 0B       		.uleb128 0xb
+ 1438 0025 03       		.uleb128 0x3
+ 1439 0026 08       		.uleb128 0x8
+ 1440 0027 00       		.byte	0
+ 1441 0028 00       		.byte	0
+ 1442 0029 04       		.uleb128 0x4
+ 1443 002a 16       		.uleb128 0x16
+ 1444 002b 00       		.byte	0
+ 1445 002c 03       		.uleb128 0x3
+ 1446 002d 0E       		.uleb128 0xe
+ 1447 002e 3A       		.uleb128 0x3a
+ 1448 002f 0B       		.uleb128 0xb
+ 1449 0030 3B       		.uleb128 0x3b
+ 1450 0031 05       		.uleb128 0x5
+ 1451 0032 49       		.uleb128 0x49
+ 1452 0033 13       		.uleb128 0x13
+ 1453 0034 00       		.byte	0
+ 1454 0035 00       		.byte	0
+ 1455 0036 05       		.uleb128 0x5
+ 1456 0037 13       		.uleb128 0x13
+ 1457 0038 01       		.byte	0x1
+ 1458 0039 03       		.uleb128 0x3
+ 1459 003a 0E       		.uleb128 0xe
+ 1460 003b 0B       		.uleb128 0xb
+ 1461 003c 0B       		.uleb128 0xb
+ 1462 003d 3A       		.uleb128 0x3a
+ 1463 003e 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 31
+
+
+ 1464 003f 3B       		.uleb128 0x3b
+ 1465 0040 0B       		.uleb128 0xb
+ 1466 0041 01       		.uleb128 0x1
+ 1467 0042 13       		.uleb128 0x13
+ 1468 0043 00       		.byte	0
+ 1469 0044 00       		.byte	0
+ 1470 0045 06       		.uleb128 0x6
+ 1471 0046 0D       		.uleb128 0xd
+ 1472 0047 00       		.byte	0
+ 1473 0048 03       		.uleb128 0x3
+ 1474 0049 0E       		.uleb128 0xe
+ 1475 004a 3A       		.uleb128 0x3a
+ 1476 004b 0B       		.uleb128 0xb
+ 1477 004c 3B       		.uleb128 0x3b
+ 1478 004d 0B       		.uleb128 0xb
+ 1479 004e 49       		.uleb128 0x49
+ 1480 004f 13       		.uleb128 0x13
+ 1481 0050 38       		.uleb128 0x38
+ 1482 0051 0B       		.uleb128 0xb
+ 1483 0052 00       		.byte	0
+ 1484 0053 00       		.byte	0
+ 1485 0054 07       		.uleb128 0x7
+ 1486 0055 2E       		.uleb128 0x2e
+ 1487 0056 01       		.byte	0x1
+ 1488 0057 3F       		.uleb128 0x3f
+ 1489 0058 19       		.uleb128 0x19
+ 1490 0059 03       		.uleb128 0x3
+ 1491 005a 0E       		.uleb128 0xe
+ 1492 005b 3A       		.uleb128 0x3a
+ 1493 005c 0B       		.uleb128 0xb
+ 1494 005d 3B       		.uleb128 0x3b
+ 1495 005e 0B       		.uleb128 0xb
+ 1496 005f 27       		.uleb128 0x27
+ 1497 0060 19       		.uleb128 0x19
+ 1498 0061 49       		.uleb128 0x49
+ 1499 0062 13       		.uleb128 0x13
+ 1500 0063 20       		.uleb128 0x20
+ 1501 0064 0B       		.uleb128 0xb
+ 1502 0065 01       		.uleb128 0x1
+ 1503 0066 13       		.uleb128 0x13
+ 1504 0067 00       		.byte	0
+ 1505 0068 00       		.byte	0
+ 1506 0069 08       		.uleb128 0x8
+ 1507 006a 05       		.uleb128 0x5
+ 1508 006b 00       		.byte	0
+ 1509 006c 03       		.uleb128 0x3
+ 1510 006d 0E       		.uleb128 0xe
+ 1511 006e 3A       		.uleb128 0x3a
+ 1512 006f 0B       		.uleb128 0xb
+ 1513 0070 3B       		.uleb128 0x3b
+ 1514 0071 0B       		.uleb128 0xb
+ 1515 0072 49       		.uleb128 0x49
+ 1516 0073 13       		.uleb128 0x13
+ 1517 0074 00       		.byte	0
+ 1518 0075 00       		.byte	0
+ 1519 0076 09       		.uleb128 0x9
+ 1520 0077 2E       		.uleb128 0x2e
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 32
+
+
+ 1521 0078 01       		.byte	0x1
+ 1522 0079 3F       		.uleb128 0x3f
+ 1523 007a 19       		.uleb128 0x19
+ 1524 007b 03       		.uleb128 0x3
+ 1525 007c 0E       		.uleb128 0xe
+ 1526 007d 3A       		.uleb128 0x3a
+ 1527 007e 0B       		.uleb128 0xb
+ 1528 007f 3B       		.uleb128 0x3b
+ 1529 0080 0B       		.uleb128 0xb
+ 1530 0081 27       		.uleb128 0x27
+ 1531 0082 19       		.uleb128 0x19
+ 1532 0083 20       		.uleb128 0x20
+ 1533 0084 0B       		.uleb128 0xb
+ 1534 0085 01       		.uleb128 0x1
+ 1535 0086 13       		.uleb128 0x13
+ 1536 0087 00       		.byte	0
+ 1537 0088 00       		.byte	0
+ 1538 0089 0A       		.uleb128 0xa
+ 1539 008a 2E       		.uleb128 0x2e
+ 1540 008b 01       		.byte	0x1
+ 1541 008c 3F       		.uleb128 0x3f
+ 1542 008d 19       		.uleb128 0x19
+ 1543 008e 03       		.uleb128 0x3
+ 1544 008f 0E       		.uleb128 0xe
+ 1545 0090 3A       		.uleb128 0x3a
+ 1546 0091 0B       		.uleb128 0xb
+ 1547 0092 3B       		.uleb128 0x3b
+ 1548 0093 0B       		.uleb128 0xb
+ 1549 0094 27       		.uleb128 0x27
+ 1550 0095 19       		.uleb128 0x19
+ 1551 0096 11       		.uleb128 0x11
+ 1552 0097 01       		.uleb128 0x1
+ 1553 0098 12       		.uleb128 0x12
+ 1554 0099 06       		.uleb128 0x6
+ 1555 009a 40       		.uleb128 0x40
+ 1556 009b 18       		.uleb128 0x18
+ 1557 009c 9742     		.uleb128 0x2117
+ 1558 009e 19       		.uleb128 0x19
+ 1559 009f 01       		.uleb128 0x1
+ 1560 00a0 13       		.uleb128 0x13
+ 1561 00a1 00       		.byte	0
+ 1562 00a2 00       		.byte	0
+ 1563 00a3 0B       		.uleb128 0xb
+ 1564 00a4 05       		.uleb128 0x5
+ 1565 00a5 00       		.byte	0
+ 1566 00a6 03       		.uleb128 0x3
+ 1567 00a7 0E       		.uleb128 0xe
+ 1568 00a8 3A       		.uleb128 0x3a
+ 1569 00a9 0B       		.uleb128 0xb
+ 1570 00aa 3B       		.uleb128 0x3b
+ 1571 00ab 0B       		.uleb128 0xb
+ 1572 00ac 49       		.uleb128 0x49
+ 1573 00ad 13       		.uleb128 0x13
+ 1574 00ae 02       		.uleb128 0x2
+ 1575 00af 17       		.uleb128 0x17
+ 1576 00b0 00       		.byte	0
+ 1577 00b1 00       		.byte	0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 33
+
+
+ 1578 00b2 0C       		.uleb128 0xc
+ 1579 00b3 898201   		.uleb128 0x4109
+ 1580 00b6 01       		.byte	0x1
+ 1581 00b7 11       		.uleb128 0x11
+ 1582 00b8 01       		.uleb128 0x1
+ 1583 00b9 31       		.uleb128 0x31
+ 1584 00ba 13       		.uleb128 0x13
+ 1585 00bb 00       		.byte	0
+ 1586 00bc 00       		.byte	0
+ 1587 00bd 0D       		.uleb128 0xd
+ 1588 00be 8A8201   		.uleb128 0x410a
+ 1589 00c1 00       		.byte	0
+ 1590 00c2 02       		.uleb128 0x2
+ 1591 00c3 18       		.uleb128 0x18
+ 1592 00c4 9142     		.uleb128 0x2111
+ 1593 00c6 18       		.uleb128 0x18
+ 1594 00c7 00       		.byte	0
+ 1595 00c8 00       		.byte	0
+ 1596 00c9 0E       		.uleb128 0xe
+ 1597 00ca 2E       		.uleb128 0x2e
+ 1598 00cb 01       		.byte	0x1
+ 1599 00cc 31       		.uleb128 0x31
+ 1600 00cd 13       		.uleb128 0x13
+ 1601 00ce 11       		.uleb128 0x11
+ 1602 00cf 01       		.uleb128 0x1
+ 1603 00d0 12       		.uleb128 0x12
+ 1604 00d1 06       		.uleb128 0x6
+ 1605 00d2 40       		.uleb128 0x40
+ 1606 00d3 18       		.uleb128 0x18
+ 1607 00d4 9742     		.uleb128 0x2117
+ 1608 00d6 19       		.uleb128 0x19
+ 1609 00d7 01       		.uleb128 0x1
+ 1610 00d8 13       		.uleb128 0x13
+ 1611 00d9 00       		.byte	0
+ 1612 00da 00       		.byte	0
+ 1613 00db 0F       		.uleb128 0xf
+ 1614 00dc 05       		.uleb128 0x5
+ 1615 00dd 00       		.byte	0
+ 1616 00de 31       		.uleb128 0x31
+ 1617 00df 13       		.uleb128 0x13
+ 1618 00e0 02       		.uleb128 0x2
+ 1619 00e1 17       		.uleb128 0x17
+ 1620 00e2 00       		.byte	0
+ 1621 00e3 00       		.byte	0
+ 1622 00e4 10       		.uleb128 0x10
+ 1623 00e5 2E       		.uleb128 0x2e
+ 1624 00e6 01       		.byte	0x1
+ 1625 00e7 3F       		.uleb128 0x3f
+ 1626 00e8 19       		.uleb128 0x19
+ 1627 00e9 03       		.uleb128 0x3
+ 1628 00ea 0E       		.uleb128 0xe
+ 1629 00eb 3A       		.uleb128 0x3a
+ 1630 00ec 0B       		.uleb128 0xb
+ 1631 00ed 3B       		.uleb128 0x3b
+ 1632 00ee 0B       		.uleb128 0xb
+ 1633 00ef 27       		.uleb128 0x27
+ 1634 00f0 19       		.uleb128 0x19
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 34
+
+
+ 1635 00f1 49       		.uleb128 0x49
+ 1636 00f2 13       		.uleb128 0x13
+ 1637 00f3 11       		.uleb128 0x11
+ 1638 00f4 01       		.uleb128 0x1
+ 1639 00f5 12       		.uleb128 0x12
+ 1640 00f6 06       		.uleb128 0x6
+ 1641 00f7 40       		.uleb128 0x40
+ 1642 00f8 18       		.uleb128 0x18
+ 1643 00f9 9742     		.uleb128 0x2117
+ 1644 00fb 19       		.uleb128 0x19
+ 1645 00fc 01       		.uleb128 0x1
+ 1646 00fd 13       		.uleb128 0x13
+ 1647 00fe 00       		.byte	0
+ 1648 00ff 00       		.byte	0
+ 1649 0100 11       		.uleb128 0x11
+ 1650 0101 1D       		.uleb128 0x1d
+ 1651 0102 01       		.byte	0x1
+ 1652 0103 31       		.uleb128 0x31
+ 1653 0104 13       		.uleb128 0x13
+ 1654 0105 11       		.uleb128 0x11
+ 1655 0106 01       		.uleb128 0x1
+ 1656 0107 12       		.uleb128 0x12
+ 1657 0108 06       		.uleb128 0x6
+ 1658 0109 58       		.uleb128 0x58
+ 1659 010a 0B       		.uleb128 0xb
+ 1660 010b 59       		.uleb128 0x59
+ 1661 010c 0B       		.uleb128 0xb
+ 1662 010d 01       		.uleb128 0x1
+ 1663 010e 13       		.uleb128 0x13
+ 1664 010f 00       		.byte	0
+ 1665 0110 00       		.byte	0
+ 1666 0111 12       		.uleb128 0x12
+ 1667 0112 05       		.uleb128 0x5
+ 1668 0113 00       		.byte	0
+ 1669 0114 31       		.uleb128 0x31
+ 1670 0115 13       		.uleb128 0x13
+ 1671 0116 00       		.byte	0
+ 1672 0117 00       		.byte	0
+ 1673 0118 13       		.uleb128 0x13
+ 1674 0119 898201   		.uleb128 0x4109
+ 1675 011c 00       		.byte	0
+ 1676 011d 11       		.uleb128 0x11
+ 1677 011e 01       		.uleb128 0x1
+ 1678 011f 31       		.uleb128 0x31
+ 1679 0120 13       		.uleb128 0x13
+ 1680 0121 00       		.byte	0
+ 1681 0122 00       		.byte	0
+ 1682 0123 14       		.uleb128 0x14
+ 1683 0124 898201   		.uleb128 0x4109
+ 1684 0127 01       		.byte	0x1
+ 1685 0128 11       		.uleb128 0x11
+ 1686 0129 01       		.uleb128 0x1
+ 1687 012a 31       		.uleb128 0x31
+ 1688 012b 13       		.uleb128 0x13
+ 1689 012c 01       		.uleb128 0x1
+ 1690 012d 13       		.uleb128 0x13
+ 1691 012e 00       		.byte	0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 35
+
+
+ 1692 012f 00       		.byte	0
+ 1693 0130 15       		.uleb128 0x15
+ 1694 0131 0B       		.uleb128 0xb
+ 1695 0132 01       		.byte	0x1
+ 1696 0133 11       		.uleb128 0x11
+ 1697 0134 01       		.uleb128 0x1
+ 1698 0135 12       		.uleb128 0x12
+ 1699 0136 06       		.uleb128 0x6
+ 1700 0137 01       		.uleb128 0x1
+ 1701 0138 13       		.uleb128 0x13
+ 1702 0139 00       		.byte	0
+ 1703 013a 00       		.byte	0
+ 1704 013b 16       		.uleb128 0x16
+ 1705 013c 34       		.uleb128 0x34
+ 1706 013d 00       		.byte	0
+ 1707 013e 03       		.uleb128 0x3
+ 1708 013f 0E       		.uleb128 0xe
+ 1709 0140 3A       		.uleb128 0x3a
+ 1710 0141 0B       		.uleb128 0xb
+ 1711 0142 3B       		.uleb128 0x3b
+ 1712 0143 0B       		.uleb128 0xb
+ 1713 0144 49       		.uleb128 0x49
+ 1714 0145 13       		.uleb128 0x13
+ 1715 0146 3F       		.uleb128 0x3f
+ 1716 0147 19       		.uleb128 0x19
+ 1717 0148 02       		.uleb128 0x2
+ 1718 0149 18       		.uleb128 0x18
+ 1719 014a 00       		.byte	0
+ 1720 014b 00       		.byte	0
+ 1721 014c 17       		.uleb128 0x17
+ 1722 014d 35       		.uleb128 0x35
+ 1723 014e 00       		.byte	0
+ 1724 014f 49       		.uleb128 0x49
+ 1725 0150 13       		.uleb128 0x13
+ 1726 0151 00       		.byte	0
+ 1727 0152 00       		.byte	0
+ 1728 0153 18       		.uleb128 0x18
+ 1729 0154 2E       		.uleb128 0x2e
+ 1730 0155 00       		.byte	0
+ 1731 0156 3F       		.uleb128 0x3f
+ 1732 0157 19       		.uleb128 0x19
+ 1733 0158 3C       		.uleb128 0x3c
+ 1734 0159 19       		.uleb128 0x19
+ 1735 015a 6E       		.uleb128 0x6e
+ 1736 015b 0E       		.uleb128 0xe
+ 1737 015c 03       		.uleb128 0x3
+ 1738 015d 0E       		.uleb128 0xe
+ 1739 015e 3A       		.uleb128 0x3a
+ 1740 015f 0B       		.uleb128 0xb
+ 1741 0160 3B       		.uleb128 0x3b
+ 1742 0161 0B       		.uleb128 0xb
+ 1743 0162 00       		.byte	0
+ 1744 0163 00       		.byte	0
+ 1745 0164 00       		.byte	0
+ 1746              		.section	.debug_loc,"",%progbits
+ 1747              	.Ldebug_loc0:
+ 1748              	.LLST0:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 36
+
+
+ 1749 0000 00000000 		.4byte	.LVL0
+ 1750 0004 16000000 		.4byte	.LVL1
+ 1751 0008 0100     		.2byte	0x1
+ 1752 000a 50       		.byte	0x50
+ 1753 000b 16000000 		.4byte	.LVL1
+ 1754 000f 28000000 		.4byte	.LFE32
+ 1755 0013 0400     		.2byte	0x4
+ 1756 0015 F3       		.byte	0xf3
+ 1757 0016 01       		.uleb128 0x1
+ 1758 0017 50       		.byte	0x50
+ 1759 0018 9F       		.byte	0x9f
+ 1760 0019 00000000 		.4byte	0
+ 1761 001d 00000000 		.4byte	0
+ 1762              	.LLST1:
+ 1763 0021 00000000 		.4byte	.LVL0
+ 1764 0025 19000000 		.4byte	.LVL2-1
+ 1765 0029 0100     		.2byte	0x1
+ 1766 002b 51       		.byte	0x51
+ 1767 002c 19000000 		.4byte	.LVL2-1
+ 1768 0030 28000000 		.4byte	.LFE32
+ 1769 0034 0400     		.2byte	0x4
+ 1770 0036 F3       		.byte	0xf3
+ 1771 0037 01       		.uleb128 0x1
+ 1772 0038 51       		.byte	0x51
+ 1773 0039 9F       		.byte	0x9f
+ 1774 003a 00000000 		.4byte	0
+ 1775 003e 00000000 		.4byte	0
+ 1776              	.LLST2:
+ 1777 0042 00000000 		.4byte	.LVL3
+ 1778 0046 02000000 		.4byte	.LVL4
+ 1779 004a 0100     		.2byte	0x1
+ 1780 004c 50       		.byte	0x50
+ 1781 004d 02000000 		.4byte	.LVL4
+ 1782 0051 3C000000 		.4byte	.LFE33
+ 1783 0055 0400     		.2byte	0x4
+ 1784 0057 F3       		.byte	0xf3
+ 1785 0058 01       		.uleb128 0x1
+ 1786 0059 50       		.byte	0x50
+ 1787 005a 9F       		.byte	0x9f
+ 1788 005b 00000000 		.4byte	0
+ 1789 005f 00000000 		.4byte	0
+ 1790              	.LLST3:
+ 1791 0063 00000000 		.4byte	.LVL3
+ 1792 0067 1D000000 		.4byte	.LVL5-1
+ 1793 006b 0100     		.2byte	0x1
+ 1794 006d 51       		.byte	0x51
+ 1795 006e 1D000000 		.4byte	.LVL5-1
+ 1796 0072 22000000 		.4byte	.LVL6
+ 1797 0076 0400     		.2byte	0x4
+ 1798 0078 F3       		.byte	0xf3
+ 1799 0079 01       		.uleb128 0x1
+ 1800 007a 51       		.byte	0x51
+ 1801 007b 9F       		.byte	0x9f
+ 1802 007c 22000000 		.4byte	.LVL6
+ 1803 0080 28000000 		.4byte	.LVL7
+ 1804 0084 0100     		.2byte	0x1
+ 1805 0086 51       		.byte	0x51
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 37
+
+
+ 1806 0087 28000000 		.4byte	.LVL7
+ 1807 008b 3C000000 		.4byte	.LFE33
+ 1808 008f 0400     		.2byte	0x4
+ 1809 0091 F3       		.byte	0xf3
+ 1810 0092 01       		.uleb128 0x1
+ 1811 0093 51       		.byte	0x51
+ 1812 0094 9F       		.byte	0x9f
+ 1813 0095 00000000 		.4byte	0
+ 1814 0099 00000000 		.4byte	0
+ 1815              	.LLST4:
+ 1816 009d 00000000 		.4byte	.LVL8
+ 1817 00a1 10000000 		.4byte	.LVL9
+ 1818 00a5 0100     		.2byte	0x1
+ 1819 00a7 50       		.byte	0x50
+ 1820 00a8 10000000 		.4byte	.LVL9
+ 1821 00ac 14000000 		.4byte	.LVL10
+ 1822 00b0 0400     		.2byte	0x4
+ 1823 00b2 F3       		.byte	0xf3
+ 1824 00b3 01       		.uleb128 0x1
+ 1825 00b4 50       		.byte	0x50
+ 1826 00b5 9F       		.byte	0x9f
+ 1827 00b6 14000000 		.4byte	.LVL10
+ 1828 00ba 16000000 		.4byte	.LVL11
+ 1829 00be 0100     		.2byte	0x1
+ 1830 00c0 50       		.byte	0x50
+ 1831 00c1 16000000 		.4byte	.LVL11
+ 1832 00c5 20000000 		.4byte	.LFE34
+ 1833 00c9 0400     		.2byte	0x4
+ 1834 00cb F3       		.byte	0xf3
+ 1835 00cc 01       		.uleb128 0x1
+ 1836 00cd 50       		.byte	0x50
+ 1837 00ce 9F       		.byte	0x9f
+ 1838 00cf 00000000 		.4byte	0
+ 1839 00d3 00000000 		.4byte	0
+ 1840              	.LLST5:
+ 1841 00d7 00000000 		.4byte	.LVL12
+ 1842 00db 02000000 		.4byte	.LVL13
+ 1843 00df 0100     		.2byte	0x1
+ 1844 00e1 50       		.byte	0x50
+ 1845 00e2 02000000 		.4byte	.LVL13
+ 1846 00e6 3C000000 		.4byte	.LFE35
+ 1847 00ea 0400     		.2byte	0x4
+ 1848 00ec F3       		.byte	0xf3
+ 1849 00ed 01       		.uleb128 0x1
+ 1850 00ee 50       		.byte	0x50
+ 1851 00ef 9F       		.byte	0x9f
+ 1852 00f0 00000000 		.4byte	0
+ 1853 00f4 00000000 		.4byte	0
+ 1854              	.LLST6:
+ 1855 00f8 00000000 		.4byte	.LVL14
+ 1856 00fc 02000000 		.4byte	.LVL15
+ 1857 0100 0100     		.2byte	0x1
+ 1858 0102 50       		.byte	0x50
+ 1859 0103 02000000 		.4byte	.LVL15
+ 1860 0107 C4000000 		.4byte	.LFE36
+ 1861 010b 0400     		.2byte	0x4
+ 1862 010d F3       		.byte	0xf3
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 38
+
+
+ 1863 010e 01       		.uleb128 0x1
+ 1864 010f 50       		.byte	0x50
+ 1865 0110 9F       		.byte	0x9f
+ 1866 0111 00000000 		.4byte	0
+ 1867 0115 00000000 		.4byte	0
+ 1868              	.LLST7:
+ 1869 0119 00000000 		.4byte	.LVL35
+ 1870 011d 02000000 		.4byte	.LVL36
+ 1871 0121 0100     		.2byte	0x1
+ 1872 0123 50       		.byte	0x50
+ 1873 0124 02000000 		.4byte	.LVL36
+ 1874 0128 60000000 		.4byte	.LFE37
+ 1875 012c 0400     		.2byte	0x4
+ 1876 012e F3       		.byte	0xf3
+ 1877 012f 01       		.uleb128 0x1
+ 1878 0130 50       		.byte	0x50
+ 1879 0131 9F       		.byte	0x9f
+ 1880 0132 00000000 		.4byte	0
+ 1881 0136 00000000 		.4byte	0
+ 1882              	.LLST8:
+ 1883 013a 12000000 		.4byte	.LVL37
+ 1884 013e 28000000 		.4byte	.LVL41
+ 1885 0142 0200     		.2byte	0x2
+ 1886 0144 31       		.byte	0x31
+ 1887 0145 9F       		.byte	0x9f
+ 1888 0146 00000000 		.4byte	0
+ 1889 014a 00000000 		.4byte	0
+ 1890              	.LLST9:
+ 1891 014e 00000000 		.4byte	.LVL57
+ 1892 0152 07000000 		.4byte	.LVL58-1
+ 1893 0156 0100     		.2byte	0x1
+ 1894 0158 50       		.byte	0x50
+ 1895 0159 07000000 		.4byte	.LVL58-1
+ 1896 015d 1A000000 		.4byte	.LFE40
+ 1897 0161 0400     		.2byte	0x4
+ 1898 0163 F3       		.byte	0xf3
+ 1899 0164 01       		.uleb128 0x1
+ 1900 0165 50       		.byte	0x50
+ 1901 0166 9F       		.byte	0x9f
+ 1902 0167 00000000 		.4byte	0
+ 1903 016b 00000000 		.4byte	0
+ 1904              		.section	.debug_aranges,"",%progbits
+ 1905 0000 5C000000 		.4byte	0x5c
+ 1906 0004 0200     		.2byte	0x2
+ 1907 0006 00000000 		.4byte	.Ldebug_info0
+ 1908 000a 04       		.byte	0x4
+ 1909 000b 00       		.byte	0
+ 1910 000c 0000     		.2byte	0
+ 1911 000e 0000     		.2byte	0
+ 1912 0010 00000000 		.4byte	.LFB32
+ 1913 0014 28000000 		.4byte	.LFE32-.LFB32
+ 1914 0018 00000000 		.4byte	.LFB33
+ 1915 001c 3C000000 		.4byte	.LFE33-.LFB33
+ 1916 0020 00000000 		.4byte	.LFB34
+ 1917 0024 20000000 		.4byte	.LFE34-.LFB34
+ 1918 0028 00000000 		.4byte	.LFB35
+ 1919 002c 3C000000 		.4byte	.LFE35-.LFB35
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 39
+
+
+ 1920 0030 00000000 		.4byte	.LFB36
+ 1921 0034 C4000000 		.4byte	.LFE36-.LFB36
+ 1922 0038 00000000 		.4byte	.LFB37
+ 1923 003c 60000000 		.4byte	.LFE37-.LFB37
+ 1924 0040 00000000 		.4byte	.LFB38
+ 1925 0044 1C000000 		.4byte	.LFE38-.LFB38
+ 1926 0048 00000000 		.4byte	.LFB39
+ 1927 004c 1C000000 		.4byte	.LFE39-.LFB39
+ 1928 0050 00000000 		.4byte	.LFB40
+ 1929 0054 1A000000 		.4byte	.LFE40-.LFB40
+ 1930 0058 00000000 		.4byte	0
+ 1931 005c 00000000 		.4byte	0
+ 1932              		.section	.debug_ranges,"",%progbits
+ 1933              	.Ldebug_ranges0:
+ 1934 0000 00000000 		.4byte	.LFB32
+ 1935 0004 28000000 		.4byte	.LFE32
+ 1936 0008 00000000 		.4byte	.LFB33
+ 1937 000c 3C000000 		.4byte	.LFE33
+ 1938 0010 00000000 		.4byte	.LFB34
+ 1939 0014 20000000 		.4byte	.LFE34
+ 1940 0018 00000000 		.4byte	.LFB35
+ 1941 001c 3C000000 		.4byte	.LFE35
+ 1942 0020 00000000 		.4byte	.LFB36
+ 1943 0024 C4000000 		.4byte	.LFE36
+ 1944 0028 00000000 		.4byte	.LFB37
+ 1945 002c 60000000 		.4byte	.LFE37
+ 1946 0030 00000000 		.4byte	.LFB38
+ 1947 0034 1C000000 		.4byte	.LFE38
+ 1948 0038 00000000 		.4byte	.LFB39
+ 1949 003c 1C000000 		.4byte	.LFE39
+ 1950 0040 00000000 		.4byte	.LFB40
+ 1951 0044 1A000000 		.4byte	.LFE40
+ 1952 0048 00000000 		.4byte	0
+ 1953 004c 00000000 		.4byte	0
+ 1954              		.section	.debug_line,"",%progbits
+ 1955              	.Ldebug_line0:
+ 1956 0000 EE010000 		.section	.debug_str,"MS",%progbits,1
+ 1956      0200EB00 
+ 1956      00000201 
+ 1956      FB0E0D00 
+ 1956      01010101 
+ 1957              	.LASF25:
+ 1958 0000 4C656674 		.ascii	"Left_LED_State\000"
+ 1958      5F4C4544 
+ 1958      5F537461 
+ 1958      746500
+ 1959              	.LASF19:
+ 1960 000f 7365745F 		.ascii	"set_color\000"
+ 1960      636F6C6F 
+ 1960      7200
+ 1961              	.LASF18:
+ 1962 0019 6C65645F 		.ascii	"led_flag\000"
+ 1962      666C6167 
+ 1962      00
+ 1963              	.LASF27:
+ 1964 0022 49525F4C 		.ascii	"IR_LED_State\000"
+ 1964      45445F53 
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 40
+
+
+ 1964      74617465 
+ 1964      00
+ 1965              	.LASF16:
+ 1966 002f 5247425F 		.ascii	"RGB_LED_State\000"
+ 1966      4C45445F 
+ 1966      53746174 
+ 1966      6500
+ 1967              	.LASF32:
+ 1968 003d 50574D5F 		.ascii	"PWM_Right_LED_Red_Start\000"
+ 1968      52696768 
+ 1968      745F4C45 
+ 1968      445F5265 
+ 1968      645F5374 
+ 1969              	.LASF44:
+ 1970 0055 7475726E 		.ascii	"turn_off\000"
+ 1970      5F6F6666 
+ 1970      00
+ 1971              	.LASF33:
+ 1972 005e 52696768 		.ascii	"Right_LED_Blue_Write\000"
+ 1972      745F4C45 
+ 1972      445F426C 
+ 1972      75655F57 
+ 1972      72697465 
+ 1973              	.LASF3:
+ 1974 0073 73686F72 		.ascii	"short unsigned int\000"
+ 1974      7420756E 
+ 1974      7369676E 
+ 1974      65642069 
+ 1974      6E7400
+ 1975              	.LASF40:
+ 1976 0086 6C696768 		.ascii	"lightlib.c\000"
+ 1976      746C6962 
+ 1976      2E6300
+ 1977              	.LASF20:
+ 1978 0091 7365745F 		.ascii	"set_status\000"
+ 1978      73746174 
+ 1978      757300
+ 1979              	.LASF31:
+ 1980 009c 4C656674 		.ascii	"Left_LED_Green_Write\000"
+ 1980      5F4C4544 
+ 1980      5F477265 
+ 1980      656E5F57 
+ 1980      72697465 
+ 1981              	.LASF14:
+ 1982 00b1 73746174 		.ascii	"status\000"
+ 1982      757300
+ 1983              	.LASF26:
+ 1984 00b8 52696768 		.ascii	"Right_LED_State\000"
+ 1984      745F4C45 
+ 1984      445F5374 
+ 1984      61746500 
+ 1985              	.LASF41:
+ 1986 00c8 433A5C55 		.ascii	"C:\\Users\\ryan\\Documents\\PSoC Creator\\Defcon_Ba"
+ 1986      73657273 
+ 1986      5C727961 
+ 1986      6E5C446F 
+ 1986      63756D65 
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 41
+
+
+ 1987 00f6 6467655C 		.ascii	"dge\\Defcon_Badge.cydsn\000"
+ 1987      44656663 
+ 1987      6F6E5F42 
+ 1987      61646765 
+ 1987      2E637964 
+ 1988              	.LASF37:
+ 1989 010d 50574D5F 		.ascii	"PWM_Left_LED_Red_Stop\000"
+ 1989      4C656674 
+ 1989      5F4C4544 
+ 1989      5F526564 
+ 1989      5F53746F 
+ 1990              	.LASF9:
+ 1991 0123 666C6F61 		.ascii	"float\000"
+ 1991      7400
+ 1992              	.LASF1:
+ 1993 0129 756E7369 		.ascii	"unsigned char\000"
+ 1993      676E6564 
+ 1993      20636861 
+ 1993      7200
+ 1994              	.LASF30:
+ 1995 0137 4C656674 		.ascii	"Left_LED_Blue_Write\000"
+ 1995      5F4C4544 
+ 1995      5F426C75 
+ 1995      655F5772 
+ 1995      69746500 
+ 1996              	.LASF5:
+ 1997 014b 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1997      20756E73 
+ 1997      69676E65 
+ 1997      6420696E 
+ 1997      7400
+ 1998              	.LASF35:
+ 1999 015d 49525F4C 		.ascii	"IR_LED_Write\000"
+ 1999      45445F57 
+ 1999      72697465 
+ 1999      00
+ 2000              	.LASF42:
+ 2001 016a 75696E74 		.ascii	"uint8\000"
+ 2001      3800
+ 2002              	.LASF43:
+ 2003 0170 6765745F 		.ascii	"get_color\000"
+ 2003      636F6C6F 
+ 2003      7200
+ 2004              	.LASF22:
+ 2005 017a 7475726E 		.ascii	"turn_on_all_led\000"
+ 2005      5F6F6E5F 
+ 2005      616C6C5F 
+ 2005      6C656400 
+ 2006              	.LASF10:
+ 2007 018a 646F7562 		.ascii	"double\000"
+ 2007      6C6500
+ 2008              	.LASF15:
+ 2009 0191 636F6C6F 		.ascii	"color\000"
+ 2009      7200
+ 2010              	.LASF24:
+ 2011 0197 696E6974 		.ascii	"init_led\000"
+ 2011      5F6C6564 
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 42
+
+
+ 2011      00
+ 2012              	.LASF8:
+ 2013 01a0 756E7369 		.ascii	"unsigned int\000"
+ 2013      676E6564 
+ 2013      20696E74 
+ 2013      00
+ 2014              	.LASF23:
+ 2015 01ad 7475726E 		.ascii	"turn_off_all_led\000"
+ 2015      5F6F6666 
+ 2015      5F616C6C 
+ 2015      5F6C6564 
+ 2015      00
+ 2016              	.LASF7:
+ 2017 01be 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2017      206C6F6E 
+ 2017      6720756E 
+ 2017      7369676E 
+ 2017      65642069 
+ 2018              	.LASF28:
+ 2019 01d5 426F6172 		.ascii	"Board_LED_State\000"
+ 2019      645F4C45 
+ 2019      445F5374 
+ 2019      61746500 
+ 2020              	.LASF34:
+ 2021 01e5 52696768 		.ascii	"Right_LED_Green_Write\000"
+ 2021      745F4C45 
+ 2021      445F4772 
+ 2021      65656E5F 
+ 2021      57726974 
+ 2022              	.LASF13:
+ 2023 01fb 73697A65 		.ascii	"sizetype\000"
+ 2023      74797065 
+ 2023      00
+ 2024              	.LASF38:
+ 2025 0204 50574D5F 		.ascii	"PWM_Right_LED_Red_Stop\000"
+ 2025      52696768 
+ 2025      745F4C45 
+ 2025      445F5265 
+ 2025      645F5374 
+ 2026              	.LASF6:
+ 2027 021b 6C6F6E67 		.ascii	"long long int\000"
+ 2027      206C6F6E 
+ 2027      6720696E 
+ 2027      7400
+ 2028              	.LASF17:
+ 2029 0229 4C45445F 		.ascii	"LED_State\000"
+ 2029      53746174 
+ 2029      6500
+ 2030              	.LASF2:
+ 2031 0233 73686F72 		.ascii	"short int\000"
+ 2031      7420696E 
+ 2031      7400
+ 2032              	.LASF45:
+ 2033 023d 6765745F 		.ascii	"get_status\000"
+ 2033      73746174 
+ 2033      757300
+ 2034              	.LASF21:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccZBpz2h.s 			page 43
+
+
+ 2035 0248 7475726E 		.ascii	"turn_on\000"
+ 2035      5F6F6E00 
+ 2036              	.LASF4:
+ 2037 0250 6C6F6E67 		.ascii	"long int\000"
+ 2037      20696E74 
+ 2037      00
+ 2038              	.LASF11:
+ 2039 0259 63686172 		.ascii	"char\000"
+ 2039      00
+ 2040              	.LASF12:
+ 2041 025e 6C6F6E67 		.ascii	"long double\000"
+ 2041      20646F75 
+ 2041      626C6500 
+ 2042              	.LASF0:
+ 2043 026a 7369676E 		.ascii	"signed char\000"
+ 2043      65642063 
+ 2043      68617200 
+ 2044              	.LASF29:
+ 2045 0276 50574D5F 		.ascii	"PWM_Left_LED_Red_Start\000"
+ 2045      4C656674 
+ 2045      5F4C4544 
+ 2045      5F526564 
+ 2045      5F537461 
+ 2046              	.LASF39:
+ 2047 028d 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2047      43313120 
+ 2047      352E342E 
+ 2047      31203230 
+ 2047      31363036 
+ 2048 02c0 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 2048      20726576 
+ 2048      6973696F 
+ 2048      6E203233 
+ 2048      37373135 
+ 2049 02f3 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 2049      66756E63 
+ 2049      74696F6E 
+ 2049      2D736563 
+ 2049      74696F6E 
+ 2050              	.LASF36:
+ 2051 031b 426F6172 		.ascii	"Board_LED_Write\000"
+ 2051      645F4C45 
+ 2051      445F5772 
+ 2051      69746500 
+ 2052              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

@@ -1,0 +1,2619 @@
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"morse.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.blinkdot,"ax",%progbits
+  20              		.align	1
+  21              		.global	blinkdot
+  22              		.code	16
+  23              		.thumb_func
+  24              		.type	blinkdot, %function
+  25              	blinkdot:
+  26              	.LFB32:
+  27              		.file 1 "morse.c"
+   1:morse.c       **** /* ========================================
+   2:morse.c       ****  *
+   3:morse.c       ****  * Copyright Nullify, 2016
+   4:morse.c       ****  * All Rights Reserved
+   5:morse.c       ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:morse.c       ****  *
+   7:morse.c       ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:morse.c       ****  * WHICH IS THE PROPERTY OF NULLIY.
+   9:morse.c       ****  *
+  10:morse.c       ****  * ========================================
+  11:morse.c       **** */
+  12:morse.c       **** #include <project.h>
+  13:morse.c       **** #include <string.h>
+  14:morse.c       **** #include "lightlib.h"
+  15:morse.c       **** #include "morse.h"
+  16:morse.c       **** #include "state.h"
+  17:morse.c       **** 
+  18:morse.c       **** void blinkdot(uint8 led_flag) {
+  28              		.loc 1 18 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 10B5     		push	{r4, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 4, -8
+  36              		.cfi_offset 14, -4
+  37              		.loc 1 18 0
+  38 0002 0400     		movs	r4, r0
+  19:morse.c       ****     /* Verify state */
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 2
+
+
+  20:morse.c       ****     if(!verify_state(MORSE)) {
+  39              		.loc 1 20 0
+  40 0004 0120     		movs	r0, #1
+  41              	.LVL1:
+  42 0006 FFF7FEFF 		bl	verify_state
+  43              	.LVL2:
+  44 000a 0028     		cmp	r0, #0
+  45 000c 0CD0     		beq	.L1
+  46              	.LVL3:
+  47              	.LBB4:
+  48              	.LBB5:
+  21:morse.c       ****         return;
+  22:morse.c       ****     }
+  23:morse.c       ****     turn_on(led_flag);
+  49              		.loc 1 23 0
+  50 000e 2000     		movs	r0, r4
+  51 0010 FFF7FEFF 		bl	turn_on
+  52              	.LVL4:
+  24:morse.c       ****     CyDelay(DOT_ON_TIME);
+  53              		.loc 1 24 0
+  54 0014 FA20     		movs	r0, #250
+  55 0016 4000     		lsls	r0, r0, #1
+  56 0018 FFF7FEFF 		bl	CyDelay
+  57              	.LVL5:
+  25:morse.c       ****     turn_off(led_flag);
+  58              		.loc 1 25 0
+  59 001c 2000     		movs	r0, r4
+  60 001e FFF7FEFF 		bl	turn_off
+  61              	.LVL6:
+  26:morse.c       ****     CyDelay(DOT_OFF_TIME);
+  62              		.loc 1 26 0
+  63 0022 FA20     		movs	r0, #250
+  64 0024 FFF7FEFF 		bl	CyDelay
+  65              	.LVL7:
+  66              	.L1:
+  67              	.LBE5:
+  68              	.LBE4:
+  27:morse.c       **** }
+  69              		.loc 1 27 0
+  70              		@ sp needed
+  71 0028 10BD     		pop	{r4, pc}
+  72              		.cfi_endproc
+  73              	.LFE32:
+  74              		.size	blinkdot, .-blinkdot
+  75              		.section	.text.blinkdash,"ax",%progbits
+  76              		.align	1
+  77              		.global	blinkdash
+  78              		.code	16
+  79              		.thumb_func
+  80              		.type	blinkdash, %function
+  81              	blinkdash:
+  82              	.LFB33:
+  28:morse.c       **** 
+  29:morse.c       **** void blinkdash(uint8 led_flag) {
+  83              		.loc 1 29 0
+  84              		.cfi_startproc
+  85              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 3
+
+
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87              	.LVL8:
+  88 0000 10B5     		push	{r4, lr}
+  89              		.cfi_def_cfa_offset 8
+  90              		.cfi_offset 4, -8
+  91              		.cfi_offset 14, -4
+  92              		.loc 1 29 0
+  93 0002 0400     		movs	r4, r0
+  30:morse.c       ****     /* Verify state */
+  31:morse.c       ****     if(!verify_state(MORSE)) {
+  94              		.loc 1 31 0
+  95 0004 0120     		movs	r0, #1
+  96              	.LVL9:
+  97 0006 FFF7FEFF 		bl	verify_state
+  98              	.LVL10:
+  99 000a 0028     		cmp	r0, #0
+ 100 000c 0BD0     		beq	.L7
+ 101              	.LVL11:
+ 102              	.LBB8:
+ 103              	.LBB9:
+  32:morse.c       ****         return;
+  33:morse.c       ****     }
+  34:morse.c       ****     turn_on(led_flag);
+ 104              		.loc 1 34 0
+ 105 000e 2000     		movs	r0, r4
+ 106 0010 FFF7FEFF 		bl	turn_on
+ 107              	.LVL12:
+  35:morse.c       ****     CyDelay(DASH_ON_TIME);
+ 108              		.loc 1 35 0
+ 109 0014 0448     		ldr	r0, .L12
+ 110 0016 FFF7FEFF 		bl	CyDelay
+ 111              	.LVL13:
+  36:morse.c       ****     turn_off(led_flag);
+ 112              		.loc 1 36 0
+ 113 001a 2000     		movs	r0, r4
+ 114 001c FFF7FEFF 		bl	turn_off
+ 115              	.LVL14:
+  37:morse.c       ****     CyDelay(DASH_OFF_TIME);
+ 116              		.loc 1 37 0
+ 117 0020 FA20     		movs	r0, #250
+ 118 0022 FFF7FEFF 		bl	CyDelay
+ 119              	.LVL15:
+ 120              	.L7:
+ 121              	.LBE9:
+ 122              	.LBE8:
+  38:morse.c       **** }
+ 123              		.loc 1 38 0
+ 124              		@ sp needed
+ 125 0026 10BD     		pop	{r4, pc}
+ 126              	.L13:
+ 127              		.align	2
+ 128              	.L12:
+ 129 0028 DC050000 		.word	1500
+ 130              		.cfi_endproc
+ 131              	.LFE33:
+ 132              		.size	blinkdash, .-blinkdash
+ 133              		.section	.text.char_separate,"ax",%progbits
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 4
+
+
+ 134              		.align	1
+ 135              		.global	char_separate
+ 136              		.code	16
+ 137              		.thumb_func
+ 138              		.type	char_separate, %function
+ 139              	char_separate:
+ 140              	.LFB34:
+  39:morse.c       **** 
+  40:morse.c       **** void char_separate(void) {
+ 141              		.loc 1 40 0
+ 142              		.cfi_startproc
+ 143              		@ args = 0, pretend = 0, frame = 0
+ 144              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145 0000 10B5     		push	{r4, lr}
+ 146              		.cfi_def_cfa_offset 8
+ 147              		.cfi_offset 4, -8
+ 148              		.cfi_offset 14, -4
+  41:morse.c       ****     /* Verify state */
+  42:morse.c       ****     if(!verify_state(MORSE)) {
+ 149              		.loc 1 42 0
+ 150 0002 0120     		movs	r0, #1
+ 151 0004 FFF7FEFF 		bl	verify_state
+ 152              	.LVL16:
+ 153 0008 0028     		cmp	r0, #0
+ 154 000a 03D0     		beq	.L14
+  43:morse.c       ****         return;
+  44:morse.c       ****     }
+  45:morse.c       ****     CyDelay(CHAR_SEPARATE_TIME);
+ 155              		.loc 1 45 0
+ 156 000c FA20     		movs	r0, #250
+ 157 000e 8000     		lsls	r0, r0, #2
+ 158 0010 FFF7FEFF 		bl	CyDelay
+ 159              	.LVL17:
+ 160              	.L14:
+  46:morse.c       **** }
+ 161              		.loc 1 46 0
+ 162              		@ sp needed
+ 163 0014 10BD     		pop	{r4, pc}
+ 164              		.cfi_endproc
+ 165              	.LFE34:
+ 166              		.size	char_separate, .-char_separate
+ 167              		.section	.text.morse_encode,"ax",%progbits
+ 168              		.align	1
+ 169              		.global	morse_encode
+ 170              		.code	16
+ 171              		.thumb_func
+ 172              		.type	morse_encode, %function
+ 173              	morse_encode:
+ 174              	.LFB35:
+  47:morse.c       **** 
+  48:morse.c       **** void morse_encode(uint8 led_flag, char c){
+ 175              		.loc 1 48 0
+ 176              		.cfi_startproc
+ 177              		@ args = 0, pretend = 0, frame = 0
+ 178              		@ frame_needed = 0, uses_anonymous_args = 0
+ 179              	.LVL18:
+ 180 0000 70B5     		push	{r4, r5, r6, lr}
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 5
+
+
+ 181              		.cfi_def_cfa_offset 16
+ 182              		.cfi_offset 4, -16
+ 183              		.cfi_offset 5, -12
+ 184              		.cfi_offset 6, -8
+ 185              		.cfi_offset 14, -4
+ 186              		.loc 1 48 0
+ 187 0002 0400     		movs	r4, r0
+  49:morse.c       ****     /* Verify state */
+  50:morse.c       ****     if(!verify_state(MORSE)) {
+ 188              		.loc 1 50 0
+ 189 0004 0120     		movs	r0, #1
+ 190              	.LVL19:
+  48:morse.c       ****     /* Verify state */
+ 191              		.loc 1 48 0
+ 192 0006 0D00     		movs	r5, r1
+ 193              		.loc 1 50 0
+ 194 0008 FFF7FEFF 		bl	verify_state
+ 195              	.LVL20:
+ 196 000c 0028     		cmp	r0, #0
+ 197 000e 00D1     		bne	.LCB135
+ 198 0010 D1E0     		b	.L19	@long jump
+ 199              	.LCB135:
+ 200              	.LVL21:
+ 201              	.LBB12:
+ 202              	.LBB13:
+  51:morse.c       ****         return;
+  52:morse.c       ****     }
+  53:morse.c       ****     switch(c) {
+ 203              		.loc 1 53 0
+ 204 0012 2800     		movs	r0, r5
+ 205 0014 2038     		subs	r0, r0, #32
+ 206 0016 5A28     		cmp	r0, #90
+ 207 0018 00D9     		bls	.LCB143
+ 208 001a CCE0     		b	.L19	@long jump
+ 209              	.LCB143:
+ 210 001c FFF7FEFF 		bl	__gnu_thumb1_case_uqi
+ 211              	.L22:
+ 212 0020 C7       		.byte	(.L21-.L22)/2
+ 213 0021 CB       		.byte	(.L19-.L22)/2
+ 214 0022 CB       		.byte	(.L19-.L22)/2
+ 215 0023 CB       		.byte	(.L19-.L22)/2
+ 216 0024 CB       		.byte	(.L19-.L22)/2
+ 217 0025 CB       		.byte	(.L19-.L22)/2
+ 218 0026 CB       		.byte	(.L19-.L22)/2
+ 219 0027 CB       		.byte	(.L19-.L22)/2
+ 220 0028 CB       		.byte	(.L19-.L22)/2
+ 221 0029 CB       		.byte	(.L19-.L22)/2
+ 222 002a CB       		.byte	(.L19-.L22)/2
+ 223 002b CB       		.byte	(.L19-.L22)/2
+ 224 002c B2       		.byte	(.L23-.L22)/2
+ 225 002d CB       		.byte	(.L19-.L22)/2
+ 226 002e A2       		.byte	(.L24-.L22)/2
+ 227 002f CB       		.byte	(.L19-.L22)/2
+ 228 0030 4D       		.byte	(.L25-.L22)/2
+ 229 0031 51       		.byte	(.L26-.L22)/2
+ 230 0032 58       		.byte	(.L27-.L22)/2
+ 231 0033 62       		.byte	(.L28-.L22)/2
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 6
+
+
+ 232 0034 66       		.byte	(.L29-.L22)/2
+ 233 0035 70       		.byte	(.L30-.L22)/2
+ 234 0036 74       		.byte	(.L31-.L22)/2
+ 235 0037 7B       		.byte	(.L32-.L22)/2
+ 236 0038 85       		.byte	(.L33-.L22)/2
+ 237 0039 92       		.byte	(.L34-.L22)/2
+ 238 003a CB       		.byte	(.L19-.L22)/2
+ 239 003b CB       		.byte	(.L19-.L22)/2
+ 240 003c CB       		.byte	(.L19-.L22)/2
+ 241 003d CB       		.byte	(.L19-.L22)/2
+ 242 003e CB       		.byte	(.L19-.L22)/2
+ 243 003f CB       		.byte	(.L19-.L22)/2
+ 244 0040 CB       		.byte	(.L19-.L22)/2
+ 245 0041 AE       		.byte	(.L71-.L22)/2
+ 246 0042 7E       		.byte	(.L83-.L22)/2
+ 247 0043 2E       		.byte	(.L37-.L22)/2
+ 248 0044 8B       		.byte	(.L80-.L22)/2
+ 249 0045 9E       		.byte	(.L73-.L22)/2
+ 250 0046 32       		.byte	(.L40-.L22)/2
+ 251 0047 98       		.byte	(.L75-.L22)/2
+ 252 0048 77       		.byte	(.L85-.L22)/2
+ 253 0049 8E       		.byte	(.L78-.L22)/2
+ 254 004a 5B       		.byte	(.L70-.L22)/2
+ 255 004b AB       		.byte	(.L72-.L22)/2
+ 256 004c 39       		.byte	(.L46-.L22)/2
+ 257 004d BE       		.byte	(.L67-.L22)/2
+ 258 004e 9B       		.byte	(.L74-.L22)/2
+ 259 004f 5E       		.byte	(.L69-.L22)/2
+ 260 0050 3D       		.byte	(.L50-.L22)/2
+ 261 0051 41       		.byte	(.L51-.L22)/2
+ 262 0052 35       		.byte	(.L77-.L22)/2
+ 263 0053 81       		.byte	(.L84-.L22)/2
+ 264 0054 C1       		.byte	(.L64-.L22)/2
+ 265 0055 6C       		.byte	(.L81-.L22)/2
+ 266 0056 69       		.byte	(.L82-.L22)/2
+ 267 0057 BB       		.byte	(.L68-.L22)/2
+ 268 0058 45       		.byte	(.L58-.L22)/2
+ 269 0059 49       		.byte	(.L59-.L22)/2
+ 270 005a 88       		.byte	(.L79-.L22)/2
+ 271 005b CB       		.byte	(.L19-.L22)/2
+ 272 005c CB       		.byte	(.L19-.L22)/2
+ 273 005d CB       		.byte	(.L19-.L22)/2
+ 274 005e CB       		.byte	(.L19-.L22)/2
+ 275 005f CB       		.byte	(.L19-.L22)/2
+ 276 0060 CB       		.byte	(.L19-.L22)/2
+ 277 0061 AE       		.byte	(.L71-.L22)/2
+ 278 0062 7E       		.byte	(.L83-.L22)/2
+ 279 0063 2E       		.byte	(.L37-.L22)/2
+ 280 0064 8B       		.byte	(.L80-.L22)/2
+ 281 0065 9E       		.byte	(.L73-.L22)/2
+ 282 0066 32       		.byte	(.L40-.L22)/2
+ 283 0067 98       		.byte	(.L75-.L22)/2
+ 284 0068 77       		.byte	(.L85-.L22)/2
+ 285 0069 8E       		.byte	(.L78-.L22)/2
+ 286 006a 5B       		.byte	(.L70-.L22)/2
+ 287 006b AB       		.byte	(.L72-.L22)/2
+ 288 006c 39       		.byte	(.L46-.L22)/2
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 7
+
+
+ 289 006d BE       		.byte	(.L67-.L22)/2
+ 290 006e 9B       		.byte	(.L74-.L22)/2
+ 291 006f 5E       		.byte	(.L69-.L22)/2
+ 292 0070 3D       		.byte	(.L50-.L22)/2
+ 293 0071 41       		.byte	(.L51-.L22)/2
+ 294 0072 35       		.byte	(.L77-.L22)/2
+ 295 0073 81       		.byte	(.L84-.L22)/2
+ 296 0074 C1       		.byte	(.L64-.L22)/2
+ 297 0075 6C       		.byte	(.L81-.L22)/2
+ 298 0076 69       		.byte	(.L82-.L22)/2
+ 299 0077 BB       		.byte	(.L68-.L22)/2
+ 300 0078 45       		.byte	(.L58-.L22)/2
+ 301 0079 49       		.byte	(.L59-.L22)/2
+ 302 007a 88       		.byte	(.L79-.L22)/2
+ 303 007b 00       		.p2align 1
+ 304              	.L37:
+  54:morse.c       ****       case 'A':
+  55:morse.c       ****       case 'a':
+  56:morse.c       ****         blinkdot(led_flag);
+  57:morse.c       ****         blinkdash(led_flag);
+  58:morse.c       ****         char_separate();
+  59:morse.c       ****         break;
+  60:morse.c       ****       case 'B':
+  61:morse.c       ****       case 'b':
+  62:morse.c       ****         blinkdash(led_flag);
+  63:morse.c       ****         blinkdot(led_flag);
+  64:morse.c       ****         blinkdot(led_flag);
+  65:morse.c       ****         blinkdot(led_flag);
+  66:morse.c       ****         char_separate();
+  67:morse.c       ****         break;
+  68:morse.c       ****       case 'C':
+  69:morse.c       ****       case 'c':
+  70:morse.c       ****         blinkdash(led_flag);
+ 305              		.loc 1 70 0
+ 306 007c 2000     		movs	r0, r4
+ 307 007e FFF7FEFF 		bl	blinkdash
+ 308              	.LVL22:
+ 309 0082 02E0     		b	.L77
+ 310              	.L40:
+  71:morse.c       ****         blinkdot(led_flag);
+  72:morse.c       ****         blinkdash(led_flag);
+  73:morse.c       ****         blinkdot(led_flag);
+  74:morse.c       ****         char_separate();
+  75:morse.c       ****         break;
+  76:morse.c       ****       case 'D':
+  77:morse.c       ****       case 'd':
+  78:morse.c       ****         blinkdash(led_flag);
+  79:morse.c       ****         blinkdot(led_flag);
+  80:morse.c       ****         blinkdot(led_flag);
+  81:morse.c       ****         char_separate();
+  82:morse.c       ****         break;
+  83:morse.c       ****        case 'E':
+  84:morse.c       ****        case 'e':
+  85:morse.c       ****         blinkdot(led_flag);
+  86:morse.c       ****         char_separate();
+  87:morse.c       ****         break;
+  88:morse.c       ****        case 'F':
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 8
+
+
+  89:morse.c       ****        case 'f':
+  90:morse.c       ****         blinkdot(led_flag);
+ 311              		.loc 1 90 0
+ 312 0084 2000     		movs	r0, r4
+ 313 0086 FFF7FEFF 		bl	blinkdot
+ 314              	.LVL23:
+ 315              	.L77:
+  91:morse.c       ****         blinkdot(led_flag);
+ 316              		.loc 1 91 0
+ 317 008a 2000     		movs	r0, r4
+ 318 008c FFF7FEFF 		bl	blinkdot
+ 319              	.LVL24:
+ 320 0090 61E0     		b	.L74
+ 321              	.L46:
+  92:morse.c       ****         blinkdash(led_flag);
+  93:morse.c       ****         blinkdot(led_flag);
+  94:morse.c       ****         char_separate();
+  95:morse.c       ****         break;
+  96:morse.c       ****        case 'G':
+  97:morse.c       ****        case 'g':
+  98:morse.c       ****         blinkdash(led_flag);
+  99:morse.c       ****         blinkdash(led_flag);
+ 100:morse.c       ****         blinkdot(led_flag);
+ 101:morse.c       ****         char_separate();
+ 102:morse.c       ****         break;
+ 103:morse.c       ****        case 'H':
+ 104:morse.c       ****        case 'h':
+ 105:morse.c       ****         blinkdot(led_flag);
+ 106:morse.c       ****         blinkdot(led_flag);
+ 107:morse.c       ****         blinkdot(led_flag);
+ 108:morse.c       ****         blinkdot(led_flag);
+ 109:morse.c       ****         char_separate();
+ 110:morse.c       ****         break;
+ 111:morse.c       ****        case 'I':
+ 112:morse.c       ****        case 'i':
+ 113:morse.c       ****         blinkdot(led_flag);
+ 114:morse.c       ****         blinkdot(led_flag);
+ 115:morse.c       ****         char_separate();
+ 116:morse.c       ****         break;
+ 117:morse.c       ****        case 'J':
+ 118:morse.c       ****        case 'j':
+ 119:morse.c       ****         blinkdot(led_flag);
+ 120:morse.c       ****         blinkdash(led_flag);
+ 121:morse.c       ****         blinkdash(led_flag);
+ 122:morse.c       ****         blinkdash(led_flag);
+ 123:morse.c       ****         char_separate();
+ 124:morse.c       ****         break;
+ 125:morse.c       ****        case 'K':
+ 126:morse.c       ****        case 'k':
+ 127:morse.c       ****         blinkdash(led_flag);
+ 128:morse.c       ****         blinkdot(led_flag);
+ 129:morse.c       ****         blinkdash(led_flag);
+ 130:morse.c       ****         char_separate();
+ 131:morse.c       ****         break;
+ 132:morse.c       ****        case 'L':
+ 133:morse.c       ****        case 'l':
+ 134:morse.c       ****         blinkdot(led_flag);
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 9
+
+
+ 322              		.loc 1 134 0
+ 323 0092 2000     		movs	r0, r4
+ 324 0094 FFF7FEFF 		bl	blinkdot
+ 325              	.LVL25:
+ 326 0098 4DE0     		b	.L80
+ 327              	.L50:
+ 135:morse.c       ****         blinkdash(led_flag);
+ 136:morse.c       ****         blinkdot(led_flag);
+ 137:morse.c       ****         blinkdot(led_flag);
+ 138:morse.c       ****         char_separate();
+ 139:morse.c       ****         break;
+ 140:morse.c       ****        case 'M':
+ 141:morse.c       ****        case 'm':
+ 142:morse.c       ****         blinkdash(led_flag);
+ 143:morse.c       ****         blinkdash(led_flag);
+ 144:morse.c       ****         char_separate();
+ 145:morse.c       ****         break;
+ 146:morse.c       ****        case 'N':
+ 147:morse.c       ****        case 'n':
+ 148:morse.c       ****         blinkdash(led_flag);
+ 149:morse.c       ****         blinkdot(led_flag);
+ 150:morse.c       ****         char_separate();
+ 151:morse.c       ****         break;
+ 152:morse.c       ****        case 'O':
+ 153:morse.c       ****        case 'o':
+ 154:morse.c       ****         blinkdash(led_flag);
+ 155:morse.c       ****         blinkdash(led_flag);
+ 156:morse.c       ****         blinkdash(led_flag);
+ 157:morse.c       ****         char_separate();
+ 158:morse.c       ****         break;
+ 159:morse.c       ****        case 'P':
+ 160:morse.c       ****        case 'p':
+ 161:morse.c       ****         blinkdot(led_flag);
+ 328              		.loc 1 161 0
+ 329 009a 2000     		movs	r0, r4
+ 330 009c FFF7FEFF 		bl	blinkdot
+ 331              	.LVL26:
+ 332 00a0 56E0     		b	.L75
+ 333              	.L51:
+ 162:morse.c       ****         blinkdash(led_flag);
+ 163:morse.c       ****         blinkdash(led_flag);
+ 164:morse.c       ****         blinkdot(led_flag);
+ 165:morse.c       ****         char_separate();
+ 166:morse.c       ****         break;
+ 167:morse.c       ****        case 'Q':
+ 168:morse.c       ****        case 'q':
+ 169:morse.c       ****         blinkdash(led_flag);
+ 334              		.loc 1 169 0
+ 335 00a2 2000     		movs	r0, r4
+ 336 00a4 FFF7FEFF 		bl	blinkdash
+ 337              	.LVL27:
+ 338 00a8 65E0     		b	.L72
+ 339              	.L58:
+ 170:morse.c       ****         blinkdash(led_flag);
+ 171:morse.c       ****         blinkdot(led_flag);
+ 172:morse.c       ****         blinkdash(led_flag);
+ 173:morse.c       ****         char_separate();
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 10
+
+
+ 174:morse.c       ****         break;
+ 175:morse.c       ****        case 'R':
+ 176:morse.c       ****        case 'r':
+ 177:morse.c       ****         blinkdot(led_flag);
+ 178:morse.c       ****         blinkdash(led_flag);
+ 179:morse.c       ****         blinkdot(led_flag);
+ 180:morse.c       ****         char_separate();
+ 181:morse.c       ****         break;
+ 182:morse.c       ****        case 'S':
+ 183:morse.c       ****        case 's':
+ 184:morse.c       ****         blinkdot(led_flag);
+ 185:morse.c       ****         blinkdot(led_flag);
+ 186:morse.c       ****         blinkdot(led_flag);
+ 187:morse.c       ****         char_separate();
+ 188:morse.c       ****         break;
+ 189:morse.c       ****        case 'T':
+ 190:morse.c       ****        case 't':
+ 191:morse.c       ****         blinkdash(led_flag);
+ 192:morse.c       ****         char_separate();
+ 193:morse.c       ****         break;
+ 194:morse.c       ****        case 'U':
+ 195:morse.c       ****        case 'u':
+ 196:morse.c       ****         blinkdot(led_flag);
+ 197:morse.c       ****         blinkdot(led_flag);
+ 198:morse.c       ****         blinkdash(led_flag);
+ 199:morse.c       ****         char_separate();
+ 200:morse.c       ****         break;
+ 201:morse.c       ****        case 'V':
+ 202:morse.c       ****        case 'v':
+ 203:morse.c       ****         blinkdot(led_flag);
+ 204:morse.c       ****         blinkdot(led_flag);
+ 205:morse.c       ****         blinkdot(led_flag);
+ 206:morse.c       ****         blinkdash(led_flag);
+ 207:morse.c       ****         char_separate();
+ 208:morse.c       ****         break;
+ 209:morse.c       ****        case 'W':
+ 210:morse.c       ****        case 'w':
+ 211:morse.c       ****         blinkdot(led_flag);
+ 212:morse.c       ****         blinkdash(led_flag);
+ 213:morse.c       ****         blinkdash(led_flag);
+ 214:morse.c       ****         char_separate();
+ 215:morse.c       ****         break;
+ 216:morse.c       ****        case 'X':
+ 217:morse.c       ****        case 'x':
+ 218:morse.c       ****         blinkdash(led_flag);
+ 340              		.loc 1 218 0
+ 341 00aa 2000     		movs	r0, r4
+ 342 00ac FFF7FEFF 		bl	blinkdash
+ 343              	.LVL28:
+ 344 00b0 22E0     		b	.L81
+ 345              	.L59:
+ 219:morse.c       ****         blinkdot(led_flag);
+ 220:morse.c       ****         blinkdot(led_flag);
+ 221:morse.c       ****         blinkdash(led_flag);
+ 222:morse.c       ****         char_separate();
+ 223:morse.c       ****         break;
+ 224:morse.c       ****        case 'Y':
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 11
+
+
+ 225:morse.c       ****        case 'y':
+ 226:morse.c       ****         blinkdash(led_flag);
+ 346              		.loc 1 226 0
+ 347 00b2 2000     		movs	r0, r4
+ 348 00b4 FFF7FEFF 		bl	blinkdash
+ 349              	.LVL29:
+ 350 00b8 6DE0     		b	.L68
+ 351              	.L25:
+ 227:morse.c       ****         blinkdot(led_flag);
+ 228:morse.c       ****         blinkdash(led_flag);
+ 229:morse.c       ****         blinkdash(led_flag);
+ 230:morse.c       ****         char_separate();
+ 231:morse.c       ****         break;
+ 232:morse.c       ****        case 'Z':
+ 233:morse.c       ****        case 'z':
+ 234:morse.c       ****         blinkdash(led_flag);
+ 235:morse.c       ****         blinkdash(led_flag);
+ 236:morse.c       ****         blinkdot(led_flag);
+ 237:morse.c       ****         blinkdot(led_flag);
+ 238:morse.c       ****         char_separate();
+ 239:morse.c       ****         break;
+ 240:morse.c       ****        case '0':
+ 241:morse.c       ****         blinkdash(led_flag);
+ 352              		.loc 1 241 0
+ 353 00ba 2000     		movs	r0, r4
+ 354 00bc FFF7FEFF 		bl	blinkdash
+ 355              	.LVL30:
+ 356 00c0 02E0     		b	.L76
+ 357              	.L26:
+ 242:morse.c       ****         blinkdash(led_flag);
+ 243:morse.c       ****         blinkdash(led_flag);
+ 244:morse.c       ****         blinkdash(led_flag);
+ 245:morse.c       ****         blinkdash(led_flag);
+ 246:morse.c       ****         char_separate();
+ 247:morse.c       ****         break;
+ 248:morse.c       ****        case '1':
+ 249:morse.c       ****         blinkdot(led_flag);
+ 358              		.loc 1 249 0
+ 359 00c2 2000     		movs	r0, r4
+ 360 00c4 FFF7FEFF 		bl	blinkdot
+ 361              	.LVL31:
+ 362              	.L76:
+ 250:morse.c       ****         blinkdash(led_flag);
+ 363              		.loc 1 250 0
+ 364 00c8 2000     		movs	r0, r4
+ 365 00ca FFF7FEFF 		bl	blinkdash
+ 366              	.LVL32:
+ 367 00ce 05E0     		b	.L69
+ 368              	.L27:
+ 251:morse.c       ****         blinkdash(led_flag);
+ 252:morse.c       ****         blinkdash(led_flag);
+ 253:morse.c       ****         blinkdash(led_flag);
+ 254:morse.c       ****         char_separate();
+ 255:morse.c       ****         break;
+ 256:morse.c       ****        case '2':
+ 257:morse.c       ****         blinkdot(led_flag);
+ 369              		.loc 1 257 0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 12
+
+
+ 370 00d0 2000     		movs	r0, r4
+ 371 00d2 FFF7FEFF 		bl	blinkdot
+ 372              	.LVL33:
+ 373              	.L70:
+ 258:morse.c       ****         blinkdot(led_flag);
+ 374              		.loc 1 258 0
+ 375 00d6 2000     		movs	r0, r4
+ 376 00d8 FFF7FEFF 		bl	blinkdot
+ 377              	.LVL34:
+ 378              	.L69:
+ 259:morse.c       ****         blinkdash(led_flag);
+ 379              		.loc 1 259 0
+ 380 00dc 2000     		movs	r0, r4
+ 381 00de FFF7FEFF 		bl	blinkdash
+ 382              	.LVL35:
+ 383 00e2 5BE0     		b	.L67
+ 384              	.L28:
+ 260:morse.c       ****         blinkdash(led_flag);
+ 261:morse.c       ****         blinkdash(led_flag);
+ 262:morse.c       ****         char_separate();
+ 263:morse.c       ****         break;
+ 264:morse.c       ****        case '3':
+ 265:morse.c       ****         blinkdot(led_flag);
+ 385              		.loc 1 265 0
+ 386 00e4 2000     		movs	r0, r4
+ 387 00e6 FFF7FEFF 		bl	blinkdot
+ 388              	.LVL36:
+ 389 00ea 51E0     		b	.L66
+ 390              	.L29:
+ 266:morse.c       ****         blinkdot(led_flag);
+ 267:morse.c       ****         blinkdot(led_flag);
+ 268:morse.c       ****         blinkdash(led_flag);
+ 269:morse.c       ****         blinkdash(led_flag);
+ 270:morse.c       ****         char_separate();
+ 271:morse.c       ****         break;
+ 272:morse.c       ****        case '4':
+ 273:morse.c       ****         blinkdot(led_flag);
+ 391              		.loc 1 273 0
+ 392 00ec 2000     		movs	r0, r4
+ 393 00ee FFF7FEFF 		bl	blinkdot
+ 394              	.LVL37:
+ 395              	.L82:
+ 274:morse.c       ****         blinkdot(led_flag);
+ 396              		.loc 1 274 0
+ 397 00f2 2000     		movs	r0, r4
+ 398 00f4 FFF7FEFF 		bl	blinkdot
+ 399              	.LVL38:
+ 400              	.L81:
+ 275:morse.c       ****         blinkdot(led_flag);
+ 401              		.loc 1 275 0
+ 402 00f8 2000     		movs	r0, r4
+ 403 00fa FFF7FEFF 		bl	blinkdot
+ 404              	.LVL39:
+ 405 00fe 3DE0     		b	.L71
+ 406              	.L30:
+ 276:morse.c       ****         blinkdot(led_flag);
+ 277:morse.c       ****         blinkdash(led_flag);
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 13
+
+
+ 278:morse.c       ****         char_separate();
+ 279:morse.c       ****         break;
+ 280:morse.c       ****        case '5':
+ 281:morse.c       ****         blinkdot(led_flag);
+ 407              		.loc 1 281 0
+ 408 0100 2000     		movs	r0, r4
+ 409 0102 FFF7FEFF 		bl	blinkdot
+ 410              	.LVL40:
+ 411 0106 02E0     		b	.L85
+ 412              	.L31:
+ 282:morse.c       ****         blinkdot(led_flag);
+ 283:morse.c       ****         blinkdot(led_flag);
+ 284:morse.c       ****         blinkdot(led_flag);
+ 285:morse.c       ****         blinkdot(led_flag);
+ 286:morse.c       ****         char_separate();
+ 287:morse.c       ****         break;
+ 288:morse.c       ****        case '6':
+ 289:morse.c       ****         blinkdash(led_flag);
+ 413              		.loc 1 289 0
+ 414 0108 2000     		movs	r0, r4
+ 415 010a FFF7FEFF 		bl	blinkdash
+ 416              	.LVL41:
+ 417              	.L85:
+ 290:morse.c       ****         blinkdot(led_flag);
+ 418              		.loc 1 290 0
+ 419 010e 2000     		movs	r0, r4
+ 420 0110 FFF7FEFF 		bl	blinkdot
+ 421              	.LVL42:
+ 422 0114 05E0     		b	.L84
+ 423              	.L32:
+ 291:morse.c       ****         blinkdot(led_flag);
+ 292:morse.c       ****         blinkdot(led_flag);
+ 293:morse.c       ****         blinkdot(led_flag);
+ 294:morse.c       ****         char_separate();
+ 295:morse.c       ****         break;
+ 296:morse.c       ****        case '7':
+ 297:morse.c       ****         blinkdash(led_flag);
+ 424              		.loc 1 297 0
+ 425 0116 2000     		movs	r0, r4
+ 426 0118 FFF7FEFF 		bl	blinkdash
+ 427              	.LVL43:
+ 428              	.L83:
+ 298:morse.c       ****         blinkdash(led_flag);
+ 429              		.loc 1 298 0
+ 430 011c 2000     		movs	r0, r4
+ 431 011e FFF7FEFF 		bl	blinkdash
+ 432              	.LVL44:
+ 433              	.L84:
+ 299:morse.c       ****         blinkdot(led_flag);
+ 434              		.loc 1 299 0
+ 435 0122 2000     		movs	r0, r4
+ 436 0124 FFF7FEFF 		bl	blinkdot
+ 437              	.LVL45:
+ 438 0128 08E0     		b	.L78
+ 439              	.L33:
+ 300:morse.c       ****         blinkdot(led_flag);
+ 301:morse.c       ****         blinkdot(led_flag);
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 14
+
+
+ 302:morse.c       ****         char_separate();
+ 303:morse.c       ****         break;
+ 304:morse.c       ****        case '8':
+ 305:morse.c       ****         blinkdash(led_flag);
+ 440              		.loc 1 305 0
+ 441 012a 2000     		movs	r0, r4
+ 442 012c FFF7FEFF 		bl	blinkdash
+ 443              	.LVL46:
+ 444              	.L79:
+ 306:morse.c       ****         blinkdash(led_flag);
+ 445              		.loc 1 306 0
+ 446 0130 2000     		movs	r0, r4
+ 447 0132 FFF7FEFF 		bl	blinkdash
+ 448              	.LVL47:
+ 449              	.L80:
+ 307:morse.c       ****         blinkdash(led_flag);
+ 450              		.loc 1 307 0
+ 451 0136 2000     		movs	r0, r4
+ 452 0138 FFF7FEFF 		bl	blinkdash
+ 453              	.LVL48:
+ 454              	.L78:
+ 308:morse.c       ****         blinkdot(led_flag);
+ 455              		.loc 1 308 0
+ 456 013c 2000     		movs	r0, r4
+ 457 013e FFF7FEFF 		bl	blinkdot
+ 458              	.LVL49:
+ 459 0142 0BE0     		b	.L73
+ 460              	.L34:
+ 309:morse.c       ****         blinkdot(led_flag);
+ 310:morse.c       ****         char_separate();
+ 311:morse.c       ****         break;
+ 312:morse.c       ****        case '9':
+ 313:morse.c       ****         blinkdash(led_flag);
+ 461              		.loc 1 313 0
+ 462 0144 2000     		movs	r0, r4
+ 463 0146 FFF7FEFF 		bl	blinkdash
+ 464              	.LVL50:
+ 314:morse.c       ****         blinkdash(led_flag);
+ 465              		.loc 1 314 0
+ 466 014a 2000     		movs	r0, r4
+ 467 014c FFF7FEFF 		bl	blinkdash
+ 468              	.LVL51:
+ 469              	.L75:
+ 315:morse.c       ****         blinkdash(led_flag);
+ 470              		.loc 1 315 0
+ 471 0150 2000     		movs	r0, r4
+ 472 0152 FFF7FEFF 		bl	blinkdash
+ 473              	.LVL52:
+ 474              	.L74:
+ 316:morse.c       ****         blinkdash(led_flag);
+ 475              		.loc 1 316 0
+ 476 0156 2000     		movs	r0, r4
+ 477 0158 FFF7FEFF 		bl	blinkdash
+ 478              	.LVL53:
+ 479              	.L73:
+ 317:morse.c       ****         blinkdot(led_flag);
+ 480              		.loc 1 317 0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 15
+
+
+ 481 015c 2000     		movs	r0, r4
+ 482 015e FFF7FEFF 		bl	blinkdot
+ 483              	.LVL54:
+ 484 0162 21E0     		b	.L65
+ 485              	.L24:
+ 318:morse.c       ****         char_separate();
+ 319:morse.c       ****         break;
+ 320:morse.c       ****        case '.':
+ 321:morse.c       ****         blinkdot(led_flag);
+ 486              		.loc 1 321 0
+ 487 0164 2000     		movs	r0, r4
+ 488 0166 FFF7FEFF 		bl	blinkdot
+ 489              	.LVL55:
+ 322:morse.c       ****         blinkdash(led_flag);
+ 490              		.loc 1 322 0
+ 491 016a 2000     		movs	r0, r4
+ 492 016c FFF7FEFF 		bl	blinkdash
+ 493              	.LVL56:
+ 323:morse.c       ****         blinkdot(led_flag);
+ 494              		.loc 1 323 0
+ 495 0170 2000     		movs	r0, r4
+ 496 0172 FFF7FEFF 		bl	blinkdot
+ 497              	.LVL57:
+ 498              	.L72:
+ 324:morse.c       ****         blinkdash(led_flag);
+ 499              		.loc 1 324 0
+ 500 0176 2000     		movs	r0, r4
+ 501 0178 FFF7FEFF 		bl	blinkdash
+ 502              	.LVL58:
+ 503              	.L71:
+ 325:morse.c       ****         blinkdot(led_flag);
+ 504              		.loc 1 325 0
+ 505 017c 2000     		movs	r0, r4
+ 506 017e FFF7FEFF 		bl	blinkdot
+ 507              	.LVL59:
+ 508 0182 0EE0     		b	.L64
+ 509              	.L23:
+ 326:morse.c       ****         blinkdash(led_flag);
+ 327:morse.c       ****         char_separate();
+ 328:morse.c       ****         break;
+ 329:morse.c       ****        case ',':
+ 330:morse.c       ****         blinkdash(led_flag);
+ 510              		.loc 1 330 0
+ 511 0184 2000     		movs	r0, r4
+ 512 0186 FFF7FEFF 		bl	blinkdash
+ 513              	.LVL60:
+ 331:morse.c       ****         blinkdash(led_flag);
+ 514              		.loc 1 331 0
+ 515 018a 2000     		movs	r0, r4
+ 516 018c FFF7FEFF 		bl	blinkdash
+ 517              	.LVL61:
+ 518              	.L66:
+ 332:morse.c       ****         blinkdot(led_flag);
+ 519              		.loc 1 332 0
+ 520 0190 2000     		movs	r0, r4
+ 521 0192 FFF7FEFF 		bl	blinkdot
+ 522              	.LVL62:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 16
+
+
+ 523              	.L68:
+ 333:morse.c       ****         blinkdot(led_flag);
+ 524              		.loc 1 333 0
+ 525 0196 2000     		movs	r0, r4
+ 526 0198 FFF7FEFF 		bl	blinkdot
+ 527              	.LVL63:
+ 528              	.L67:
+ 334:morse.c       ****         blinkdash(led_flag);
+ 529              		.loc 1 334 0
+ 530 019c 2000     		movs	r0, r4
+ 531 019e FFF7FEFF 		bl	blinkdash
+ 532              	.LVL64:
+ 533              	.L64:
+ 335:morse.c       ****         blinkdash(led_flag);
+ 534              		.loc 1 335 0
+ 535 01a2 2000     		movs	r0, r4
+ 536 01a4 FFF7FEFF 		bl	blinkdash
+ 537              	.LVL65:
+ 538              	.L65:
+ 336:morse.c       ****         char_separate();
+ 539              		.loc 1 336 0
+ 540 01a8 FFF7FEFF 		bl	char_separate
+ 541              	.LVL66:
+ 542 01ac 03E0     		b	.L19
+ 543              	.L21:
+ 337:morse.c       ****         break;
+ 338:morse.c       ****        case ' ':
+ 339:morse.c       ****         CyDelay(WORD_SEPARATE_TIME);
+ 544              		.loc 1 339 0
+ 545 01ae FA20     		movs	r0, #250
+ 546 01b0 8000     		lsls	r0, r0, #2
+ 547 01b2 FFF7FEFF 		bl	CyDelay
+ 548              	.LVL67:
+ 549              	.L19:
+ 550              	.LBE13:
+ 551              	.LBE12:
+ 340:morse.c       ****         break;
+ 341:morse.c       ****        case '\n':
+ 342:morse.c       ****         break;
+ 343:morse.c       ****    }
+ 344:morse.c       **** }
+ 552              		.loc 1 344 0
+ 553              		@ sp needed
+ 554 01b6 70BD     		pop	{r4, r5, r6, pc}
+ 555              		.cfi_endproc
+ 556              	.LFE35:
+ 557              		.size	morse_encode, .-morse_encode
+ 558              		.section	.text.morse_message,"ax",%progbits
+ 559              		.align	1
+ 560              		.global	morse_message
+ 561              		.code	16
+ 562              		.thumb_func
+ 563              		.type	morse_message, %function
+ 564              	morse_message:
+ 565              	.LFB36:
+ 345:morse.c       **** 
+ 346:morse.c       **** void morse_message(uint8 led_flag, char* message) {
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 17
+
+
+ 566              		.loc 1 346 0
+ 567              		.cfi_startproc
+ 568              		@ args = 0, pretend = 0, frame = 0
+ 569              		@ frame_needed = 0, uses_anonymous_args = 0
+ 570              	.LVL68:
+ 571 0000 70B5     		push	{r4, r5, r6, lr}
+ 572              		.cfi_def_cfa_offset 16
+ 573              		.cfi_offset 4, -16
+ 574              		.cfi_offset 5, -12
+ 575              		.cfi_offset 6, -8
+ 576              		.cfi_offset 14, -4
+ 577              		.loc 1 346 0
+ 578 0002 0600     		movs	r6, r0
+ 579 0004 0D00     		movs	r5, r1
+ 347:morse.c       ****     unsigned int i;
+ 348:morse.c       ****         
+ 349:morse.c       ****     for (i=0; i < strlen(message); i++) {
+ 580              		.loc 1 349 0
+ 581 0006 0024     		movs	r4, #0
+ 582              	.LVL69:
+ 583              	.L87:
+ 584              		.loc 1 349 0 is_stmt 0 discriminator 1
+ 585 0008 2800     		movs	r0, r5
+ 586 000a FFF7FEFF 		bl	strlen
+ 587              	.LVL70:
+ 588 000e 8442     		cmp	r4, r0
+ 589 0010 0AD2     		bcs	.L86
+ 350:morse.c       ****         /* Verify state */
+ 351:morse.c       ****         if(!verify_state(MORSE)) {
+ 590              		.loc 1 351 0 is_stmt 1
+ 591 0012 0120     		movs	r0, #1
+ 592 0014 FFF7FEFF 		bl	verify_state
+ 593              	.LVL71:
+ 594 0018 0028     		cmp	r0, #0
+ 595 001a 05D0     		beq	.L86
+ 352:morse.c       ****             return;
+ 353:morse.c       ****         }
+ 354:morse.c       ****         morse_encode(led_flag, message[i]);
+ 596              		.loc 1 354 0 discriminator 2
+ 597 001c 295D     		ldrb	r1, [r5, r4]
+ 598 001e 3000     		movs	r0, r6
+ 599 0020 FFF7FEFF 		bl	morse_encode
+ 600              	.LVL72:
+ 349:morse.c       ****         /* Verify state */
+ 601              		.loc 1 349 0 discriminator 2
+ 602 0024 0134     		adds	r4, r4, #1
+ 603              	.LVL73:
+ 604 0026 EFE7     		b	.L87
+ 605              	.L86:
+ 355:morse.c       ****     }
+ 356:morse.c       **** }
+ 606              		.loc 1 356 0
+ 607              		@ sp needed
+ 608              	.LVL74:
+ 609              	.LVL75:
+ 610 0028 70BD     		pop	{r4, r5, r6, pc}
+ 611              		.cfi_endproc
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 18
+
+
+ 612              	.LFE36:
+ 613              		.size	morse_message, .-morse_message
+ 614              		.text
+ 615              	.Letext0:
+ 616              		.file 2 "lightlib.h"
+ 617              		.file 3 "Generated_Source\\PSoC4/CyLib.h"
+ 618              		.file 4 "state.h"
+ 619              		.file 5 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
+ 620              		.file 6 "Generated_Source\\PSoC4/cytypes.h"
+ 621              		.section	.debug_info,"",%progbits
+ 622              	.Ldebug_info0:
+ 623 0000 DA060000 		.4byte	0x6da
+ 624 0004 0400     		.2byte	0x4
+ 625 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 626 000a 04       		.byte	0x4
+ 627 000b 01       		.uleb128 0x1
+ 628 000c 6A010000 		.4byte	.LASF26
+ 629 0010 0C       		.byte	0xc
+ 630 0011 20000000 		.4byte	.LASF27
+ 631 0015 5D000000 		.4byte	.LASF28
+ 632 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 633 001d 00000000 		.4byte	0
+ 634 0021 00000000 		.4byte	.Ldebug_line0
+ 635 0025 02       		.uleb128 0x2
+ 636 0026 01       		.byte	0x1
+ 637 0027 06       		.byte	0x6
+ 638 0028 51010000 		.4byte	.LASF0
+ 639 002c 02       		.uleb128 0x2
+ 640 002d 01       		.byte	0x1
+ 641 002e 08       		.byte	0x8
+ 642 002f A9000000 		.4byte	.LASF1
+ 643 0033 02       		.uleb128 0x2
+ 644 0034 02       		.byte	0x2
+ 645 0035 05       		.byte	0x5
+ 646 0036 20010000 		.4byte	.LASF2
+ 647 003a 02       		.uleb128 0x2
+ 648 003b 02       		.byte	0x2
+ 649 003c 07       		.byte	0x7
+ 650 003d 35000000 		.4byte	.LASF3
+ 651 0041 02       		.uleb128 0x2
+ 652 0042 04       		.byte	0x4
+ 653 0043 05       		.byte	0x5
+ 654 0044 3C010000 		.4byte	.LASF4
+ 655 0048 02       		.uleb128 0x2
+ 656 0049 04       		.byte	0x4
+ 657 004a 07       		.byte	0x7
+ 658 004b B7000000 		.4byte	.LASF5
+ 659 004f 02       		.uleb128 0x2
+ 660 0050 08       		.byte	0x8
+ 661 0051 05       		.byte	0x5
+ 662 0052 0D010000 		.4byte	.LASF6
+ 663 0056 02       		.uleb128 0x2
+ 664 0057 08       		.byte	0x8
+ 665 0058 07       		.byte	0x7
+ 666 0059 ED000000 		.4byte	.LASF7
+ 667 005d 03       		.uleb128 0x3
+ 668 005e 04       		.byte	0x4
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 19
+
+
+ 669 005f 05       		.byte	0x5
+ 670 0060 696E7400 		.ascii	"int\000"
+ 671 0064 02       		.uleb128 0x2
+ 672 0065 04       		.byte	0x4
+ 673 0066 07       		.byte	0x7
+ 674 0067 48000000 		.4byte	.LASF8
+ 675 006b 04       		.uleb128 0x4
+ 676 006c C9000000 		.4byte	.LASF29
+ 677 0070 06       		.byte	0x6
+ 678 0071 D201     		.2byte	0x1d2
+ 679 0073 2C000000 		.4byte	0x2c
+ 680 0077 02       		.uleb128 0x2
+ 681 0078 04       		.byte	0x4
+ 682 0079 04       		.byte	0x4
+ 683 007a 1A000000 		.4byte	.LASF9
+ 684 007e 02       		.uleb128 0x2
+ 685 007f 08       		.byte	0x8
+ 686 0080 04       		.byte	0x4
+ 687 0081 D8000000 		.4byte	.LASF10
+ 688 0085 02       		.uleb128 0x2
+ 689 0086 01       		.byte	0x1
+ 690 0087 08       		.byte	0x8
+ 691 0088 1B010000 		.4byte	.LASF11
+ 692 008c 02       		.uleb128 0x2
+ 693 008d 08       		.byte	0x8
+ 694 008e 04       		.byte	0x4
+ 695 008f 45010000 		.4byte	.LASF12
+ 696 0093 02       		.uleb128 0x2
+ 697 0094 04       		.byte	0x4
+ 698 0095 07       		.byte	0x7
+ 699 0096 04010000 		.4byte	.LASF13
+ 700 009a 05       		.uleb128 0x5
+ 701 009b 04       		.byte	0x4
+ 702 009c 85000000 		.4byte	0x85
+ 703 00a0 06       		.uleb128 0x6
+ 704 00a1 CF000000 		.4byte	.LASF14
+ 705 00a5 01       		.byte	0x1
+ 706 00a6 12       		.byte	0x12
+ 707 00a7 01       		.byte	0x1
+ 708 00a8 B8000000 		.4byte	0xb8
+ 709 00ac 07       		.uleb128 0x7
+ 710 00ad 08000000 		.4byte	.LASF16
+ 711 00b1 01       		.byte	0x1
+ 712 00b2 12       		.byte	0x12
+ 713 00b3 6B000000 		.4byte	0x6b
+ 714 00b7 00       		.byte	0
+ 715 00b8 06       		.uleb128 0x6
+ 716 00b9 2A010000 		.4byte	.LASF15
+ 717 00bd 01       		.byte	0x1
+ 718 00be 1D       		.byte	0x1d
+ 719 00bf 01       		.byte	0x1
+ 720 00c0 D0000000 		.4byte	0xd0
+ 721 00c4 07       		.uleb128 0x7
+ 722 00c5 08000000 		.4byte	.LASF16
+ 723 00c9 01       		.byte	0x1
+ 724 00ca 1D       		.byte	0x1d
+ 725 00cb 6B000000 		.4byte	0x6b
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 20
+
+
+ 726 00cf 00       		.byte	0
+ 727 00d0 06       		.uleb128 0x6
+ 728 00d1 28000000 		.4byte	.LASF17
+ 729 00d5 01       		.byte	0x1
+ 730 00d6 30       		.byte	0x30
+ 731 00d7 01       		.byte	0x1
+ 732 00d8 F1000000 		.4byte	0xf1
+ 733 00dc 07       		.uleb128 0x7
+ 734 00dd 08000000 		.4byte	.LASF16
+ 735 00e1 01       		.byte	0x1
+ 736 00e2 30       		.byte	0x30
+ 737 00e3 6B000000 		.4byte	0x6b
+ 738 00e7 08       		.uleb128 0x8
+ 739 00e8 6300     		.ascii	"c\000"
+ 740 00ea 01       		.byte	0x1
+ 741 00eb 30       		.byte	0x30
+ 742 00ec 85000000 		.4byte	0x85
+ 743 00f0 00       		.byte	0
+ 744 00f1 09       		.uleb128 0x9
+ 745 00f2 A0000000 		.4byte	0xa0
+ 746 00f6 00000000 		.4byte	.LFB32
+ 747 00fa 2A000000 		.4byte	.LFE32-.LFB32
+ 748 00fe 01       		.uleb128 0x1
+ 749 00ff 9C       		.byte	0x9c
+ 750 0100 81010000 		.4byte	0x181
+ 751 0104 0A       		.uleb128 0xa
+ 752 0105 AC000000 		.4byte	0xac
+ 753 0109 00000000 		.4byte	.LLST0
+ 754 010d 0B       		.uleb128 0xb
+ 755 010e 0E000000 		.4byte	.LBB4
+ 756 0112 1A000000 		.4byte	.LBE4-.LBB4
+ 757 0116 71010000 		.4byte	0x171
+ 758 011a 0A       		.uleb128 0xa
+ 759 011b AC000000 		.4byte	0xac
+ 760 011f 21000000 		.4byte	.LLST1
+ 761 0123 0C       		.uleb128 0xc
+ 762 0124 14000000 		.4byte	.LVL4
+ 763 0128 A6060000 		.4byte	0x6a6
+ 764 012c 37010000 		.4byte	0x137
+ 765 0130 0D       		.uleb128 0xd
+ 766 0131 01       		.uleb128 0x1
+ 767 0132 50       		.byte	0x50
+ 768 0133 02       		.uleb128 0x2
+ 769 0134 74       		.byte	0x74
+ 770 0135 00       		.sleb128 0
+ 771 0136 00       		.byte	0
+ 772 0137 0C       		.uleb128 0xc
+ 773 0138 1C000000 		.4byte	.LVL5
+ 774 013c B1060000 		.4byte	0x6b1
+ 775 0140 4C010000 		.4byte	0x14c
+ 776 0144 0D       		.uleb128 0xd
+ 777 0145 01       		.uleb128 0x1
+ 778 0146 50       		.byte	0x50
+ 779 0147 03       		.uleb128 0x3
+ 780 0148 0A       		.byte	0xa
+ 781 0149 F401     		.2byte	0x1f4
+ 782 014b 00       		.byte	0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 21
+
+
+ 783 014c 0C       		.uleb128 0xc
+ 784 014d 22000000 		.4byte	.LVL6
+ 785 0151 BC060000 		.4byte	0x6bc
+ 786 0155 60010000 		.4byte	0x160
+ 787 0159 0D       		.uleb128 0xd
+ 788 015a 01       		.uleb128 0x1
+ 789 015b 50       		.byte	0x50
+ 790 015c 02       		.uleb128 0x2
+ 791 015d 74       		.byte	0x74
+ 792 015e 00       		.sleb128 0
+ 793 015f 00       		.byte	0
+ 794 0160 0E       		.uleb128 0xe
+ 795 0161 28000000 		.4byte	.LVL7
+ 796 0165 B1060000 		.4byte	0x6b1
+ 797 0169 0D       		.uleb128 0xd
+ 798 016a 01       		.uleb128 0x1
+ 799 016b 50       		.byte	0x50
+ 800 016c 02       		.uleb128 0x2
+ 801 016d 08       		.byte	0x8
+ 802 016e FA       		.byte	0xfa
+ 803 016f 00       		.byte	0
+ 804 0170 00       		.byte	0
+ 805 0171 0E       		.uleb128 0xe
+ 806 0172 0A000000 		.4byte	.LVL2
+ 807 0176 C7060000 		.4byte	0x6c7
+ 808 017a 0D       		.uleb128 0xd
+ 809 017b 01       		.uleb128 0x1
+ 810 017c 50       		.byte	0x50
+ 811 017d 01       		.uleb128 0x1
+ 812 017e 31       		.byte	0x31
+ 813 017f 00       		.byte	0
+ 814 0180 00       		.byte	0
+ 815 0181 09       		.uleb128 0x9
+ 816 0182 B8000000 		.4byte	0xb8
+ 817 0186 00000000 		.4byte	.LFB33
+ 818 018a 2C000000 		.4byte	.LFE33-.LFB33
+ 819 018e 01       		.uleb128 0x1
+ 820 018f 9C       		.byte	0x9c
+ 821 0190 11020000 		.4byte	0x211
+ 822 0194 0A       		.uleb128 0xa
+ 823 0195 C4000000 		.4byte	0xc4
+ 824 0199 34000000 		.4byte	.LLST2
+ 825 019d 0B       		.uleb128 0xb
+ 826 019e 0E000000 		.4byte	.LBB8
+ 827 01a2 18000000 		.4byte	.LBE8-.LBB8
+ 828 01a6 01020000 		.4byte	0x201
+ 829 01aa 0A       		.uleb128 0xa
+ 830 01ab C4000000 		.4byte	0xc4
+ 831 01af 55000000 		.4byte	.LLST3
+ 832 01b3 0C       		.uleb128 0xc
+ 833 01b4 14000000 		.4byte	.LVL12
+ 834 01b8 A6060000 		.4byte	0x6a6
+ 835 01bc C7010000 		.4byte	0x1c7
+ 836 01c0 0D       		.uleb128 0xd
+ 837 01c1 01       		.uleb128 0x1
+ 838 01c2 50       		.byte	0x50
+ 839 01c3 02       		.uleb128 0x2
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 22
+
+
+ 840 01c4 74       		.byte	0x74
+ 841 01c5 00       		.sleb128 0
+ 842 01c6 00       		.byte	0
+ 843 01c7 0C       		.uleb128 0xc
+ 844 01c8 1A000000 		.4byte	.LVL13
+ 845 01cc B1060000 		.4byte	0x6b1
+ 846 01d0 DC010000 		.4byte	0x1dc
+ 847 01d4 0D       		.uleb128 0xd
+ 848 01d5 01       		.uleb128 0x1
+ 849 01d6 50       		.byte	0x50
+ 850 01d7 03       		.uleb128 0x3
+ 851 01d8 0A       		.byte	0xa
+ 852 01d9 DC05     		.2byte	0x5dc
+ 853 01db 00       		.byte	0
+ 854 01dc 0C       		.uleb128 0xc
+ 855 01dd 20000000 		.4byte	.LVL14
+ 856 01e1 BC060000 		.4byte	0x6bc
+ 857 01e5 F0010000 		.4byte	0x1f0
+ 858 01e9 0D       		.uleb128 0xd
+ 859 01ea 01       		.uleb128 0x1
+ 860 01eb 50       		.byte	0x50
+ 861 01ec 02       		.uleb128 0x2
+ 862 01ed 74       		.byte	0x74
+ 863 01ee 00       		.sleb128 0
+ 864 01ef 00       		.byte	0
+ 865 01f0 0E       		.uleb128 0xe
+ 866 01f1 26000000 		.4byte	.LVL15
+ 867 01f5 B1060000 		.4byte	0x6b1
+ 868 01f9 0D       		.uleb128 0xd
+ 869 01fa 01       		.uleb128 0x1
+ 870 01fb 50       		.byte	0x50
+ 871 01fc 02       		.uleb128 0x2
+ 872 01fd 08       		.byte	0x8
+ 873 01fe FA       		.byte	0xfa
+ 874 01ff 00       		.byte	0
+ 875 0200 00       		.byte	0
+ 876 0201 0E       		.uleb128 0xe
+ 877 0202 0A000000 		.4byte	.LVL10
+ 878 0206 C7060000 		.4byte	0x6c7
+ 879 020a 0D       		.uleb128 0xd
+ 880 020b 01       		.uleb128 0x1
+ 881 020c 50       		.byte	0x50
+ 882 020d 01       		.uleb128 0x1
+ 883 020e 31       		.byte	0x31
+ 884 020f 00       		.byte	0
+ 885 0210 00       		.byte	0
+ 886 0211 0F       		.uleb128 0xf
+ 887 0212 F8010000 		.4byte	.LASF18
+ 888 0216 01       		.byte	0x1
+ 889 0217 28       		.byte	0x28
+ 890 0218 00000000 		.4byte	.LFB34
+ 891 021c 16000000 		.4byte	.LFE34-.LFB34
+ 892 0220 01       		.uleb128 0x1
+ 893 0221 9C       		.byte	0x9c
+ 894 0222 4B020000 		.4byte	0x24b
+ 895 0226 0C       		.uleb128 0xc
+ 896 0227 08000000 		.4byte	.LVL16
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 23
+
+
+ 897 022b C7060000 		.4byte	0x6c7
+ 898 022f 39020000 		.4byte	0x239
+ 899 0233 0D       		.uleb128 0xd
+ 900 0234 01       		.uleb128 0x1
+ 901 0235 50       		.byte	0x50
+ 902 0236 01       		.uleb128 0x1
+ 903 0237 31       		.byte	0x31
+ 904 0238 00       		.byte	0
+ 905 0239 0E       		.uleb128 0xe
+ 906 023a 14000000 		.4byte	.LVL17
+ 907 023e B1060000 		.4byte	0x6b1
+ 908 0242 0D       		.uleb128 0xd
+ 909 0243 01       		.uleb128 0x1
+ 910 0244 50       		.byte	0x50
+ 911 0245 03       		.uleb128 0x3
+ 912 0246 0A       		.byte	0xa
+ 913 0247 E803     		.2byte	0x3e8
+ 914 0249 00       		.byte	0
+ 915 024a 00       		.byte	0
+ 916 024b 09       		.uleb128 0x9
+ 917 024c D0000000 		.4byte	0xd0
+ 918 0250 00000000 		.4byte	.LFB35
+ 919 0254 B8010000 		.4byte	.LFE35-.LFB35
+ 920 0258 01       		.uleb128 0x1
+ 921 0259 9C       		.byte	0x9c
+ 922 025a 2A060000 		.4byte	0x62a
+ 923 025e 0A       		.uleb128 0xa
+ 924 025f DC000000 		.4byte	0xdc
+ 925 0263 68000000 		.4byte	.LLST4
+ 926 0267 0A       		.uleb128 0xa
+ 927 0268 E7000000 		.4byte	0xe7
+ 928 026c 89000000 		.4byte	.LLST5
+ 929 0270 0B       		.uleb128 0xb
+ 930 0271 12000000 		.4byte	.LBB12
+ 931 0275 A4010000 		.4byte	.LBE12-.LBB12
+ 932 0279 1A060000 		.4byte	0x61a
+ 933 027d 0A       		.uleb128 0xa
+ 934 027e E7000000 		.4byte	0xe7
+ 935 0282 AA000000 		.4byte	.LLST6
+ 936 0286 0A       		.uleb128 0xa
+ 937 0287 DC000000 		.4byte	0xdc
+ 938 028b BD000000 		.4byte	.LLST7
+ 939 028f 0C       		.uleb128 0xc
+ 940 0290 82000000 		.4byte	.LVL22
+ 941 0294 B8000000 		.4byte	0xb8
+ 942 0298 A3020000 		.4byte	0x2a3
+ 943 029c 0D       		.uleb128 0xd
+ 944 029d 01       		.uleb128 0x1
+ 945 029e 50       		.byte	0x50
+ 946 029f 02       		.uleb128 0x2
+ 947 02a0 74       		.byte	0x74
+ 948 02a1 00       		.sleb128 0
+ 949 02a2 00       		.byte	0
+ 950 02a3 0C       		.uleb128 0xc
+ 951 02a4 8A000000 		.4byte	.LVL23
+ 952 02a8 A0000000 		.4byte	0xa0
+ 953 02ac B7020000 		.4byte	0x2b7
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 24
+
+
+ 954 02b0 0D       		.uleb128 0xd
+ 955 02b1 01       		.uleb128 0x1
+ 956 02b2 50       		.byte	0x50
+ 957 02b3 02       		.uleb128 0x2
+ 958 02b4 74       		.byte	0x74
+ 959 02b5 00       		.sleb128 0
+ 960 02b6 00       		.byte	0
+ 961 02b7 0C       		.uleb128 0xc
+ 962 02b8 90000000 		.4byte	.LVL24
+ 963 02bc A0000000 		.4byte	0xa0
+ 964 02c0 CB020000 		.4byte	0x2cb
+ 965 02c4 0D       		.uleb128 0xd
+ 966 02c5 01       		.uleb128 0x1
+ 967 02c6 50       		.byte	0x50
+ 968 02c7 02       		.uleb128 0x2
+ 969 02c8 74       		.byte	0x74
+ 970 02c9 00       		.sleb128 0
+ 971 02ca 00       		.byte	0
+ 972 02cb 0C       		.uleb128 0xc
+ 973 02cc 98000000 		.4byte	.LVL25
+ 974 02d0 A0000000 		.4byte	0xa0
+ 975 02d4 DF020000 		.4byte	0x2df
+ 976 02d8 0D       		.uleb128 0xd
+ 977 02d9 01       		.uleb128 0x1
+ 978 02da 50       		.byte	0x50
+ 979 02db 02       		.uleb128 0x2
+ 980 02dc 74       		.byte	0x74
+ 981 02dd 00       		.sleb128 0
+ 982 02de 00       		.byte	0
+ 983 02df 0C       		.uleb128 0xc
+ 984 02e0 A0000000 		.4byte	.LVL26
+ 985 02e4 A0000000 		.4byte	0xa0
+ 986 02e8 F3020000 		.4byte	0x2f3
+ 987 02ec 0D       		.uleb128 0xd
+ 988 02ed 01       		.uleb128 0x1
+ 989 02ee 50       		.byte	0x50
+ 990 02ef 02       		.uleb128 0x2
+ 991 02f0 74       		.byte	0x74
+ 992 02f1 00       		.sleb128 0
+ 993 02f2 00       		.byte	0
+ 994 02f3 0C       		.uleb128 0xc
+ 995 02f4 A8000000 		.4byte	.LVL27
+ 996 02f8 B8000000 		.4byte	0xb8
+ 997 02fc 07030000 		.4byte	0x307
+ 998 0300 0D       		.uleb128 0xd
+ 999 0301 01       		.uleb128 0x1
+ 1000 0302 50       		.byte	0x50
+ 1001 0303 02       		.uleb128 0x2
+ 1002 0304 74       		.byte	0x74
+ 1003 0305 00       		.sleb128 0
+ 1004 0306 00       		.byte	0
+ 1005 0307 0C       		.uleb128 0xc
+ 1006 0308 B0000000 		.4byte	.LVL28
+ 1007 030c B8000000 		.4byte	0xb8
+ 1008 0310 1B030000 		.4byte	0x31b
+ 1009 0314 0D       		.uleb128 0xd
+ 1010 0315 01       		.uleb128 0x1
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 25
+
+
+ 1011 0316 50       		.byte	0x50
+ 1012 0317 02       		.uleb128 0x2
+ 1013 0318 74       		.byte	0x74
+ 1014 0319 00       		.sleb128 0
+ 1015 031a 00       		.byte	0
+ 1016 031b 0C       		.uleb128 0xc
+ 1017 031c B8000000 		.4byte	.LVL29
+ 1018 0320 B8000000 		.4byte	0xb8
+ 1019 0324 2F030000 		.4byte	0x32f
+ 1020 0328 0D       		.uleb128 0xd
+ 1021 0329 01       		.uleb128 0x1
+ 1022 032a 50       		.byte	0x50
+ 1023 032b 02       		.uleb128 0x2
+ 1024 032c 74       		.byte	0x74
+ 1025 032d 00       		.sleb128 0
+ 1026 032e 00       		.byte	0
+ 1027 032f 0C       		.uleb128 0xc
+ 1028 0330 C0000000 		.4byte	.LVL30
+ 1029 0334 B8000000 		.4byte	0xb8
+ 1030 0338 43030000 		.4byte	0x343
+ 1031 033c 0D       		.uleb128 0xd
+ 1032 033d 01       		.uleb128 0x1
+ 1033 033e 50       		.byte	0x50
+ 1034 033f 02       		.uleb128 0x2
+ 1035 0340 74       		.byte	0x74
+ 1036 0341 00       		.sleb128 0
+ 1037 0342 00       		.byte	0
+ 1038 0343 0C       		.uleb128 0xc
+ 1039 0344 C8000000 		.4byte	.LVL31
+ 1040 0348 A0000000 		.4byte	0xa0
+ 1041 034c 57030000 		.4byte	0x357
+ 1042 0350 0D       		.uleb128 0xd
+ 1043 0351 01       		.uleb128 0x1
+ 1044 0352 50       		.byte	0x50
+ 1045 0353 02       		.uleb128 0x2
+ 1046 0354 74       		.byte	0x74
+ 1047 0355 00       		.sleb128 0
+ 1048 0356 00       		.byte	0
+ 1049 0357 0C       		.uleb128 0xc
+ 1050 0358 CE000000 		.4byte	.LVL32
+ 1051 035c B8000000 		.4byte	0xb8
+ 1052 0360 6B030000 		.4byte	0x36b
+ 1053 0364 0D       		.uleb128 0xd
+ 1054 0365 01       		.uleb128 0x1
+ 1055 0366 50       		.byte	0x50
+ 1056 0367 02       		.uleb128 0x2
+ 1057 0368 74       		.byte	0x74
+ 1058 0369 00       		.sleb128 0
+ 1059 036a 00       		.byte	0
+ 1060 036b 0C       		.uleb128 0xc
+ 1061 036c D6000000 		.4byte	.LVL33
+ 1062 0370 A0000000 		.4byte	0xa0
+ 1063 0374 7F030000 		.4byte	0x37f
+ 1064 0378 0D       		.uleb128 0xd
+ 1065 0379 01       		.uleb128 0x1
+ 1066 037a 50       		.byte	0x50
+ 1067 037b 02       		.uleb128 0x2
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 26
+
+
+ 1068 037c 74       		.byte	0x74
+ 1069 037d 00       		.sleb128 0
+ 1070 037e 00       		.byte	0
+ 1071 037f 0C       		.uleb128 0xc
+ 1072 0380 DC000000 		.4byte	.LVL34
+ 1073 0384 A0000000 		.4byte	0xa0
+ 1074 0388 93030000 		.4byte	0x393
+ 1075 038c 0D       		.uleb128 0xd
+ 1076 038d 01       		.uleb128 0x1
+ 1077 038e 50       		.byte	0x50
+ 1078 038f 02       		.uleb128 0x2
+ 1079 0390 74       		.byte	0x74
+ 1080 0391 00       		.sleb128 0
+ 1081 0392 00       		.byte	0
+ 1082 0393 0C       		.uleb128 0xc
+ 1083 0394 E2000000 		.4byte	.LVL35
+ 1084 0398 B8000000 		.4byte	0xb8
+ 1085 039c A7030000 		.4byte	0x3a7
+ 1086 03a0 0D       		.uleb128 0xd
+ 1087 03a1 01       		.uleb128 0x1
+ 1088 03a2 50       		.byte	0x50
+ 1089 03a3 02       		.uleb128 0x2
+ 1090 03a4 74       		.byte	0x74
+ 1091 03a5 00       		.sleb128 0
+ 1092 03a6 00       		.byte	0
+ 1093 03a7 0C       		.uleb128 0xc
+ 1094 03a8 EA000000 		.4byte	.LVL36
+ 1095 03ac A0000000 		.4byte	0xa0
+ 1096 03b0 BB030000 		.4byte	0x3bb
+ 1097 03b4 0D       		.uleb128 0xd
+ 1098 03b5 01       		.uleb128 0x1
+ 1099 03b6 50       		.byte	0x50
+ 1100 03b7 02       		.uleb128 0x2
+ 1101 03b8 74       		.byte	0x74
+ 1102 03b9 00       		.sleb128 0
+ 1103 03ba 00       		.byte	0
+ 1104 03bb 0C       		.uleb128 0xc
+ 1105 03bc F2000000 		.4byte	.LVL37
+ 1106 03c0 A0000000 		.4byte	0xa0
+ 1107 03c4 CF030000 		.4byte	0x3cf
+ 1108 03c8 0D       		.uleb128 0xd
+ 1109 03c9 01       		.uleb128 0x1
+ 1110 03ca 50       		.byte	0x50
+ 1111 03cb 02       		.uleb128 0x2
+ 1112 03cc 74       		.byte	0x74
+ 1113 03cd 00       		.sleb128 0
+ 1114 03ce 00       		.byte	0
+ 1115 03cf 0C       		.uleb128 0xc
+ 1116 03d0 F8000000 		.4byte	.LVL38
+ 1117 03d4 A0000000 		.4byte	0xa0
+ 1118 03d8 E3030000 		.4byte	0x3e3
+ 1119 03dc 0D       		.uleb128 0xd
+ 1120 03dd 01       		.uleb128 0x1
+ 1121 03de 50       		.byte	0x50
+ 1122 03df 02       		.uleb128 0x2
+ 1123 03e0 74       		.byte	0x74
+ 1124 03e1 00       		.sleb128 0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 27
+
+
+ 1125 03e2 00       		.byte	0
+ 1126 03e3 0C       		.uleb128 0xc
+ 1127 03e4 FE000000 		.4byte	.LVL39
+ 1128 03e8 A0000000 		.4byte	0xa0
+ 1129 03ec F7030000 		.4byte	0x3f7
+ 1130 03f0 0D       		.uleb128 0xd
+ 1131 03f1 01       		.uleb128 0x1
+ 1132 03f2 50       		.byte	0x50
+ 1133 03f3 02       		.uleb128 0x2
+ 1134 03f4 74       		.byte	0x74
+ 1135 03f5 00       		.sleb128 0
+ 1136 03f6 00       		.byte	0
+ 1137 03f7 0C       		.uleb128 0xc
+ 1138 03f8 06010000 		.4byte	.LVL40
+ 1139 03fc A0000000 		.4byte	0xa0
+ 1140 0400 0B040000 		.4byte	0x40b
+ 1141 0404 0D       		.uleb128 0xd
+ 1142 0405 01       		.uleb128 0x1
+ 1143 0406 50       		.byte	0x50
+ 1144 0407 02       		.uleb128 0x2
+ 1145 0408 74       		.byte	0x74
+ 1146 0409 00       		.sleb128 0
+ 1147 040a 00       		.byte	0
+ 1148 040b 0C       		.uleb128 0xc
+ 1149 040c 0E010000 		.4byte	.LVL41
+ 1150 0410 B8000000 		.4byte	0xb8
+ 1151 0414 1F040000 		.4byte	0x41f
+ 1152 0418 0D       		.uleb128 0xd
+ 1153 0419 01       		.uleb128 0x1
+ 1154 041a 50       		.byte	0x50
+ 1155 041b 02       		.uleb128 0x2
+ 1156 041c 74       		.byte	0x74
+ 1157 041d 00       		.sleb128 0
+ 1158 041e 00       		.byte	0
+ 1159 041f 0C       		.uleb128 0xc
+ 1160 0420 14010000 		.4byte	.LVL42
+ 1161 0424 A0000000 		.4byte	0xa0
+ 1162 0428 33040000 		.4byte	0x433
+ 1163 042c 0D       		.uleb128 0xd
+ 1164 042d 01       		.uleb128 0x1
+ 1165 042e 50       		.byte	0x50
+ 1166 042f 02       		.uleb128 0x2
+ 1167 0430 74       		.byte	0x74
+ 1168 0431 00       		.sleb128 0
+ 1169 0432 00       		.byte	0
+ 1170 0433 0C       		.uleb128 0xc
+ 1171 0434 1C010000 		.4byte	.LVL43
+ 1172 0438 B8000000 		.4byte	0xb8
+ 1173 043c 47040000 		.4byte	0x447
+ 1174 0440 0D       		.uleb128 0xd
+ 1175 0441 01       		.uleb128 0x1
+ 1176 0442 50       		.byte	0x50
+ 1177 0443 02       		.uleb128 0x2
+ 1178 0444 74       		.byte	0x74
+ 1179 0445 00       		.sleb128 0
+ 1180 0446 00       		.byte	0
+ 1181 0447 0C       		.uleb128 0xc
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 28
+
+
+ 1182 0448 22010000 		.4byte	.LVL44
+ 1183 044c B8000000 		.4byte	0xb8
+ 1184 0450 5B040000 		.4byte	0x45b
+ 1185 0454 0D       		.uleb128 0xd
+ 1186 0455 01       		.uleb128 0x1
+ 1187 0456 50       		.byte	0x50
+ 1188 0457 02       		.uleb128 0x2
+ 1189 0458 74       		.byte	0x74
+ 1190 0459 00       		.sleb128 0
+ 1191 045a 00       		.byte	0
+ 1192 045b 0C       		.uleb128 0xc
+ 1193 045c 28010000 		.4byte	.LVL45
+ 1194 0460 A0000000 		.4byte	0xa0
+ 1195 0464 6F040000 		.4byte	0x46f
+ 1196 0468 0D       		.uleb128 0xd
+ 1197 0469 01       		.uleb128 0x1
+ 1198 046a 50       		.byte	0x50
+ 1199 046b 02       		.uleb128 0x2
+ 1200 046c 74       		.byte	0x74
+ 1201 046d 00       		.sleb128 0
+ 1202 046e 00       		.byte	0
+ 1203 046f 0C       		.uleb128 0xc
+ 1204 0470 30010000 		.4byte	.LVL46
+ 1205 0474 B8000000 		.4byte	0xb8
+ 1206 0478 83040000 		.4byte	0x483
+ 1207 047c 0D       		.uleb128 0xd
+ 1208 047d 01       		.uleb128 0x1
+ 1209 047e 50       		.byte	0x50
+ 1210 047f 02       		.uleb128 0x2
+ 1211 0480 74       		.byte	0x74
+ 1212 0481 00       		.sleb128 0
+ 1213 0482 00       		.byte	0
+ 1214 0483 0C       		.uleb128 0xc
+ 1215 0484 36010000 		.4byte	.LVL47
+ 1216 0488 B8000000 		.4byte	0xb8
+ 1217 048c 97040000 		.4byte	0x497
+ 1218 0490 0D       		.uleb128 0xd
+ 1219 0491 01       		.uleb128 0x1
+ 1220 0492 50       		.byte	0x50
+ 1221 0493 02       		.uleb128 0x2
+ 1222 0494 74       		.byte	0x74
+ 1223 0495 00       		.sleb128 0
+ 1224 0496 00       		.byte	0
+ 1225 0497 0C       		.uleb128 0xc
+ 1226 0498 3C010000 		.4byte	.LVL48
+ 1227 049c B8000000 		.4byte	0xb8
+ 1228 04a0 AB040000 		.4byte	0x4ab
+ 1229 04a4 0D       		.uleb128 0xd
+ 1230 04a5 01       		.uleb128 0x1
+ 1231 04a6 50       		.byte	0x50
+ 1232 04a7 02       		.uleb128 0x2
+ 1233 04a8 74       		.byte	0x74
+ 1234 04a9 00       		.sleb128 0
+ 1235 04aa 00       		.byte	0
+ 1236 04ab 0C       		.uleb128 0xc
+ 1237 04ac 42010000 		.4byte	.LVL49
+ 1238 04b0 A0000000 		.4byte	0xa0
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 29
+
+
+ 1239 04b4 BF040000 		.4byte	0x4bf
+ 1240 04b8 0D       		.uleb128 0xd
+ 1241 04b9 01       		.uleb128 0x1
+ 1242 04ba 50       		.byte	0x50
+ 1243 04bb 02       		.uleb128 0x2
+ 1244 04bc 74       		.byte	0x74
+ 1245 04bd 00       		.sleb128 0
+ 1246 04be 00       		.byte	0
+ 1247 04bf 0C       		.uleb128 0xc
+ 1248 04c0 4A010000 		.4byte	.LVL50
+ 1249 04c4 B8000000 		.4byte	0xb8
+ 1250 04c8 D3040000 		.4byte	0x4d3
+ 1251 04cc 0D       		.uleb128 0xd
+ 1252 04cd 01       		.uleb128 0x1
+ 1253 04ce 50       		.byte	0x50
+ 1254 04cf 02       		.uleb128 0x2
+ 1255 04d0 74       		.byte	0x74
+ 1256 04d1 00       		.sleb128 0
+ 1257 04d2 00       		.byte	0
+ 1258 04d3 0C       		.uleb128 0xc
+ 1259 04d4 50010000 		.4byte	.LVL51
+ 1260 04d8 B8000000 		.4byte	0xb8
+ 1261 04dc E7040000 		.4byte	0x4e7
+ 1262 04e0 0D       		.uleb128 0xd
+ 1263 04e1 01       		.uleb128 0x1
+ 1264 04e2 50       		.byte	0x50
+ 1265 04e3 02       		.uleb128 0x2
+ 1266 04e4 74       		.byte	0x74
+ 1267 04e5 00       		.sleb128 0
+ 1268 04e6 00       		.byte	0
+ 1269 04e7 0C       		.uleb128 0xc
+ 1270 04e8 56010000 		.4byte	.LVL52
+ 1271 04ec B8000000 		.4byte	0xb8
+ 1272 04f0 FB040000 		.4byte	0x4fb
+ 1273 04f4 0D       		.uleb128 0xd
+ 1274 04f5 01       		.uleb128 0x1
+ 1275 04f6 50       		.byte	0x50
+ 1276 04f7 02       		.uleb128 0x2
+ 1277 04f8 74       		.byte	0x74
+ 1278 04f9 00       		.sleb128 0
+ 1279 04fa 00       		.byte	0
+ 1280 04fb 0C       		.uleb128 0xc
+ 1281 04fc 5C010000 		.4byte	.LVL53
+ 1282 0500 B8000000 		.4byte	0xb8
+ 1283 0504 0F050000 		.4byte	0x50f
+ 1284 0508 0D       		.uleb128 0xd
+ 1285 0509 01       		.uleb128 0x1
+ 1286 050a 50       		.byte	0x50
+ 1287 050b 02       		.uleb128 0x2
+ 1288 050c 74       		.byte	0x74
+ 1289 050d 00       		.sleb128 0
+ 1290 050e 00       		.byte	0
+ 1291 050f 0C       		.uleb128 0xc
+ 1292 0510 62010000 		.4byte	.LVL54
+ 1293 0514 A0000000 		.4byte	0xa0
+ 1294 0518 23050000 		.4byte	0x523
+ 1295 051c 0D       		.uleb128 0xd
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 30
+
+
+ 1296 051d 01       		.uleb128 0x1
+ 1297 051e 50       		.byte	0x50
+ 1298 051f 02       		.uleb128 0x2
+ 1299 0520 74       		.byte	0x74
+ 1300 0521 00       		.sleb128 0
+ 1301 0522 00       		.byte	0
+ 1302 0523 0C       		.uleb128 0xc
+ 1303 0524 6A010000 		.4byte	.LVL55
+ 1304 0528 A0000000 		.4byte	0xa0
+ 1305 052c 37050000 		.4byte	0x537
+ 1306 0530 0D       		.uleb128 0xd
+ 1307 0531 01       		.uleb128 0x1
+ 1308 0532 50       		.byte	0x50
+ 1309 0533 02       		.uleb128 0x2
+ 1310 0534 74       		.byte	0x74
+ 1311 0535 00       		.sleb128 0
+ 1312 0536 00       		.byte	0
+ 1313 0537 0C       		.uleb128 0xc
+ 1314 0538 70010000 		.4byte	.LVL56
+ 1315 053c B8000000 		.4byte	0xb8
+ 1316 0540 4B050000 		.4byte	0x54b
+ 1317 0544 0D       		.uleb128 0xd
+ 1318 0545 01       		.uleb128 0x1
+ 1319 0546 50       		.byte	0x50
+ 1320 0547 02       		.uleb128 0x2
+ 1321 0548 74       		.byte	0x74
+ 1322 0549 00       		.sleb128 0
+ 1323 054a 00       		.byte	0
+ 1324 054b 0C       		.uleb128 0xc
+ 1325 054c 76010000 		.4byte	.LVL57
+ 1326 0550 A0000000 		.4byte	0xa0
+ 1327 0554 5F050000 		.4byte	0x55f
+ 1328 0558 0D       		.uleb128 0xd
+ 1329 0559 01       		.uleb128 0x1
+ 1330 055a 50       		.byte	0x50
+ 1331 055b 02       		.uleb128 0x2
+ 1332 055c 74       		.byte	0x74
+ 1333 055d 00       		.sleb128 0
+ 1334 055e 00       		.byte	0
+ 1335 055f 0C       		.uleb128 0xc
+ 1336 0560 7C010000 		.4byte	.LVL58
+ 1337 0564 B8000000 		.4byte	0xb8
+ 1338 0568 73050000 		.4byte	0x573
+ 1339 056c 0D       		.uleb128 0xd
+ 1340 056d 01       		.uleb128 0x1
+ 1341 056e 50       		.byte	0x50
+ 1342 056f 02       		.uleb128 0x2
+ 1343 0570 74       		.byte	0x74
+ 1344 0571 00       		.sleb128 0
+ 1345 0572 00       		.byte	0
+ 1346 0573 0C       		.uleb128 0xc
+ 1347 0574 82010000 		.4byte	.LVL59
+ 1348 0578 A0000000 		.4byte	0xa0
+ 1349 057c 87050000 		.4byte	0x587
+ 1350 0580 0D       		.uleb128 0xd
+ 1351 0581 01       		.uleb128 0x1
+ 1352 0582 50       		.byte	0x50
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 31
+
+
+ 1353 0583 02       		.uleb128 0x2
+ 1354 0584 74       		.byte	0x74
+ 1355 0585 00       		.sleb128 0
+ 1356 0586 00       		.byte	0
+ 1357 0587 0C       		.uleb128 0xc
+ 1358 0588 8A010000 		.4byte	.LVL60
+ 1359 058c B8000000 		.4byte	0xb8
+ 1360 0590 9B050000 		.4byte	0x59b
+ 1361 0594 0D       		.uleb128 0xd
+ 1362 0595 01       		.uleb128 0x1
+ 1363 0596 50       		.byte	0x50
+ 1364 0597 02       		.uleb128 0x2
+ 1365 0598 74       		.byte	0x74
+ 1366 0599 00       		.sleb128 0
+ 1367 059a 00       		.byte	0
+ 1368 059b 0C       		.uleb128 0xc
+ 1369 059c 90010000 		.4byte	.LVL61
+ 1370 05a0 B8000000 		.4byte	0xb8
+ 1371 05a4 AF050000 		.4byte	0x5af
+ 1372 05a8 0D       		.uleb128 0xd
+ 1373 05a9 01       		.uleb128 0x1
+ 1374 05aa 50       		.byte	0x50
+ 1375 05ab 02       		.uleb128 0x2
+ 1376 05ac 74       		.byte	0x74
+ 1377 05ad 00       		.sleb128 0
+ 1378 05ae 00       		.byte	0
+ 1379 05af 0C       		.uleb128 0xc
+ 1380 05b0 96010000 		.4byte	.LVL62
+ 1381 05b4 A0000000 		.4byte	0xa0
+ 1382 05b8 C3050000 		.4byte	0x5c3
+ 1383 05bc 0D       		.uleb128 0xd
+ 1384 05bd 01       		.uleb128 0x1
+ 1385 05be 50       		.byte	0x50
+ 1386 05bf 02       		.uleb128 0x2
+ 1387 05c0 74       		.byte	0x74
+ 1388 05c1 00       		.sleb128 0
+ 1389 05c2 00       		.byte	0
+ 1390 05c3 0C       		.uleb128 0xc
+ 1391 05c4 9C010000 		.4byte	.LVL63
+ 1392 05c8 A0000000 		.4byte	0xa0
+ 1393 05cc D7050000 		.4byte	0x5d7
+ 1394 05d0 0D       		.uleb128 0xd
+ 1395 05d1 01       		.uleb128 0x1
+ 1396 05d2 50       		.byte	0x50
+ 1397 05d3 02       		.uleb128 0x2
+ 1398 05d4 74       		.byte	0x74
+ 1399 05d5 00       		.sleb128 0
+ 1400 05d6 00       		.byte	0
+ 1401 05d7 0C       		.uleb128 0xc
+ 1402 05d8 A2010000 		.4byte	.LVL64
+ 1403 05dc B8000000 		.4byte	0xb8
+ 1404 05e0 EB050000 		.4byte	0x5eb
+ 1405 05e4 0D       		.uleb128 0xd
+ 1406 05e5 01       		.uleb128 0x1
+ 1407 05e6 50       		.byte	0x50
+ 1408 05e7 02       		.uleb128 0x2
+ 1409 05e8 74       		.byte	0x74
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 32
+
+
+ 1410 05e9 00       		.sleb128 0
+ 1411 05ea 00       		.byte	0
+ 1412 05eb 0C       		.uleb128 0xc
+ 1413 05ec A8010000 		.4byte	.LVL65
+ 1414 05f0 B8000000 		.4byte	0xb8
+ 1415 05f4 FF050000 		.4byte	0x5ff
+ 1416 05f8 0D       		.uleb128 0xd
+ 1417 05f9 01       		.uleb128 0x1
+ 1418 05fa 50       		.byte	0x50
+ 1419 05fb 02       		.uleb128 0x2
+ 1420 05fc 74       		.byte	0x74
+ 1421 05fd 00       		.sleb128 0
+ 1422 05fe 00       		.byte	0
+ 1423 05ff 10       		.uleb128 0x10
+ 1424 0600 AC010000 		.4byte	.LVL66
+ 1425 0604 11020000 		.4byte	0x211
+ 1426 0608 0E       		.uleb128 0xe
+ 1427 0609 B6010000 		.4byte	.LVL67
+ 1428 060d B1060000 		.4byte	0x6b1
+ 1429 0611 0D       		.uleb128 0xd
+ 1430 0612 01       		.uleb128 0x1
+ 1431 0613 50       		.byte	0x50
+ 1432 0614 03       		.uleb128 0x3
+ 1433 0615 0A       		.byte	0xa
+ 1434 0616 E803     		.2byte	0x3e8
+ 1435 0618 00       		.byte	0
+ 1436 0619 00       		.byte	0
+ 1437 061a 0E       		.uleb128 0xe
+ 1438 061b 0C000000 		.4byte	.LVL20
+ 1439 061f C7060000 		.4byte	0x6c7
+ 1440 0623 0D       		.uleb128 0xd
+ 1441 0624 01       		.uleb128 0x1
+ 1442 0625 50       		.byte	0x50
+ 1443 0626 01       		.uleb128 0x1
+ 1444 0627 31       		.byte	0x31
+ 1445 0628 00       		.byte	0
+ 1446 0629 00       		.byte	0
+ 1447 062a 11       		.uleb128 0x11
+ 1448 062b DF000000 		.4byte	.LASF19
+ 1449 062f 01       		.byte	0x1
+ 1450 0630 5A01     		.2byte	0x15a
+ 1451 0632 00000000 		.4byte	.LFB36
+ 1452 0636 2A000000 		.4byte	.LFE36-.LFB36
+ 1453 063a 01       		.uleb128 0x1
+ 1454 063b 9C       		.byte	0x9c
+ 1455 063c A6060000 		.4byte	0x6a6
+ 1456 0640 12       		.uleb128 0x12
+ 1457 0641 08000000 		.4byte	.LASF16
+ 1458 0645 01       		.byte	0x1
+ 1459 0646 5A01     		.2byte	0x15a
+ 1460 0648 6B000000 		.4byte	0x6b
+ 1461 064c D0000000 		.4byte	.LLST8
+ 1462 0650 12       		.uleb128 0x12
+ 1463 0651 00000000 		.4byte	.LASF20
+ 1464 0655 01       		.byte	0x1
+ 1465 0656 5A01     		.2byte	0x15a
+ 1466 0658 9A000000 		.4byte	0x9a
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 33
+
+
+ 1467 065c F1000000 		.4byte	.LLST9
+ 1468 0660 13       		.uleb128 0x13
+ 1469 0661 6900     		.ascii	"i\000"
+ 1470 0663 01       		.byte	0x1
+ 1471 0664 5B01     		.2byte	0x15b
+ 1472 0666 64000000 		.4byte	0x64
+ 1473 066a 1D010000 		.4byte	.LLST10
+ 1474 066e 0C       		.uleb128 0xc
+ 1475 066f 0E000000 		.4byte	.LVL70
+ 1476 0673 D2060000 		.4byte	0x6d2
+ 1477 0677 82060000 		.4byte	0x682
+ 1478 067b 0D       		.uleb128 0xd
+ 1479 067c 01       		.uleb128 0x1
+ 1480 067d 50       		.byte	0x50
+ 1481 067e 02       		.uleb128 0x2
+ 1482 067f 75       		.byte	0x75
+ 1483 0680 00       		.sleb128 0
+ 1484 0681 00       		.byte	0
+ 1485 0682 0C       		.uleb128 0xc
+ 1486 0683 18000000 		.4byte	.LVL71
+ 1487 0687 C7060000 		.4byte	0x6c7
+ 1488 068b 95060000 		.4byte	0x695
+ 1489 068f 0D       		.uleb128 0xd
+ 1490 0690 01       		.uleb128 0x1
+ 1491 0691 50       		.byte	0x50
+ 1492 0692 01       		.uleb128 0x1
+ 1493 0693 31       		.byte	0x31
+ 1494 0694 00       		.byte	0
+ 1495 0695 0E       		.uleb128 0xe
+ 1496 0696 24000000 		.4byte	.LVL72
+ 1497 069a D0000000 		.4byte	0xd0
+ 1498 069e 0D       		.uleb128 0xd
+ 1499 069f 01       		.uleb128 0x1
+ 1500 06a0 50       		.byte	0x50
+ 1501 06a1 02       		.uleb128 0x2
+ 1502 06a2 76       		.byte	0x76
+ 1503 06a3 00       		.sleb128 0
+ 1504 06a4 00       		.byte	0
+ 1505 06a5 00       		.byte	0
+ 1506 06a6 14       		.uleb128 0x14
+ 1507 06a7 34010000 		.4byte	.LASF21
+ 1508 06ab 34010000 		.4byte	.LASF21
+ 1509 06af 02       		.byte	0x2
+ 1510 06b0 3B       		.byte	0x3b
+ 1511 06b1 14       		.uleb128 0x14
+ 1512 06b2 55000000 		.4byte	.LASF22
+ 1513 06b6 55000000 		.4byte	.LASF22
+ 1514 06ba 03       		.byte	0x3
+ 1515 06bb D9       		.byte	0xd9
+ 1516 06bc 14       		.uleb128 0x14
+ 1517 06bd 11000000 		.4byte	.LASF23
+ 1518 06c1 11000000 		.4byte	.LASF23
+ 1519 06c5 02       		.byte	0x2
+ 1520 06c6 3C       		.byte	0x3c
+ 1521 06c7 14       		.uleb128 0x14
+ 1522 06c8 5D010000 		.4byte	.LASF24
+ 1523 06cc 5D010000 		.4byte	.LASF24
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 34
+
+
+ 1524 06d0 04       		.byte	0x4
+ 1525 06d1 18       		.byte	0x18
+ 1526 06d2 14       		.uleb128 0x14
+ 1527 06d3 A2000000 		.4byte	.LASF25
+ 1528 06d7 A2000000 		.4byte	.LASF25
+ 1529 06db 05       		.byte	0x5
+ 1530 06dc 21       		.byte	0x21
+ 1531 06dd 00       		.byte	0
+ 1532              		.section	.debug_abbrev,"",%progbits
+ 1533              	.Ldebug_abbrev0:
+ 1534 0000 01       		.uleb128 0x1
+ 1535 0001 11       		.uleb128 0x11
+ 1536 0002 01       		.byte	0x1
+ 1537 0003 25       		.uleb128 0x25
+ 1538 0004 0E       		.uleb128 0xe
+ 1539 0005 13       		.uleb128 0x13
+ 1540 0006 0B       		.uleb128 0xb
+ 1541 0007 03       		.uleb128 0x3
+ 1542 0008 0E       		.uleb128 0xe
+ 1543 0009 1B       		.uleb128 0x1b
+ 1544 000a 0E       		.uleb128 0xe
+ 1545 000b 55       		.uleb128 0x55
+ 1546 000c 17       		.uleb128 0x17
+ 1547 000d 11       		.uleb128 0x11
+ 1548 000e 01       		.uleb128 0x1
+ 1549 000f 10       		.uleb128 0x10
+ 1550 0010 17       		.uleb128 0x17
+ 1551 0011 00       		.byte	0
+ 1552 0012 00       		.byte	0
+ 1553 0013 02       		.uleb128 0x2
+ 1554 0014 24       		.uleb128 0x24
+ 1555 0015 00       		.byte	0
+ 1556 0016 0B       		.uleb128 0xb
+ 1557 0017 0B       		.uleb128 0xb
+ 1558 0018 3E       		.uleb128 0x3e
+ 1559 0019 0B       		.uleb128 0xb
+ 1560 001a 03       		.uleb128 0x3
+ 1561 001b 0E       		.uleb128 0xe
+ 1562 001c 00       		.byte	0
+ 1563 001d 00       		.byte	0
+ 1564 001e 03       		.uleb128 0x3
+ 1565 001f 24       		.uleb128 0x24
+ 1566 0020 00       		.byte	0
+ 1567 0021 0B       		.uleb128 0xb
+ 1568 0022 0B       		.uleb128 0xb
+ 1569 0023 3E       		.uleb128 0x3e
+ 1570 0024 0B       		.uleb128 0xb
+ 1571 0025 03       		.uleb128 0x3
+ 1572 0026 08       		.uleb128 0x8
+ 1573 0027 00       		.byte	0
+ 1574 0028 00       		.byte	0
+ 1575 0029 04       		.uleb128 0x4
+ 1576 002a 16       		.uleb128 0x16
+ 1577 002b 00       		.byte	0
+ 1578 002c 03       		.uleb128 0x3
+ 1579 002d 0E       		.uleb128 0xe
+ 1580 002e 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 35
+
+
+ 1581 002f 0B       		.uleb128 0xb
+ 1582 0030 3B       		.uleb128 0x3b
+ 1583 0031 05       		.uleb128 0x5
+ 1584 0032 49       		.uleb128 0x49
+ 1585 0033 13       		.uleb128 0x13
+ 1586 0034 00       		.byte	0
+ 1587 0035 00       		.byte	0
+ 1588 0036 05       		.uleb128 0x5
+ 1589 0037 0F       		.uleb128 0xf
+ 1590 0038 00       		.byte	0
+ 1591 0039 0B       		.uleb128 0xb
+ 1592 003a 0B       		.uleb128 0xb
+ 1593 003b 49       		.uleb128 0x49
+ 1594 003c 13       		.uleb128 0x13
+ 1595 003d 00       		.byte	0
+ 1596 003e 00       		.byte	0
+ 1597 003f 06       		.uleb128 0x6
+ 1598 0040 2E       		.uleb128 0x2e
+ 1599 0041 01       		.byte	0x1
+ 1600 0042 3F       		.uleb128 0x3f
+ 1601 0043 19       		.uleb128 0x19
+ 1602 0044 03       		.uleb128 0x3
+ 1603 0045 0E       		.uleb128 0xe
+ 1604 0046 3A       		.uleb128 0x3a
+ 1605 0047 0B       		.uleb128 0xb
+ 1606 0048 3B       		.uleb128 0x3b
+ 1607 0049 0B       		.uleb128 0xb
+ 1608 004a 27       		.uleb128 0x27
+ 1609 004b 19       		.uleb128 0x19
+ 1610 004c 20       		.uleb128 0x20
+ 1611 004d 0B       		.uleb128 0xb
+ 1612 004e 01       		.uleb128 0x1
+ 1613 004f 13       		.uleb128 0x13
+ 1614 0050 00       		.byte	0
+ 1615 0051 00       		.byte	0
+ 1616 0052 07       		.uleb128 0x7
+ 1617 0053 05       		.uleb128 0x5
+ 1618 0054 00       		.byte	0
+ 1619 0055 03       		.uleb128 0x3
+ 1620 0056 0E       		.uleb128 0xe
+ 1621 0057 3A       		.uleb128 0x3a
+ 1622 0058 0B       		.uleb128 0xb
+ 1623 0059 3B       		.uleb128 0x3b
+ 1624 005a 0B       		.uleb128 0xb
+ 1625 005b 49       		.uleb128 0x49
+ 1626 005c 13       		.uleb128 0x13
+ 1627 005d 00       		.byte	0
+ 1628 005e 00       		.byte	0
+ 1629 005f 08       		.uleb128 0x8
+ 1630 0060 05       		.uleb128 0x5
+ 1631 0061 00       		.byte	0
+ 1632 0062 03       		.uleb128 0x3
+ 1633 0063 08       		.uleb128 0x8
+ 1634 0064 3A       		.uleb128 0x3a
+ 1635 0065 0B       		.uleb128 0xb
+ 1636 0066 3B       		.uleb128 0x3b
+ 1637 0067 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 36
+
+
+ 1638 0068 49       		.uleb128 0x49
+ 1639 0069 13       		.uleb128 0x13
+ 1640 006a 00       		.byte	0
+ 1641 006b 00       		.byte	0
+ 1642 006c 09       		.uleb128 0x9
+ 1643 006d 2E       		.uleb128 0x2e
+ 1644 006e 01       		.byte	0x1
+ 1645 006f 31       		.uleb128 0x31
+ 1646 0070 13       		.uleb128 0x13
+ 1647 0071 11       		.uleb128 0x11
+ 1648 0072 01       		.uleb128 0x1
+ 1649 0073 12       		.uleb128 0x12
+ 1650 0074 06       		.uleb128 0x6
+ 1651 0075 40       		.uleb128 0x40
+ 1652 0076 18       		.uleb128 0x18
+ 1653 0077 9742     		.uleb128 0x2117
+ 1654 0079 19       		.uleb128 0x19
+ 1655 007a 01       		.uleb128 0x1
+ 1656 007b 13       		.uleb128 0x13
+ 1657 007c 00       		.byte	0
+ 1658 007d 00       		.byte	0
+ 1659 007e 0A       		.uleb128 0xa
+ 1660 007f 05       		.uleb128 0x5
+ 1661 0080 00       		.byte	0
+ 1662 0081 31       		.uleb128 0x31
+ 1663 0082 13       		.uleb128 0x13
+ 1664 0083 02       		.uleb128 0x2
+ 1665 0084 17       		.uleb128 0x17
+ 1666 0085 00       		.byte	0
+ 1667 0086 00       		.byte	0
+ 1668 0087 0B       		.uleb128 0xb
+ 1669 0088 0B       		.uleb128 0xb
+ 1670 0089 01       		.byte	0x1
+ 1671 008a 11       		.uleb128 0x11
+ 1672 008b 01       		.uleb128 0x1
+ 1673 008c 12       		.uleb128 0x12
+ 1674 008d 06       		.uleb128 0x6
+ 1675 008e 01       		.uleb128 0x1
+ 1676 008f 13       		.uleb128 0x13
+ 1677 0090 00       		.byte	0
+ 1678 0091 00       		.byte	0
+ 1679 0092 0C       		.uleb128 0xc
+ 1680 0093 898201   		.uleb128 0x4109
+ 1681 0096 01       		.byte	0x1
+ 1682 0097 11       		.uleb128 0x11
+ 1683 0098 01       		.uleb128 0x1
+ 1684 0099 31       		.uleb128 0x31
+ 1685 009a 13       		.uleb128 0x13
+ 1686 009b 01       		.uleb128 0x1
+ 1687 009c 13       		.uleb128 0x13
+ 1688 009d 00       		.byte	0
+ 1689 009e 00       		.byte	0
+ 1690 009f 0D       		.uleb128 0xd
+ 1691 00a0 8A8201   		.uleb128 0x410a
+ 1692 00a3 00       		.byte	0
+ 1693 00a4 02       		.uleb128 0x2
+ 1694 00a5 18       		.uleb128 0x18
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 37
+
+
+ 1695 00a6 9142     		.uleb128 0x2111
+ 1696 00a8 18       		.uleb128 0x18
+ 1697 00a9 00       		.byte	0
+ 1698 00aa 00       		.byte	0
+ 1699 00ab 0E       		.uleb128 0xe
+ 1700 00ac 898201   		.uleb128 0x4109
+ 1701 00af 01       		.byte	0x1
+ 1702 00b0 11       		.uleb128 0x11
+ 1703 00b1 01       		.uleb128 0x1
+ 1704 00b2 31       		.uleb128 0x31
+ 1705 00b3 13       		.uleb128 0x13
+ 1706 00b4 00       		.byte	0
+ 1707 00b5 00       		.byte	0
+ 1708 00b6 0F       		.uleb128 0xf
+ 1709 00b7 2E       		.uleb128 0x2e
+ 1710 00b8 01       		.byte	0x1
+ 1711 00b9 3F       		.uleb128 0x3f
+ 1712 00ba 19       		.uleb128 0x19
+ 1713 00bb 03       		.uleb128 0x3
+ 1714 00bc 0E       		.uleb128 0xe
+ 1715 00bd 3A       		.uleb128 0x3a
+ 1716 00be 0B       		.uleb128 0xb
+ 1717 00bf 3B       		.uleb128 0x3b
+ 1718 00c0 0B       		.uleb128 0xb
+ 1719 00c1 27       		.uleb128 0x27
+ 1720 00c2 19       		.uleb128 0x19
+ 1721 00c3 11       		.uleb128 0x11
+ 1722 00c4 01       		.uleb128 0x1
+ 1723 00c5 12       		.uleb128 0x12
+ 1724 00c6 06       		.uleb128 0x6
+ 1725 00c7 40       		.uleb128 0x40
+ 1726 00c8 18       		.uleb128 0x18
+ 1727 00c9 9742     		.uleb128 0x2117
+ 1728 00cb 19       		.uleb128 0x19
+ 1729 00cc 01       		.uleb128 0x1
+ 1730 00cd 13       		.uleb128 0x13
+ 1731 00ce 00       		.byte	0
+ 1732 00cf 00       		.byte	0
+ 1733 00d0 10       		.uleb128 0x10
+ 1734 00d1 898201   		.uleb128 0x4109
+ 1735 00d4 00       		.byte	0
+ 1736 00d5 11       		.uleb128 0x11
+ 1737 00d6 01       		.uleb128 0x1
+ 1738 00d7 31       		.uleb128 0x31
+ 1739 00d8 13       		.uleb128 0x13
+ 1740 00d9 00       		.byte	0
+ 1741 00da 00       		.byte	0
+ 1742 00db 11       		.uleb128 0x11
+ 1743 00dc 2E       		.uleb128 0x2e
+ 1744 00dd 01       		.byte	0x1
+ 1745 00de 3F       		.uleb128 0x3f
+ 1746 00df 19       		.uleb128 0x19
+ 1747 00e0 03       		.uleb128 0x3
+ 1748 00e1 0E       		.uleb128 0xe
+ 1749 00e2 3A       		.uleb128 0x3a
+ 1750 00e3 0B       		.uleb128 0xb
+ 1751 00e4 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 38
+
+
+ 1752 00e5 05       		.uleb128 0x5
+ 1753 00e6 27       		.uleb128 0x27
+ 1754 00e7 19       		.uleb128 0x19
+ 1755 00e8 11       		.uleb128 0x11
+ 1756 00e9 01       		.uleb128 0x1
+ 1757 00ea 12       		.uleb128 0x12
+ 1758 00eb 06       		.uleb128 0x6
+ 1759 00ec 40       		.uleb128 0x40
+ 1760 00ed 18       		.uleb128 0x18
+ 1761 00ee 9742     		.uleb128 0x2117
+ 1762 00f0 19       		.uleb128 0x19
+ 1763 00f1 01       		.uleb128 0x1
+ 1764 00f2 13       		.uleb128 0x13
+ 1765 00f3 00       		.byte	0
+ 1766 00f4 00       		.byte	0
+ 1767 00f5 12       		.uleb128 0x12
+ 1768 00f6 05       		.uleb128 0x5
+ 1769 00f7 00       		.byte	0
+ 1770 00f8 03       		.uleb128 0x3
+ 1771 00f9 0E       		.uleb128 0xe
+ 1772 00fa 3A       		.uleb128 0x3a
+ 1773 00fb 0B       		.uleb128 0xb
+ 1774 00fc 3B       		.uleb128 0x3b
+ 1775 00fd 05       		.uleb128 0x5
+ 1776 00fe 49       		.uleb128 0x49
+ 1777 00ff 13       		.uleb128 0x13
+ 1778 0100 02       		.uleb128 0x2
+ 1779 0101 17       		.uleb128 0x17
+ 1780 0102 00       		.byte	0
+ 1781 0103 00       		.byte	0
+ 1782 0104 13       		.uleb128 0x13
+ 1783 0105 34       		.uleb128 0x34
+ 1784 0106 00       		.byte	0
+ 1785 0107 03       		.uleb128 0x3
+ 1786 0108 08       		.uleb128 0x8
+ 1787 0109 3A       		.uleb128 0x3a
+ 1788 010a 0B       		.uleb128 0xb
+ 1789 010b 3B       		.uleb128 0x3b
+ 1790 010c 05       		.uleb128 0x5
+ 1791 010d 49       		.uleb128 0x49
+ 1792 010e 13       		.uleb128 0x13
+ 1793 010f 02       		.uleb128 0x2
+ 1794 0110 17       		.uleb128 0x17
+ 1795 0111 00       		.byte	0
+ 1796 0112 00       		.byte	0
+ 1797 0113 14       		.uleb128 0x14
+ 1798 0114 2E       		.uleb128 0x2e
+ 1799 0115 00       		.byte	0
+ 1800 0116 3F       		.uleb128 0x3f
+ 1801 0117 19       		.uleb128 0x19
+ 1802 0118 3C       		.uleb128 0x3c
+ 1803 0119 19       		.uleb128 0x19
+ 1804 011a 6E       		.uleb128 0x6e
+ 1805 011b 0E       		.uleb128 0xe
+ 1806 011c 03       		.uleb128 0x3
+ 1807 011d 0E       		.uleb128 0xe
+ 1808 011e 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 39
+
+
+ 1809 011f 0B       		.uleb128 0xb
+ 1810 0120 3B       		.uleb128 0x3b
+ 1811 0121 0B       		.uleb128 0xb
+ 1812 0122 00       		.byte	0
+ 1813 0123 00       		.byte	0
+ 1814 0124 00       		.byte	0
+ 1815              		.section	.debug_loc,"",%progbits
+ 1816              	.Ldebug_loc0:
+ 1817              	.LLST0:
+ 1818 0000 00000000 		.4byte	.LVL0
+ 1819 0004 06000000 		.4byte	.LVL1
+ 1820 0008 0100     		.2byte	0x1
+ 1821 000a 50       		.byte	0x50
+ 1822 000b 06000000 		.4byte	.LVL1
+ 1823 000f 2A000000 		.4byte	.LFE32
+ 1824 0013 0400     		.2byte	0x4
+ 1825 0015 F3       		.byte	0xf3
+ 1826 0016 01       		.uleb128 0x1
+ 1827 0017 50       		.byte	0x50
+ 1828 0018 9F       		.byte	0x9f
+ 1829 0019 00000000 		.4byte	0
+ 1830 001d 00000000 		.4byte	0
+ 1831              	.LLST1:
+ 1832 0021 0E000000 		.4byte	.LVL3
+ 1833 0025 28000000 		.4byte	.LVL7
+ 1834 0029 0100     		.2byte	0x1
+ 1835 002b 54       		.byte	0x54
+ 1836 002c 00000000 		.4byte	0
+ 1837 0030 00000000 		.4byte	0
+ 1838              	.LLST2:
+ 1839 0034 00000000 		.4byte	.LVL8
+ 1840 0038 06000000 		.4byte	.LVL9
+ 1841 003c 0100     		.2byte	0x1
+ 1842 003e 50       		.byte	0x50
+ 1843 003f 06000000 		.4byte	.LVL9
+ 1844 0043 2C000000 		.4byte	.LFE33
+ 1845 0047 0400     		.2byte	0x4
+ 1846 0049 F3       		.byte	0xf3
+ 1847 004a 01       		.uleb128 0x1
+ 1848 004b 50       		.byte	0x50
+ 1849 004c 9F       		.byte	0x9f
+ 1850 004d 00000000 		.4byte	0
+ 1851 0051 00000000 		.4byte	0
+ 1852              	.LLST3:
+ 1853 0055 0E000000 		.4byte	.LVL11
+ 1854 0059 26000000 		.4byte	.LVL15
+ 1855 005d 0100     		.2byte	0x1
+ 1856 005f 54       		.byte	0x54
+ 1857 0060 00000000 		.4byte	0
+ 1858 0064 00000000 		.4byte	0
+ 1859              	.LLST4:
+ 1860 0068 00000000 		.4byte	.LVL18
+ 1861 006c 06000000 		.4byte	.LVL19
+ 1862 0070 0100     		.2byte	0x1
+ 1863 0072 50       		.byte	0x50
+ 1864 0073 06000000 		.4byte	.LVL19
+ 1865 0077 B8010000 		.4byte	.LFE35
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 40
+
+
+ 1866 007b 0400     		.2byte	0x4
+ 1867 007d F3       		.byte	0xf3
+ 1868 007e 01       		.uleb128 0x1
+ 1869 007f 50       		.byte	0x50
+ 1870 0080 9F       		.byte	0x9f
+ 1871 0081 00000000 		.4byte	0
+ 1872 0085 00000000 		.4byte	0
+ 1873              	.LLST5:
+ 1874 0089 00000000 		.4byte	.LVL18
+ 1875 008d 0B000000 		.4byte	.LVL20-1
+ 1876 0091 0100     		.2byte	0x1
+ 1877 0093 51       		.byte	0x51
+ 1878 0094 0B000000 		.4byte	.LVL20-1
+ 1879 0098 B8010000 		.4byte	.LFE35
+ 1880 009c 0400     		.2byte	0x4
+ 1881 009e F3       		.byte	0xf3
+ 1882 009f 01       		.uleb128 0x1
+ 1883 00a0 51       		.byte	0x51
+ 1884 00a1 9F       		.byte	0x9f
+ 1885 00a2 00000000 		.4byte	0
+ 1886 00a6 00000000 		.4byte	0
+ 1887              	.LLST6:
+ 1888 00aa 12000000 		.4byte	.LVL21
+ 1889 00ae B6010000 		.4byte	.LVL67
+ 1890 00b2 0100     		.2byte	0x1
+ 1891 00b4 55       		.byte	0x55
+ 1892 00b5 00000000 		.4byte	0
+ 1893 00b9 00000000 		.4byte	0
+ 1894              	.LLST7:
+ 1895 00bd 12000000 		.4byte	.LVL21
+ 1896 00c1 B6010000 		.4byte	.LVL67
+ 1897 00c5 0100     		.2byte	0x1
+ 1898 00c7 54       		.byte	0x54
+ 1899 00c8 00000000 		.4byte	0
+ 1900 00cc 00000000 		.4byte	0
+ 1901              	.LLST8:
+ 1902 00d0 00000000 		.4byte	.LVL68
+ 1903 00d4 08000000 		.4byte	.LVL69
+ 1904 00d8 0100     		.2byte	0x1
+ 1905 00da 50       		.byte	0x50
+ 1906 00db 08000000 		.4byte	.LVL69
+ 1907 00df 2A000000 		.4byte	.LFE36
+ 1908 00e3 0400     		.2byte	0x4
+ 1909 00e5 F3       		.byte	0xf3
+ 1910 00e6 01       		.uleb128 0x1
+ 1911 00e7 50       		.byte	0x50
+ 1912 00e8 9F       		.byte	0x9f
+ 1913 00e9 00000000 		.4byte	0
+ 1914 00ed 00000000 		.4byte	0
+ 1915              	.LLST9:
+ 1916 00f1 00000000 		.4byte	.LVL68
+ 1917 00f5 08000000 		.4byte	.LVL69
+ 1918 00f9 0100     		.2byte	0x1
+ 1919 00fb 51       		.byte	0x51
+ 1920 00fc 08000000 		.4byte	.LVL69
+ 1921 0100 28000000 		.4byte	.LVL75
+ 1922 0104 0100     		.2byte	0x1
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 41
+
+
+ 1923 0106 55       		.byte	0x55
+ 1924 0107 28000000 		.4byte	.LVL75
+ 1925 010b 2A000000 		.4byte	.LFE36
+ 1926 010f 0400     		.2byte	0x4
+ 1927 0111 F3       		.byte	0xf3
+ 1928 0112 01       		.uleb128 0x1
+ 1929 0113 51       		.byte	0x51
+ 1930 0114 9F       		.byte	0x9f
+ 1931 0115 00000000 		.4byte	0
+ 1932 0119 00000000 		.4byte	0
+ 1933              	.LLST10:
+ 1934 011d 00000000 		.4byte	.LVL68
+ 1935 0121 08000000 		.4byte	.LVL69
+ 1936 0125 0200     		.2byte	0x2
+ 1937 0127 30       		.byte	0x30
+ 1938 0128 9F       		.byte	0x9f
+ 1939 0129 08000000 		.4byte	.LVL69
+ 1940 012d 28000000 		.4byte	.LVL74
+ 1941 0131 0100     		.2byte	0x1
+ 1942 0133 54       		.byte	0x54
+ 1943 0134 00000000 		.4byte	0
+ 1944 0138 00000000 		.4byte	0
+ 1945              		.section	.debug_aranges,"",%progbits
+ 1946 0000 3C000000 		.4byte	0x3c
+ 1947 0004 0200     		.2byte	0x2
+ 1948 0006 00000000 		.4byte	.Ldebug_info0
+ 1949 000a 04       		.byte	0x4
+ 1950 000b 00       		.byte	0
+ 1951 000c 0000     		.2byte	0
+ 1952 000e 0000     		.2byte	0
+ 1953 0010 00000000 		.4byte	.LFB32
+ 1954 0014 2A000000 		.4byte	.LFE32-.LFB32
+ 1955 0018 00000000 		.4byte	.LFB33
+ 1956 001c 2C000000 		.4byte	.LFE33-.LFB33
+ 1957 0020 00000000 		.4byte	.LFB34
+ 1958 0024 16000000 		.4byte	.LFE34-.LFB34
+ 1959 0028 00000000 		.4byte	.LFB35
+ 1960 002c B8010000 		.4byte	.LFE35-.LFB35
+ 1961 0030 00000000 		.4byte	.LFB36
+ 1962 0034 2A000000 		.4byte	.LFE36-.LFB36
+ 1963 0038 00000000 		.4byte	0
+ 1964 003c 00000000 		.4byte	0
+ 1965              		.section	.debug_ranges,"",%progbits
+ 1966              	.Ldebug_ranges0:
+ 1967 0000 00000000 		.4byte	.LFB32
+ 1968 0004 2A000000 		.4byte	.LFE32
+ 1969 0008 00000000 		.4byte	.LFB33
+ 1970 000c 2C000000 		.4byte	.LFE33
+ 1971 0010 00000000 		.4byte	.LFB34
+ 1972 0014 16000000 		.4byte	.LFE34
+ 1973 0018 00000000 		.4byte	.LFB35
+ 1974 001c B8010000 		.4byte	.LFE35
+ 1975 0020 00000000 		.4byte	.LFB36
+ 1976 0024 2A000000 		.4byte	.LFE36
+ 1977 0028 00000000 		.4byte	0
+ 1978 002c 00000000 		.4byte	0
+ 1979              		.section	.debug_line,"",%progbits
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 42
+
+
+ 1980              	.Ldebug_line0:
+ 1981 0000 94010000 		.section	.debug_str,"MS",%progbits,1
+ 1981      0200DA00 
+ 1981      00000201 
+ 1981      FB0E0D00 
+ 1981      01010101 
+ 1982              	.LASF20:
+ 1983 0000 6D657373 		.ascii	"message\000"
+ 1983      61676500 
+ 1984              	.LASF16:
+ 1985 0008 6C65645F 		.ascii	"led_flag\000"
+ 1985      666C6167 
+ 1985      00
+ 1986              	.LASF23:
+ 1987 0011 7475726E 		.ascii	"turn_off\000"
+ 1987      5F6F6666 
+ 1987      00
+ 1988              	.LASF9:
+ 1989 001a 666C6F61 		.ascii	"float\000"
+ 1989      7400
+ 1990              	.LASF27:
+ 1991 0020 6D6F7273 		.ascii	"morse.c\000"
+ 1991      652E6300 
+ 1992              	.LASF17:
+ 1993 0028 6D6F7273 		.ascii	"morse_encode\000"
+ 1993      655F656E 
+ 1993      636F6465 
+ 1993      00
+ 1994              	.LASF3:
+ 1995 0035 73686F72 		.ascii	"short unsigned int\000"
+ 1995      7420756E 
+ 1995      7369676E 
+ 1995      65642069 
+ 1995      6E7400
+ 1996              	.LASF8:
+ 1997 0048 756E7369 		.ascii	"unsigned int\000"
+ 1997      676E6564 
+ 1997      20696E74 
+ 1997      00
+ 1998              	.LASF22:
+ 1999 0055 43794465 		.ascii	"CyDelay\000"
+ 1999      6C617900 
+ 2000              	.LASF28:
+ 2001 005d 433A5C55 		.ascii	"C:\\Users\\ryan\\Documents\\PSoC Creator\\Defcon_Ba"
+ 2001      73657273 
+ 2001      5C727961 
+ 2001      6E5C446F 
+ 2001      63756D65 
+ 2002 008b 6467655C 		.ascii	"dge\\Defcon_Badge.cydsn\000"
+ 2002      44656663 
+ 2002      6F6E5F42 
+ 2002      61646765 
+ 2002      2E637964 
+ 2003              	.LASF25:
+ 2004 00a2 7374726C 		.ascii	"strlen\000"
+ 2004      656E00
+ 2005              	.LASF1:
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 43
+
+
+ 2006 00a9 756E7369 		.ascii	"unsigned char\000"
+ 2006      676E6564 
+ 2006      20636861 
+ 2006      7200
+ 2007              	.LASF5:
+ 2008 00b7 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2008      20756E73 
+ 2008      69676E65 
+ 2008      6420696E 
+ 2008      7400
+ 2009              	.LASF29:
+ 2010 00c9 75696E74 		.ascii	"uint8\000"
+ 2010      3800
+ 2011              	.LASF14:
+ 2012 00cf 626C696E 		.ascii	"blinkdot\000"
+ 2012      6B646F74 
+ 2012      00
+ 2013              	.LASF10:
+ 2014 00d8 646F7562 		.ascii	"double\000"
+ 2014      6C6500
+ 2015              	.LASF19:
+ 2016 00df 6D6F7273 		.ascii	"morse_message\000"
+ 2016      655F6D65 
+ 2016      73736167 
+ 2016      6500
+ 2017              	.LASF7:
+ 2018 00ed 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2018      206C6F6E 
+ 2018      6720756E 
+ 2018      7369676E 
+ 2018      65642069 
+ 2019              	.LASF13:
+ 2020 0104 73697A65 		.ascii	"sizetype\000"
+ 2020      74797065 
+ 2020      00
+ 2021              	.LASF6:
+ 2022 010d 6C6F6E67 		.ascii	"long long int\000"
+ 2022      206C6F6E 
+ 2022      6720696E 
+ 2022      7400
+ 2023              	.LASF11:
+ 2024 011b 63686172 		.ascii	"char\000"
+ 2024      00
+ 2025              	.LASF2:
+ 2026 0120 73686F72 		.ascii	"short int\000"
+ 2026      7420696E 
+ 2026      7400
+ 2027              	.LASF15:
+ 2028 012a 626C696E 		.ascii	"blinkdash\000"
+ 2028      6B646173 
+ 2028      6800
+ 2029              	.LASF21:
+ 2030 0134 7475726E 		.ascii	"turn_on\000"
+ 2030      5F6F6E00 
+ 2031              	.LASF4:
+ 2032 013c 6C6F6E67 		.ascii	"long int\000"
+ 2032      20696E74 
+ARM GAS  C:\Users\ryan\AppData\Local\Temp\ccMwU9Ao.s 			page 44
+
+
+ 2032      00
+ 2033              	.LASF12:
+ 2034 0145 6C6F6E67 		.ascii	"long double\000"
+ 2034      20646F75 
+ 2034      626C6500 
+ 2035              	.LASF0:
+ 2036 0151 7369676E 		.ascii	"signed char\000"
+ 2036      65642063 
+ 2036      68617200 
+ 2037              	.LASF24:
+ 2038 015d 76657269 		.ascii	"verify_state\000"
+ 2038      66795F73 
+ 2038      74617465 
+ 2038      00
+ 2039              	.LASF26:
+ 2040 016a 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2040      43313120 
+ 2040      352E342E 
+ 2040      31203230 
+ 2040      31363036 
+ 2041 019d 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 2041      20726576 
+ 2041      6973696F 
+ 2041      6E203233 
+ 2041      37373135 
+ 2042 01d0 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 2042      66756E63 
+ 2042      74696F6E 
+ 2042      2D736563 
+ 2042      74696F6E 
+ 2043              	.LASF18:
+ 2044 01f8 63686172 		.ascii	"char_separate\000"
+ 2044      5F736570 
+ 2044      61726174 
+ 2044      6500
+ 2045              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
